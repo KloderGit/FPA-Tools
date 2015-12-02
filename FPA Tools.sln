@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FPA Tools User Interface", "FPA Tools User Interface\FPA Tools User Interface.csproj", "{E2973A78-1B1F-4D83-81DC-734FD9EC6037}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QuestionsDataEntityLIbrary", "..\..\C# WPF Наброски\QuestionsDataEntityLIbrary\QuestionsDataEntityLIbrary\QuestionsDataEntityLIbrary.csproj", "{481D2ED5-3FED-461F-B47B-94F47DD6C42C}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E2973A78-1B1F-4D83-81DC-734FD9EC6037}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E2973A78-1B1F-4D83-81DC-734FD9EC6037}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E2973A78-1B1F-4D83-81DC-734FD9EC6037}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E2973A78-1B1F-4D83-81DC-734FD9EC6037}.Release|Any CPU.Build.0 = Release|Any CPU
+		{481D2ED5-3FED-461F-B47B-94F47DD6C42C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{481D2ED5-3FED-461F-B47B-94F47DD6C42C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{481D2ED5-3FED-461F-B47B-94F47DD6C42C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{481D2ED5-3FED-461F-B47B-94F47DD6C42C}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
