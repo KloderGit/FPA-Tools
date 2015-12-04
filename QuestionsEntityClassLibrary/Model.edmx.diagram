@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="5a3a6e33d42441089a71ff27c5a05a31" Name="Diagram1">
+        <EntityTypeShape EntityType="Questionare.Answer" Width="1.5" PointX="5.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Questionare.Chapter" Width="1.5" PointX="0.625" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Questionare.Program" Width="1.5" PointX="7.5" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Questionare.QuestItem" Width="1.5" PointX="2.875" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Questionare.QuestProram" Width="1.5" PointX="5.25" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="Questionare.Quest" Width="1.5" PointX="2.875" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="Questionare.Variant" Width="1.5" PointX="0.625" PointY="4" IsExpanded="true" />
+        <AssociationConnector Association="Questionare.FK_QuestAnswer" ManuallyRouted="false" />
+        <AssociationConnector Association="Questionare.FK_ChapterQuest" ManuallyRouted="false" />
+        <AssociationConnector Association="Questionare.FK_ChapterVariant" ManuallyRouted="false" />
+        <AssociationConnector Association="Questionare.FK_ProgramQuestProram" ManuallyRouted="false" />
+        <AssociationConnector Association="Questionare.FK_QuestQuestItem" ManuallyRouted="false" />
+        <AssociationConnector Association="Questionare.FK_VariantQuestItem" ManuallyRouted="false" />
+        <AssociationConnector Association="Questionare.FK_QuestQuestProram" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

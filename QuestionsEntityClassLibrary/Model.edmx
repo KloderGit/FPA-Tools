@@ -1,0 +1,557 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="Questionare.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Answers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Modify" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="nvarchar(max)" />
+          <Property Name="Order" Type="int" />
+          <Property Name="Correct" Type="bit" />
+          <Property Name="Quest_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Chapters">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Modify" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Programs">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuestItems">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Order" Type="int" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Modify" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="nvarchar(max)" />
+          <Property Name="Quest_Id" Type="int" Nullable="false" />
+          <Property Name="Variant_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="QuestProrams">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Program_Id" Type="int" Nullable="false" />
+          <Property Name="Quest_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Quests">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Modify" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="nvarchar(max)" />
+          <Property Name="Chapter_Id" Type="int" />
+        </EntityType>
+        <EntityType Name="Variants">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Text" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="Description" Type="nvarchar(max)" />
+          <Property Name="Created" Type="datetime" Nullable="false" />
+          <Property Name="Modify" Type="datetime" Nullable="false" />
+          <Property Name="Editor" Type="nvarchar(max)" />
+          <Property Name="Chapter_Id" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_ChapterQuest">
+          <End Role="Chapters" Type="Self.Chapters" Multiplicity="0..1" />
+          <End Role="Quests" Type="Self.Quests" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chapters">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Quests">
+              <PropertyRef Name="Chapter_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChapterVariant">
+          <End Role="Chapters" Type="Self.Chapters" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Variants" Type="Self.Variants" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chapters">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Variants">
+              <PropertyRef Name="Chapter_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramQuestProram">
+          <End Role="Programs" Type="Self.Programs" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="QuestProrams" Type="Self.QuestProrams" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Programs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestProrams">
+              <PropertyRef Name="Program_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuestAnswer">
+          <End Role="Quests" Type="Self.Quests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Answers" Type="Self.Answers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quests">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answers">
+              <PropertyRef Name="Quest_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuestQuestItem">
+          <End Role="Quests" Type="Self.Quests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="QuestItems" Type="Self.QuestItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quests">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestItems">
+              <PropertyRef Name="Quest_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuestQuestProram">
+          <End Role="Quests" Type="Self.Quests" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="QuestProrams" Type="Self.QuestProrams" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quests">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestProrams">
+              <PropertyRef Name="Quest_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VariantQuestItem">
+          <End Role="Variants" Type="Self.Variants" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="QuestItems" Type="Self.QuestItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Variants">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestItems">
+              <PropertyRef Name="Variant_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QuestionareStoreContainer">
+          <EntitySet Name="Answers" EntityType="Self.Answers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Chapters" EntityType="Self.Chapters" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Programs" EntityType="Self.Programs" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestItems" EntityType="Self.QuestItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="QuestProrams" EntityType="Self.QuestProrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Quests" EntityType="Self.Quests" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Variants" EntityType="Self.Variants" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_ChapterQuest" Association="Self.FK_ChapterQuest">
+            <End Role="Chapters" EntitySet="Chapters" />
+            <End Role="Quests" EntitySet="Quests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChapterVariant" Association="Self.FK_ChapterVariant">
+            <End Role="Chapters" EntitySet="Chapters" />
+            <End Role="Variants" EntitySet="Variants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramQuestProram" Association="Self.FK_ProgramQuestProram">
+            <End Role="Programs" EntitySet="Programs" />
+            <End Role="QuestProrams" EntitySet="QuestProrams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuestAnswer" Association="Self.FK_QuestAnswer">
+            <End Role="Quests" EntitySet="Quests" />
+            <End Role="Answers" EntitySet="Answers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuestQuestItem" Association="Self.FK_QuestQuestItem">
+            <End Role="Quests" EntitySet="Quests" />
+            <End Role="QuestItems" EntitySet="QuestItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuestQuestProram" Association="Self.FK_QuestQuestProram">
+            <End Role="Quests" EntitySet="Quests" />
+            <End Role="QuestProrams" EntitySet="QuestProrams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VariantQuestItem" Association="Self.FK_VariantQuestItem">
+            <End Role="Variants" EntitySet="Variants" />
+            <End Role="QuestItems" EntitySet="QuestItems" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="Questionare" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Answer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modify" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Order" Type="Int32" />
+          <Property Name="Correct" Type="Boolean" />
+          <Property Name="Quest_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Quest" Relationship="Self.FK_QuestAnswer" FromRole="Answers" ToRole="Quests" />
+        </EntityType>
+        <EntityType Name="Chapter">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modify" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Quests" Relationship="Self.FK_ChapterQuest" FromRole="Chapters" ToRole="Quests" />
+          <NavigationProperty Name="Variants" Relationship="Self.FK_ChapterVariant" FromRole="Chapters" ToRole="Variants" />
+        </EntityType>
+        <EntityType Name="Program">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="QuestProrams" Relationship="Self.FK_ProgramQuestProram" FromRole="Programs" ToRole="QuestProrams" />
+        </EntityType>
+        <EntityType Name="QuestItem">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Order" Type="Int32" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modify" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Quest_Id" Type="Int32" Nullable="false" />
+          <Property Name="Variant_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Quest" Relationship="Self.FK_QuestQuestItem" FromRole="QuestItems" ToRole="Quests" />
+          <NavigationProperty Name="Variant" Relationship="Self.FK_VariantQuestItem" FromRole="QuestItems" ToRole="Variants" />
+        </EntityType>
+        <EntityType Name="QuestProram">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Program_Id" Type="Int32" Nullable="false" />
+          <Property Name="Quest_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Program" Relationship="Self.FK_ProgramQuestProram" FromRole="QuestProrams" ToRole="Programs" />
+          <NavigationProperty Name="Quest" Relationship="Self.FK_QuestQuestProram" FromRole="QuestProrams" ToRole="Quests" />
+        </EntityType>
+        <EntityType Name="Quest">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modify" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Chapter_Id" Type="Int32" />
+          <NavigationProperty Name="Answers" Relationship="Self.FK_QuestAnswer" FromRole="Quests" ToRole="Answers" />
+          <NavigationProperty Name="Chapter" Relationship="Self.FK_ChapterQuest" FromRole="Quests" ToRole="Chapters" />
+          <NavigationProperty Name="QuestItems" Relationship="Self.FK_QuestQuestItem" FromRole="Quests" ToRole="QuestItems" />
+          <NavigationProperty Name="QuestProrams" Relationship="Self.FK_QuestQuestProram" FromRole="Quests" ToRole="QuestProrams" />
+        </EntityType>
+        <EntityType Name="Variant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Text" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Created" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Modify" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Editor" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Chapter_Id" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Chapter" Relationship="Self.FK_ChapterVariant" FromRole="Variants" ToRole="Chapters" />
+          <NavigationProperty Name="QuestItems" Relationship="Self.FK_VariantQuestItem" FromRole="Variants" ToRole="QuestItems" />
+        </EntityType>
+        <Association Name="FK_QuestAnswer">
+          <End Role="Quests" Type="Self.Quest" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Answers" Type="Self.Answer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quests">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Answers">
+              <PropertyRef Name="Quest_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChapterQuest">
+          <End Role="Chapters" Type="Self.Chapter" Multiplicity="0..1" />
+          <End Role="Quests" Type="Self.Quest" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chapters">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Quests">
+              <PropertyRef Name="Chapter_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ChapterVariant">
+          <End Role="Chapters" Type="Self.Chapter" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Variants" Type="Self.Variant" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Chapters">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Variants">
+              <PropertyRef Name="Chapter_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ProgramQuestProram">
+          <End Role="Programs" Type="Self.Program" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="QuestProrams" Type="Self.QuestProram" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Programs">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestProrams">
+              <PropertyRef Name="Program_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuestQuestItem">
+          <End Role="Quests" Type="Self.Quest" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="QuestItems" Type="Self.QuestItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quests">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestItems">
+              <PropertyRef Name="Quest_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_VariantQuestItem">
+          <End Role="Variants" Type="Self.Variant" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="QuestItems" Type="Self.QuestItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Variants">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestItems">
+              <PropertyRef Name="Variant_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_QuestQuestProram">
+          <End Role="Quests" Type="Self.Quest" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="QuestProrams" Type="Self.QuestProram" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Quests">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="QuestProrams">
+              <PropertyRef Name="Quest_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="QuestionsContext" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Answers" EntityType="Self.Answer" />
+          <EntitySet Name="Chapters" EntityType="Self.Chapter" />
+          <EntitySet Name="Programs" EntityType="Self.Program" />
+          <EntitySet Name="QuestItems" EntityType="Self.QuestItem" />
+          <EntitySet Name="QuestProrams" EntityType="Self.QuestProram" />
+          <EntitySet Name="Quests" EntityType="Self.Quest" />
+          <EntitySet Name="Variants" EntityType="Self.Variant" />
+          <AssociationSet Name="FK_QuestAnswer" Association="Self.FK_QuestAnswer">
+            <End Role="Quests" EntitySet="Quests" />
+            <End Role="Answers" EntitySet="Answers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChapterQuest" Association="Self.FK_ChapterQuest">
+            <End Role="Chapters" EntitySet="Chapters" />
+            <End Role="Quests" EntitySet="Quests" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ChapterVariant" Association="Self.FK_ChapterVariant">
+            <End Role="Chapters" EntitySet="Chapters" />
+            <End Role="Variants" EntitySet="Variants" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ProgramQuestProram" Association="Self.FK_ProgramQuestProram">
+            <End Role="Programs" EntitySet="Programs" />
+            <End Role="QuestProrams" EntitySet="QuestProrams" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuestQuestItem" Association="Self.FK_QuestQuestItem">
+            <End Role="Quests" EntitySet="Quests" />
+            <End Role="QuestItems" EntitySet="QuestItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_VariantQuestItem" Association="Self.FK_VariantQuestItem">
+            <End Role="Variants" EntitySet="Variants" />
+            <End Role="QuestItems" EntitySet="QuestItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_QuestQuestProram" Association="Self.FK_QuestQuestProram">
+            <End Role="Quests" EntitySet="Quests" />
+            <End Role="QuestProrams" EntitySet="QuestProrams" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="QuestionareStoreContainer" CdmEntityContainer="QuestionsContext">
+          <EntitySetMapping Name="Answers">
+            <EntityTypeMapping TypeName="Questionare.Answer">
+              <MappingFragment StoreEntitySet="Answers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modify" ColumnName="Modify" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Correct" ColumnName="Correct" />
+                <ScalarProperty Name="Quest_Id" ColumnName="Quest_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Chapters">
+            <EntityTypeMapping TypeName="Questionare.Chapter">
+              <MappingFragment StoreEntitySet="Chapters">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modify" ColumnName="Modify" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Programs">
+            <EntityTypeMapping TypeName="Questionare.Program">
+              <MappingFragment StoreEntitySet="Programs">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestItems">
+            <EntityTypeMapping TypeName="Questionare.QuestItem">
+              <MappingFragment StoreEntitySet="QuestItems">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Order" ColumnName="Order" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modify" ColumnName="Modify" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="Quest_Id" ColumnName="Quest_Id" />
+                <ScalarProperty Name="Variant_Id" ColumnName="Variant_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="QuestProrams">
+            <EntityTypeMapping TypeName="Questionare.QuestProram">
+              <MappingFragment StoreEntitySet="QuestProrams">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Program_Id" ColumnName="Program_Id" />
+                <ScalarProperty Name="Quest_Id" ColumnName="Quest_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Quests">
+            <EntityTypeMapping TypeName="Questionare.Quest">
+              <MappingFragment StoreEntitySet="Quests">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modify" ColumnName="Modify" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="Chapter_Id" ColumnName="Chapter_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Variants">
+            <EntityTypeMapping TypeName="Questionare.Variant">
+              <MappingFragment StoreEntitySet="Variants">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Text" ColumnName="Text" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Created" ColumnName="Created" />
+                <ScalarProperty Name="Modify" ColumnName="Modify" />
+                <ScalarProperty Name="Editor" ColumnName="Editor" />
+                <ScalarProperty Name="Chapter_Id" ColumnName="Chapter_Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

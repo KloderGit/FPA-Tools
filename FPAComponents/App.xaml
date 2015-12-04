@@ -1,0 +1,13 @@
+﻿<Application x:Class="FPAComponents.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:FPAComponents"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+
+        <Style x:Key="intoPanelRight" TargetType="{x:Type Grid}">
+            <Setter Property="Grid.Column" Value="1"></Setter>
+        </Style>
+
+    </Application.Resources>
+</Application>
