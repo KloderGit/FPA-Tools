@@ -53,5 +53,23 @@ namespace QuestionsEntityClassLibrary
                 _Chapters = db.Chapters.Include("Variants.QuestItems.Quest").ToList<Chapter>();
             }
         }
+
+        public List<QuestItem> GetVariantQuest(Variant _variant)
+        {
+            Chapter ch = _variant.Chapter;
+            Variant vr = ch.Variants.Where(i => i.Id == _variant.Id).FirstOrDefault<Variant>();
+            return vr.QuestItems.ToList<QuestItem>();
+        }
+
+        public List<QuestItem> GetChildren(Variant _variant) {
+            return GetVariantQuest(_variant);
+        }
+
+        public List<Quest> GetChildren(Chapter _chapter)
+        {           
+            return getChapterQuests(_chapter);
+        }
+
+ 
     }
 }

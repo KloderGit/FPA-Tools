@@ -9,6 +9,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
+    <UserControl.Resources>
+        <local:TitleConverter x:Key="BigTitle"></local:TitleConverter>
+    </UserControl.Resources>
+
     <Grid x:Name="Root" Margin="0,0,-646,0">
         <Grid.RowDefinitions>
             <RowDefinition Height="50"/>
@@ -18,35 +22,6 @@
             <ColumnDefinition Width="321"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-
-        <!--<Controls:Accordion x:Name="AccordionMenu" ItemsSource="{Binding}" Grid.Row="1" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  >
-            <Controls:Accordion.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Text}" Height="40" VerticalAlignment="Center" Margin="0,7,0,0" />
-                </DataTemplate>
-            </Controls:Accordion.ItemTemplate>
-
-            <Controls:Accordion.ContentTemplate>
-                <DataTemplate>
-                    <StackPanel>
-                        <Label Margin="0,5,0,10">Выберите вариант:</Label>
-
-                        <Grid Width="235" >
-                            <ListBox Name="lstVariants" ItemsSource="{Binding Path=Variants}" SelectionChanged="lstVariants_SelectionChanged" >
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <TextBlock Text="{Binding Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" />
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Grid>
-                        <Button Content="Все вопросы по предмету" Height="40" Width="47" HorizontalAlignment="Left" Margin="0,15,0,0" />
-                    </StackPanel>
-                </DataTemplate>
-            </Controls:Accordion.ContentTemplate>
-
-        </Controls:Accordion>-->
-
 
         <TreeView x:Name="treeViewMenu" Grid.Row="1" ItemsSource="{Binding}" SelectedItemChanged="treeViewMenu_SelectedItemChanged">
             <TreeView.Resources>
@@ -96,6 +71,7 @@
                     <Button Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" Click="editChapter_Click"/>
                     <TextBlock x:Name="txtChapter" TextWrapping="Wrap" Text="{Binding Text}" FontSize="24" Foreground="#FF2C62BF" FontWeight="Light" Margin="15,0,0,0"/>
                 </StackPanel>
+                <!--<TextBlock Height="30" Background="#FFFFF8F8" DataContext="{Binding ElementName=treeViewMenu}" Text="{Binding Path=SelectedItem, Converter={StaticResource BigTitle}}"/>-->
                 <StackPanel Orientation="Horizontal" Margin="0,7,0,0">
                     <Button Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" />
                     <TextBlock x:Name="txtVAriant" TextWrapping="Wrap" Text="{Binding Description}" FontSize="18.667" Foreground="#FF5582CF" FontWeight="Light" Margin="15,0,0,0"/>

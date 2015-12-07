@@ -47,16 +47,21 @@ namespace QuestionsProject
             TreeView treeView = (TreeView)sender;
 
             if (treeView.SelectedItem.GetType().BaseType == typeof(Variant)) {
-
                 Variant v = (Variant)treeView.SelectedItem;
-                WrapperInfo.DataContext = new { Text = v.Chapter.Text, Description = v.Text };
-                listItems.ItemsSource = v.QuestItems;
+                WrapperInfo.DataContext = v;
+                //WrapperInfo.DataContext = new { Text = v.Chapter.Text, Description = v.Text };
+                listItems.ItemsSource = _questionare.GetChildren(v);
+
+                foreach (var t in _questionare.GetChildren(v)) {
+                    Console.WriteLine(t.Quest.Text);
+                }
+
             }
             if (treeView.SelectedItem.GetType().BaseType == typeof(Chapter))
             {
                 Chapter ch = (Chapter)treeView.SelectedItem;
                 WrapperInfo.DataContext = new { Text = ch.Text, Description = "Все вопросы темы" };
-                listItems.ItemsSource = _questionare.getChapterQuests(ch);
+                listItems.ItemsSource = _questionare.GetChildren(ch);
             }
 
         }
