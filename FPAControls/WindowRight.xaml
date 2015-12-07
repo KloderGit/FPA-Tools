@@ -1,0 +1,34 @@
+﻿<Window x:Class="FPAControls.WindowRight"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:FPAControls"
+        mc:Ignorable="d"
+        Title="WindowRight" Height="300" Width="300" AllowsTransparency="True" WindowStyle="None" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" BorderBrush="#FF2E75DA" BorderThickness="2,7,2,2" ResizeMode="NoResize" ShowInTaskbar="False">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15"/>
+            <RowDefinition Height="59"/>
+            <RowDefinition Height="auto"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="50"/>
+            </Grid.RowDefinitions>
+            <Grid x:Name="forContent" x:FieldModifier="public" />
+            <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="10,0,0,0">
+                <Button x:Name="button" IsDefault="True" Content="Сохранить" Width="120" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0" Click="button_Click"/>
+                <Button x:Name="button1" IsCancel="True" Content="Отмена" Width="120" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"/>
+            </StackPanel>
+        </Grid>
+        <Border Grid.Row="1" Background="#FF2E75DA">
+            <StackPanel Orientation="Horizontal">
+                <Button x:Name="button3" IsCancel="True" Content="Button" Width="43" Height="43" Margin="10,0,0,0"/>
+                <TextBlock x:Name="txtWindowTitle" x:FieldModifier="public" TextWrapping="Wrap" Text="TextBlock" Foreground="White" VerticalAlignment="Center" Margin="20,0,0,0" FontSize="24" FontWeight="Light"/>
+            </StackPanel>
+
+        </Border>
+    </Grid>
+</Window>

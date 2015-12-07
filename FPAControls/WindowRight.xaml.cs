@@ -12,21 +12,25 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
-namespace FPAComponents
+namespace FPAControls
 {
     /// <summary>
-    /// Interaction logic for DialogWindowSide.xaml
+    /// Interaction logic for WindowRight.xaml
     /// </summary>
-    public partial class DialogWindowSide : Window
+    public partial class WindowRight : Window
     {
-        public DialogWindowSide()
+        public WindowRight()
         {
             InitializeComponent();
         }
 
+        public string getString() {
+            return "OOOOOOOOOOOOOO";
+        }
+
         private void button_Click(object sender, RoutedEventArgs e)
         {
-
+            this.DialogResult = true;
         }
     }
 }
