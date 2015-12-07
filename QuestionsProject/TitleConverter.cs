@@ -14,6 +14,9 @@ namespace QuestionsProject
         public object Convert(object value, Type targetType, object parameter,
     System.Globalization.CultureInfo culture)
         {
+            if (value == null)
+                return false;
+
             Console.WriteLine(value.GetType());
 
             if (value.GetType().BaseType == typeof(Chapter)) {

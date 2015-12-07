@@ -69,9 +69,9 @@
             <StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Button Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" Click="editChapter_Click"/>
-                    <TextBlock x:Name="txtChapter" TextWrapping="Wrap" Text="{Binding Text}" FontSize="24" Foreground="#FF2C62BF" FontWeight="Light" Margin="15,0,0,0"/>
+                    <TextBlock x:Name="txtChapter" TextWrapping="Wrap" FontSize="24" Foreground="#FF2C62BF" FontWeight="Light" Margin="15,0,0,0"  Text="{Binding ElementName=treeViewMenu, Path=SelectedItem, TargetNullValue=[Описание не предоставлено], Converter={StaticResource BigTitle}}"/>
                 </StackPanel>
-                <!--<TextBlock Height="30" Background="#FFFFF8F8" DataContext="{Binding ElementName=treeViewMenu}" Text="{Binding Path=SelectedItem, Converter={StaticResource BigTitle}}"/>-->
+                <TextBlock Height="30" Background="#FFFFF8F8" DataContext="{Binding ElementName=treeViewMenu}"  Text="{Binding ElementName=treeViewMenu, Path=SelectedItem, TargetNullValue=[Описание не предоставлено], Converter={StaticResource BigTitle}}"/>
                 <StackPanel Orientation="Horizontal" Margin="0,7,0,0">
                     <Button Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" />
                     <TextBlock x:Name="txtVAriant" TextWrapping="Wrap" Text="{Binding Description}" FontSize="18.667" Foreground="#FF5582CF" FontWeight="Light" Margin="15,0,0,0"/>
