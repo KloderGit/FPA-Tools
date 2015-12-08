@@ -16,6 +16,10 @@ namespace QuestionsEntityClassLibrary
             LoadChapter();
         }
 
+        //  --------------------------------------------------------------------------
+        //  Темы ---------------------------------------------------------------------
+        #region Выборка из Chapter
+        //  --------------------------------------------------------------------------
         public List<Chapter> getChapters()
         {
             return _Chapters.ToList<Chapter>();
@@ -31,34 +35,61 @@ namespace QuestionsEntityClassLibrary
 
         public List<Quest> getChapterQuests(Chapter _chapter)
         {
-            if (!(_Quests.Count > 0))
-            {
-                LoadQuests();
-            }
-            return _Quests.Where(q => q.Chapter_Id == _chapter.Id).ToList<Quest>();
-        }
-
-        public void LoadQuests()
-        {
-            using (QuestionsContext db = new QuestionsContext())
-            {
-                _Quests = db.Quests.Include("Answers").ToList<Quest>();
-            }
+            return _chapter.Quests.ToList<Quest>();
         }
 
         public void LoadChapter()
         {
             using (QuestionsContext db = new QuestionsContext())
             {
-                _Chapters = db.Chapters.Include("Variants.QuestItems.Quest").ToList<Chapter>();
+                try
+                {
+                   //db.Database.Log = Console.Write;
+
+                    _Chapters = db.Chapters.Include("Variants.QuestItems.Quest").Include("Quests").ToList<Chapter>();
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e.Message);
+                }
+                
             }
         }
 
+        public bool saveChapter(Chapter _chapter)
+        {
+
+            _chapter.Modify = DateTime.Now;
+
+            using (QuestionsContext db = new QuestionsContext())
+            {
+                db.Database.Log = Console.Write;
+                db.Chapters.Attach(_chapter);
+                db.Entry(_chapter).State = System.Data.Entity.EntityState.Modified;
+
+                try
+                {
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine(e.Message);
+                    return false;
+                }
+            }
+        }
+
+        //  --------------------------------------------------------------------------
+        #endregion
+        //  Темы Конец ---------------------------------------------------------------
+        //  --------------------------------------------------------------------------
+
         public List<QuestItem> GetVariantQuest(Variant _variant)
         {
-            Chapter ch = _variant.Chapter;
-            Variant vr = ch.Variants.Where(i => i.Id == _variant.Id).FirstOrDefault<Variant>();
-            return vr.QuestItems.ToList<QuestItem>();
+            //Chapter ch = _variant.Chapter;
+            //Variant vr = ch.Variants.Where(i => i.Id == _variant.Id).FirstOrDefault<Variant>();
+            return _variant.QuestItems.ToList<QuestItem>();
         }
 
         public List<QuestItem> GetChildren(Variant _variant) {
@@ -70,6 +101,30 @@ namespace QuestionsEntityClassLibrary
             return getChapterQuests(_chapter);
         }
 
- 
+        public bool saveVariant(Variant _variant) {
+            _variant.Modify = DateTime.Now;
+
+            using (QuestionsContext db = new QuestionsContext())
+            {
+                db.Database.Log = Console.Write;
+                db.Variants.Attach(_variant);
+                db.Entry(_variant).State = System.Data.Entity.EntityState.Modified;
+
+                try
+                {
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+
+                    Console.WriteLine(e.Message);
+                    return false;
+                }
+            }
+        }
+
+
+
     }
 }

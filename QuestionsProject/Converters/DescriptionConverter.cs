@@ -8,12 +8,14 @@ using QuestionsEntityClassLibrary;
 
 namespace QuestionsProject
 {
-    [ValueConversion(typeof(Object), typeof(bool))]
-    public class BigButtonConverter : IValueConverter
+    [ValueConversion(typeof(Object), typeof(string))]
+    public class DescriptionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter,
     System.Globalization.CultureInfo culture)
         {
+            if (value == null) { return "Вариант не выбран"; }
+
             return selectValue(value);
         }
 
@@ -23,18 +25,21 @@ namespace QuestionsProject
             return value;
         }
 
-        private bool selectValue(Object _value)
+        private string selectValue(Object _value)
         {
 
-            bool v = false;
+            string txt = null;
 
-            if (_value == null) { v = false; }
-            if (_value != null) { v = true; }
-
-
-            Console.WriteLine(v);
-
-            return v;
+            if (_value.GetType().BaseType == typeof(Chapter))
+            {
+                txt = "Все вопросы темы";
+            }
+            if (_value.GetType().BaseType == typeof(Variant))
+            {
+                Variant v = (Variant)_value;
+                txt = v.Text;
+            }
+            return txt;
         }
     }
 }

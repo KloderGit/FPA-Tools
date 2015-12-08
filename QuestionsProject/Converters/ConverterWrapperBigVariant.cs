@@ -8,13 +8,16 @@ using QuestionsEntityClassLibrary;
 
 namespace QuestionsProject
 {
-    [ValueConversion(typeof(Object), typeof(string))]
-    public class DescriptionConverter : IValueConverter
+    [ValueConversion(typeof(Object), typeof(Variant))]
+    public class ConverterWrapperBigVariant : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter,
     System.Globalization.CultureInfo culture)
         {
-            if (value == null) { return null; }
+            if (value == null)
+            {
+                return null;
+            }
 
             return selectValue(value);
         }
@@ -25,22 +28,20 @@ namespace QuestionsProject
             return value;
         }
 
-        private string selectValue(Object _value)
+        private Variant selectValue(Object _value)
         {
-
-            string txt = null;
+            Variant vr = null;
 
             if (_value.GetType().BaseType == typeof(Chapter))
             {
-                txt = "Все вопросы темы";
+                vr = null;
             }
             if (_value.GetType().BaseType == typeof(Variant))
             {
-                Variant v = (Variant)_value;
-                txt = v.Text;
+                vr = (Variant)_value;
             }
 
-            return txt;
+            return vr;
         }
     }
 }

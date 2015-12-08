@@ -79,10 +79,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="BigButtonConverter.cs" />
-    <Compile Include="ConverterWraperBigChapter.cs" />
-    <Compile Include="DescriptionConverter.cs" />
-    <Compile Include="TitleConverter.cs" />
+    <Compile Include="Converters\ConverterForListItems.cs" />
+    <Compile Include="Converters\BigButtonConverter.cs" />
+    <Compile Include="Converters\ConverterWraperBigChapter.cs" />
+    <Compile Include="Converters\ConverterWrapperBigVariant.cs" />
+    <Compile Include="Converters\DescriptionConverter.cs" />
+    <Compile Include="Converters\TitleConverter.cs" />
     <Page Include="editChapter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
