@@ -8,13 +8,13 @@ using QuestionsEntityClassLibrary;
 
 namespace QuestionsProject
 {
-    [ValueConversion(typeof(Object), typeof(string))]
-    public class TitleConverter : IValueConverter
+    [ValueConversion(typeof(Object), typeof(Chapter))]
+    public class ConverterWraperBigChapter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter,
     System.Globalization.CultureInfo culture)
         {
-            if (value == null) { return "Выберите тему"; }
+            if (value == null) { return null; }
 
             return selectValue(value);
         }
@@ -25,22 +25,17 @@ namespace QuestionsProject
             return value;
         }
 
-        private string selectValue(Object _value) {
+        private Chapter selectValue(Object _value)
+        {
 
-            string txt = "Выберите тему";
+            Chapter ch = null;
 
             if (_value.GetType().BaseType == typeof(Chapter))
             {
-                Chapter v = (Chapter)_value;
-                txt = v.Text;
-            }
-            if (_value.GetType().BaseType == typeof(Variant))
-            {
-                Variant v = (Variant)_value;
-                txt = v.Chapter.Text;
+                ch = (Chapter)_value;
             }
 
-            return txt;
+            return ch;
         }
     }
 }

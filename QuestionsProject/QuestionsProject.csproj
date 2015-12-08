@@ -79,6 +79,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BigButtonConverter.cs" />
+    <Compile Include="ConverterWraperBigChapter.cs" />
+    <Compile Include="DescriptionConverter.cs" />
     <Compile Include="TitleConverter.cs" />
     <Page Include="editChapter.xaml">
       <SubType>Designer</SubType>

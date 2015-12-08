@@ -29,41 +29,12 @@ namespace QuestionsProject
             InitializeComponent();
 
             Root.DataContext = _questionare.getChapters();
-            WrapperInfo.DataContext = new { Text = "Тема не выбрана", Description = "" };
-
-
-            //AccordionMenu.DataContext = _questionare.getChapters();
-        }
-
-        private void lstVariants_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            Variant _item = (Variant)((ListBox)sender).SelectedItem;
-            
-            WrapperInfo.DataContext = _item;
+            WrapperInfo.DataContext = null;
         }
 
         private void treeViewMenu_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            TreeView treeView = (TreeView)sender;
-
-            if (treeView.SelectedItem.GetType().BaseType == typeof(Variant)) {
-                Variant v = (Variant)treeView.SelectedItem;
-                WrapperInfo.DataContext = v;
-                //WrapperInfo.DataContext = new { Text = v.Chapter.Text, Description = v.Text };
-                listItems.ItemsSource = _questionare.GetChildren(v);
-
-                foreach (var t in _questionare.GetChildren(v)) {
-                    Console.WriteLine(t.Quest.Text);
-                }
-
-            }
-            if (treeView.SelectedItem.GetType().BaseType == typeof(Chapter))
-            {
-                Chapter ch = (Chapter)treeView.SelectedItem;
-                WrapperInfo.DataContext = new { Text = ch.Text, Description = "Все вопросы темы" };
-                listItems.ItemsSource = _questionare.GetChildren(ch);
-            }
-
+            WrapperInfo.DataContext = treeViewMenu.SelectedItem;
         }
 
         private void listItems_ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
@@ -72,7 +43,7 @@ namespace QuestionsProject
 
         private void editChapter_Click(object sender, RoutedEventArgs e)
         {
-            Chapter _chapter = (Chapter)treeViewMenu.SelectedItem;
+            Chapter _chapter = (Chapter)WrapperInfo.DataContext;
 
             WindowRight panelRight = new WindowRight();
             panelRight.txtWindowTitle.Text = "Редактирование";
@@ -86,6 +57,12 @@ namespace QuestionsProject
                 _chapter.Description = edit_object.txtDescription.Text;
                 Root.DataContext = _questionare.getChapters();
             }
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            Chapter v =(Chapter)treeViewMenu.SelectedItem;
+            v.Text = "OOOOOOOOOOOOOOOOOOOO";
         }
     }
 }

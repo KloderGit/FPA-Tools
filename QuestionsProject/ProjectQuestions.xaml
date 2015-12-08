@@ -11,6 +11,8 @@
 
     <UserControl.Resources>
         <local:TitleConverter x:Key="BigTitle"></local:TitleConverter>
+        <local:DescriptionConverter x:Key="BigDescription"></local:DescriptionConverter>
+        <local:BigButtonConverter x:Key="BigButton"></local:BigButtonConverter>
     </UserControl.Resources>
 
     <Grid x:Name="Root" Margin="0,0,-646,0">
@@ -23,7 +25,7 @@
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
 
-        <TreeView x:Name="treeViewMenu" Grid.Row="1" ItemsSource="{Binding}" SelectedItemChanged="treeViewMenu_SelectedItemChanged">
+        <TreeView x:Name="treeViewMenu" Grid.Row="1" ItemsSource="{Binding}" SelectedItemChanged="treeViewMenu_SelectedItemChanged" >
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type kld:Chapter}" ItemsSource="{Binding Path=Variants}" >
                     <Border BorderBrush="RoyalBlue" Background="RoyalBlue" BorderThickness="1" CornerRadius="2" Margin="2" Padding="2" >
@@ -64,17 +66,26 @@
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="button" Content="Добавить вопросы" Margin="0,0,10,0" />
                     <Button x:Name="button1" Content="Удалить выделенное" />
+                    <Button x:Name="button2" Content="Button" Width="75" Height="40" VerticalAlignment="Top" Click="button2_Click"/>
                 </StackPanel>
             </Grid>
             <StackPanel>
-                <StackPanel Orientation="Horizontal">
-                    <Button Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" Click="editChapter_Click"/>
-                    <TextBlock x:Name="txtChapter" TextWrapping="Wrap" FontSize="24" Foreground="#FF2C62BF" FontWeight="Light" Margin="15,0,0,0"  Text="{Binding ElementName=treeViewMenu, Path=SelectedItem, TargetNullValue=[Описание не предоставлено], Converter={StaticResource BigTitle}}"/>
+                <StackPanel Orientation="Horizontal" DataContext="{Binding ElementName=WrapperInfo, Path=DataContext}">
+                    <Button Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" Click="editChapter_Click" Content="E"
+                            IsEnabled="{Binding ElementName=WrapperInfo, Path=DataContext, 
+                            Converter={StaticResource BigButton}}"
+                            />
+                    <TextBlock x:Name="txtChapter" TextWrapping="Wrap" FontSize="24" Foreground="#FF2C62BF" FontWeight="Light" Margin="15,0,0,0"  Text="{Binding ElementName=WrapperInfo,
+                            Path=DataContext, 
+                            Converter={StaticResource BigTitle}}"/>
                 </StackPanel>
-                <TextBlock Height="30" Background="#FFFFF8F8" DataContext="{Binding ElementName=treeViewMenu}"  Text="{Binding ElementName=treeViewMenu, Path=SelectedItem, TargetNullValue=[Описание не предоставлено], Converter={StaticResource BigTitle}}"/>
+
                 <StackPanel Orientation="Horizontal" Margin="0,7,0,0">
                     <Button Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" />
-                    <TextBlock x:Name="txtVAriant" TextWrapping="Wrap" Text="{Binding Description}" FontSize="18.667" Foreground="#FF5582CF" FontWeight="Light" Margin="15,0,0,0"/>
+                    <TextBlock x:Name="txtVAriant" TextWrapping="Wrap" FontSize="18.667" Foreground="#FF5582CF" FontWeight="Light" Margin="15,0,0,0"
+                     Text="{Binding ElementName=WrapperInfo,
+                            Path=DataContext, 
+                            Converter={StaticResource BigDescription}}"/>
                 </StackPanel>
             </StackPanel>
             <ListBox x:Name="listItems" Grid.Row="2" Margin="0,5,0,0">

@@ -9,12 +9,12 @@ using QuestionsEntityClassLibrary;
 namespace QuestionsProject
 {
     [ValueConversion(typeof(Object), typeof(string))]
-    public class TitleConverter : IValueConverter
+    public class DescriptionConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter,
     System.Globalization.CultureInfo culture)
         {
-            if (value == null) { return "Выберите тему"; }
+            if (value == null) { return null; }
 
             return selectValue(value);
         }
@@ -25,19 +25,19 @@ namespace QuestionsProject
             return value;
         }
 
-        private string selectValue(Object _value) {
+        private string selectValue(Object _value)
+        {
 
-            string txt = "Выберите тему";
+            string txt = null;
 
             if (_value.GetType().BaseType == typeof(Chapter))
             {
-                Chapter v = (Chapter)_value;
-                txt = v.Text;
+                txt = "Все вопросы темы";
             }
             if (_value.GetType().BaseType == typeof(Variant))
             {
                 Variant v = (Variant)_value;
-                txt = v.Chapter.Text;
+                txt = v.Text;
             }
 
             return txt;
