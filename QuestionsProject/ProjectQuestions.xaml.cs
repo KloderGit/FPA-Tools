@@ -27,7 +27,6 @@ namespace QuestionsProject
         public ProjectQuestions()
         {
             InitializeComponent();
-
             //Root.DataContext = _questionare.getChapters();
             WrapperInfo.DataContext = null;
         }
@@ -45,6 +44,7 @@ namespace QuestionsProject
         {
             Button bt = (Button)sender;
             Chapter _chapter = (Chapter)bt.DataContext;
+            var backup = new { Text = _chapter.Text, Desc = _chapter.Description };
 
             WindowRight panelRight = new WindowRight();
             panelRight.txtWindowTitle.Text = "Редактирование Темы";
@@ -55,12 +55,10 @@ namespace QuestionsProject
 
             if (panelRight.ShowDialog() == true) {
 
-                var backup = new { Text = _chapter.Text, Desc = _chapter.Description };
-
                 _chapter.Text = edit_object.txtTitle.Text;
                 _chapter.Description = edit_object.txtDescription.Text;
 
-                if (_questionare.saveChapter(_chapter)) { Console.WriteLine("Сохранено успешно!"); WrapperInfo.DataContext = null; WrapperInfo.DataContext = treeViewMenu.SelectedItem; }
+                if (_questionare.editChapter(_chapter)) { Console.WriteLine("Сохранено успешно!"); WrapperInfo.DataContext = null; WrapperInfo.DataContext = treeViewMenu.SelectedItem; }
                 else { _chapter.Text = backup.Text; _chapter.Description = backup.Desc; Window wn = new Window(); wn.ShowDialog(); }
 
             }
@@ -73,7 +71,8 @@ namespace QuestionsProject
 
             if (MessageBox.Show("Вы уверены, что хотите удалить Тему? Вместе с темой удалятся все созданные для нее варианты.", "Подтвердите удаление!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-
+                _questionare.removeChapter(_chapter);
+                Root.DataContext = _questionare.getChapters();
             }
         }
 
@@ -113,7 +112,7 @@ namespace QuestionsProject
                 _variant.Text = edit_object.txtTitle.Text;
                 _variant.Description = edit_object.txtDescription.Text;
 
-                if (_questionare.saveVariant(_variant)) {
+                if (_questionare.editVariant(_variant)) {
                     Console.WriteLine("Сохранено успешно!");
                     WrapperInfo.DataContext = null; WrapperInfo.DataContext = treeViewMenu.SelectedItem;
                 }
@@ -128,22 +127,69 @@ namespace QuestionsProject
         private void removeVariant_Click(object sender, RoutedEventArgs e)
         {
             Button bt = (Button)sender;
-            Variant _chapter = (Variant)bt.DataContext;
+            Variant _variant = (Variant)bt.DataContext;
 
             if (MessageBox.Show("Вы уверены, что хотите удалить Вариант?", "Подтвердите удаление!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
-
+                _questionare.removeVariant(_variant);
+                Root.DataContext = _questionare.getChapters();
             }
         }
 
         private void addVariant_Click(object sender, RoutedEventArgs e)
         {
             Button bt = (Button)sender;
-            Variant _chapter = (Variant)bt.DataContext;
+            //Variant _variant = (Variant)bt.DataContext;
+            Chapter _chapter = (Chapter)bt.DataContext;
 
-            if (MessageBox.Show("Вы уверены, что хотите ДОБАВИТЬ Вариант?", "Подтвердите удаление!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            WindowRight panelRight = new WindowRight();
+            panelRight.txtWindowTitle.Text = "Добавление Варианта";
+            panelRight.Owner = App.Current.MainWindow;
+
+            editChapter edit_object = new editChapter();
+            panelRight.forContent.Children.Add(edit_object);
+
+            if (panelRight.ShowDialog() == true)
             {
+                Variant _item = new Variant();
+                _item.Text = edit_object.txtTitle.Text;
+                _item.Description = edit_object.txtDescription.Text;
+                _item.Chapter_Id = _chapter.Id;
+                _item.Chapter = _chapter;
+                _item.Created = DateTime.Now;
+                _item.Modify = DateTime.Now;
 
+                if (_questionare.addVariant(_item)) {
+                    Console.WriteLine("Успешно добавлено!");
+                    Root.DataContext = _questionare.getChapters();
+                }
+            }
+
+        }
+
+        private void addChapter_Click(object sender, RoutedEventArgs e)
+        {
+
+            WindowRight panelRight = new WindowRight();
+            panelRight.txtWindowTitle.Text = "Добавление Темы";
+            panelRight.Owner = App.Current.MainWindow;
+
+            editChapter edit_object = new editChapter();
+            panelRight.forContent.Children.Add(edit_object);
+
+            if (panelRight.ShowDialog() == true)
+            {
+                Chapter _item = new Chapter();
+                _item.Text = edit_object.txtTitle.Text;
+                _item.Description = edit_object.txtDescription.Text;
+                _item.Created = DateTime.Now;
+                _item.Modify = DateTime.Now;
+
+                if (_questionare.addChapter(_item))
+                {
+                    Console.WriteLine("Успешно добавлено!");
+                    Root.DataContext = _questionare.getChapters();
+                }
             }
         }
     }

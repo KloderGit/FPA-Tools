@@ -24,18 +24,80 @@ namespace QuestionsEntityClassLibrary
         {
             return _Chapters.ToList<Chapter>();
         }
+
+        public List<Chapter> getChaptersOriginal() {
+
+            List<Chapter> items = new List<Chapter>();
+
+            using (QuestionsContext db = new QuestionsContext())
+            {
+                try
+                {
+                    //db.Database.Log = Console.Write;
+
+                    items = db.Chapters.Include("Variants.QuestItems.Quest").Include("Quests").ToList<Chapter>();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            return items;
+        }
+
         public List<Chapter> getChapters(int _chapter)
         {
             return _Chapters.Where(c => c.Id == _chapter).ToList<Chapter>();
         }
+
+        public List<Chapter> getChaptersOriginal(int _chapterId)
+        {
+
+            List<Chapter> items = new List<Chapter>();
+
+            using (QuestionsContext db = new QuestionsContext())
+            {
+                try
+                {
+                    db.Database.Log = Console.Write;
+
+                    items = db.Chapters.Include("Variants.QuestItems.Quest").Include("Quests").Where(ch => ch.Id == _chapterId).ToList<Chapter>();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            return items;
+        }
+
         public List<Chapter> getChapters(Chapter _chapter)
         {
             return _Chapters.Where(c => c.Id == _chapter.Id).ToList<Chapter>();
         }
 
-        public List<Quest> getChapterQuests(Chapter _chapter)
+        public List<Chapter> getChaptersOriginal(Chapter _chapter)
         {
-            return _chapter.Quests.ToList<Quest>();
+
+            List<Chapter> items = new List<Chapter>();
+
+            using (QuestionsContext db = new QuestionsContext())
+            {
+                try
+                {
+                    db.Database.Log = Console.Write;
+
+                    items = db.Chapters.Include("Variants.QuestItems.Quest").Include("Quests").Where(ch => ch.Id == _chapter.Id).ToList<Chapter>();
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
+            }
+
+            return items;
         }
 
         public void LoadChapter()
@@ -51,11 +113,10 @@ namespace QuestionsEntityClassLibrary
                 catch (Exception e) {
                     Console.WriteLine(e.Message);
                 }
-                
             }
         }
 
-        public bool saveChapter(Chapter _chapter)
+        public bool editChapter(Chapter _chapter)
         {
 
             _chapter.Modify = DateTime.Now;
@@ -80,6 +141,51 @@ namespace QuestionsEntityClassLibrary
             }
         }
 
+        public bool removeChapter(Chapter _chapter)
+        {
+            using (QuestionsContext db = new QuestionsContext())
+            {
+                try
+                {
+                    db.Database.Log = Console.Write;
+
+                    db.Chapters.Attach(_chapter);
+                    //db.Entry(_chapter).State = System.Data.Entity.EntityState.Deleted;
+                    db.Chapters.Remove(_chapter);
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return false;
+                }
+            }
+        }
+
+        public bool addChapter(Chapter _chapter)
+        {
+
+            using (QuestionsContext db = new QuestionsContext())
+            {
+                try
+                {
+                    db.Database.Log = Console.Write;
+
+                    db.Chapters.Attach(_chapter);
+                    db.Entry(_chapter).State = System.Data.Entity.EntityState.Added;
+                    db.SaveChanges();
+                    LoadChapter();
+                    return true;
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                    return false;
+                }
+            }
+        }
+
         //  --------------------------------------------------------------------------
         #endregion
         //  Темы Конец ---------------------------------------------------------------
@@ -96,28 +202,61 @@ namespace QuestionsEntityClassLibrary
             return GetVariantQuest(_variant);
         }
 
-        public List<Quest> GetChildren(Chapter _chapter)
-        {           
-            return getChapterQuests(_chapter);
-        }
-
-        public bool saveVariant(Variant _variant) {
+        public bool editVariant(Variant _variant) {
             _variant.Modify = DateTime.Now;
 
             using (QuestionsContext db = new QuestionsContext())
             {
-                db.Database.Log = Console.Write;
-                db.Variants.Attach(_variant);
-                db.Entry(_variant).State = System.Data.Entity.EntityState.Modified;
-
                 try
                 {
+                    db.Database.Log = Console.Write;
+
+                    db.Variants.Attach(_variant);
+                    db.Entry(_variant).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
                     return true;
                 }
                 catch (Exception e)
                 {
 
+                    Console.WriteLine(e.Message);
+                    return false;
+                }
+            }
+        }
+
+        public bool addVariant(Variant _variant) {
+
+            using (QuestionsContext db = new QuestionsContext()) {
+                try
+                {
+                    db.Database.Log = Console.Write;
+
+                    db.Variants.Attach(_variant);
+                    db.Entry(_variant).State = System.Data.Entity.EntityState.Added;
+                    db.SaveChanges();
+                    LoadChapter();
+                    return true;
+                }
+                catch (Exception e) {
+                    Console.WriteLine(e.Message);
+                    return false;
+                }
+            }
+        }
+
+        public bool removeVariant(Variant _variant) {
+            using (QuestionsContext db = new QuestionsContext()) {
+                try
+                {
+                    db.Database.Log = Console.Write;
+
+                    db.Variants.Attach(_variant);
+                    db.Entry(_variant).State = System.Data.Entity.EntityState.Deleted;
+                    db.SaveChanges();
+                    return true;
+                }
+                catch (Exception e) {
                     Console.WriteLine(e.Message);
                     return false;
                 }

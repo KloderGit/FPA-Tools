@@ -86,6 +86,7 @@
     <Compile Include="QuestProram.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
+    <Compile Include="QustionareOnline.cs" />
     <Compile Include="Variant.cs">
       <DependentUpon>Model.tt</DependentUpon>
     </Compile>
