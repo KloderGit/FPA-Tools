@@ -22,29 +22,33 @@ namespace QuestionsProject
     /// </summary>
     public partial class ProjectQuestions : UserControl
     {
-        Questionare _questionare;
+        QuestionsEntityClassLibrary.QustionareOnline _questionare;
 
         public ProjectQuestions()
         {
             InitializeComponent();
-            //Root.DataContext = _questionare.getChapters();
-            WrapperInfo.DataContext = null;
+            _questionare = new QustionareOnline();
+            Root.DataContext = _questionare.getChapter();
+            //WrapperInfo.DataContext = null;
         }
 
         private void treeViewMenu_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            WrapperInfo.DataContext = treeViewMenu.SelectedItem;
+            //Console.WriteLine(WrapperInfo.DataContext);
+            //WrapperInfo.DataContext = treeViewMenu.SelectedItem;
         }
 
         private void listItems_ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
             Console.WriteLine("double click");
         }
 
+//      Работа с Chapter 
+#region ---------------------   Chapter  ----------------------------------
+
         private void editChapter_Click(object sender, RoutedEventArgs e)
         {
             Button bt = (Button)sender;
             Chapter _chapter = (Chapter)bt.DataContext;
-            var backup = new { Text = _chapter.Text, Desc = _chapter.Description };
 
             WindowRight panelRight = new WindowRight();
             panelRight.txtWindowTitle.Text = "Редактирование Темы";
@@ -53,14 +57,12 @@ namespace QuestionsProject
             editChapter edit_object = new editChapter(_chapter);
             panelRight.forContent.Children.Add(edit_object);
 
-            if (panelRight.ShowDialog() == true) {
-
+            if (panelRight.ShowDialog() == true)
+            {
                 _chapter.Text = edit_object.txtTitle.Text;
                 _chapter.Description = edit_object.txtDescription.Text;
 
-                if (_questionare.editChapter(_chapter)) { Console.WriteLine("Сохранено успешно!"); WrapperInfo.DataContext = null; WrapperInfo.DataContext = treeViewMenu.SelectedItem; }
-                else { _chapter.Text = backup.Text; _chapter.Description = backup.Desc; Window wn = new Window(); wn.ShowDialog(); }
-
+                if (_questionare.editChapter(_chapter)) { Console.WriteLine("Сохранено успешно!");  }
             }
         }
 
@@ -72,97 +74,7 @@ namespace QuestionsProject
             if (MessageBox.Show("Вы уверены, что хотите удалить Тему? Вместе с темой удалятся все созданные для нее варианты.", "Подтвердите удаление!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
             {
                 _questionare.removeChapter(_chapter);
-                Root.DataContext = _questionare.getChapters();
-            }
-        }
-
-        private void button2_Click(object sender, RoutedEventArgs e)
-        {
-            Chapter cc = (Chapter)WrapperInfo.DataContext;
-            Console.WriteLine(cc.Text);
-
-           // Chapter ccc = (Chapter)stBigChapter.DataContext;
-            //Console.WriteLine(ccc.Text);
-        }
-
-        private void button3_Click(object sender, RoutedEventArgs e)
-        {
-            _questionare = new Questionare();
-            Root.DataContext = _questionare.getChapters();
-            //treeViewMenu.Items.Add(new TreeViewItem { Header = "Interesting" });
-        }
-
-        private void editVariant(object sender, RoutedEventArgs e)
-        {
-            Button bt = (Button)sender;
-            Variant _variant = (Variant)bt.DataContext;
-
-            WindowRight panelRight = new WindowRight();
-            panelRight.txtWindowTitle.Text = "Редактирование Варианта";
-            panelRight.Owner = App.Current.MainWindow;
-
-            editChapter edit_object = new editChapter(_variant);
-            panelRight.forContent.Children.Add(edit_object);
-
-            if (panelRight.ShowDialog() == true)
-            {
-
-                var backup = new { Text = _variant.Text, Desc = _variant.Description };
-
-                _variant.Text = edit_object.txtTitle.Text;
-                _variant.Description = edit_object.txtDescription.Text;
-
-                if (_questionare.editVariant(_variant)) {
-                    Console.WriteLine("Сохранено успешно!");
-                    WrapperInfo.DataContext = null; WrapperInfo.DataContext = treeViewMenu.SelectedItem;
-                }
-                else {
-                    _variant.Text = backup.Text;
-                    _variant.Description = backup.Desc;
-                }
-
-            }
-        }
-
-        private void removeVariant_Click(object sender, RoutedEventArgs e)
-        {
-            Button bt = (Button)sender;
-            Variant _variant = (Variant)bt.DataContext;
-
-            if (MessageBox.Show("Вы уверены, что хотите удалить Вариант?", "Подтвердите удаление!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
-            {
-                _questionare.removeVariant(_variant);
-                Root.DataContext = _questionare.getChapters();
-            }
-        }
-
-        private void addVariant_Click(object sender, RoutedEventArgs e)
-        {
-            Button bt = (Button)sender;
-            //Variant _variant = (Variant)bt.DataContext;
-            Chapter _chapter = (Chapter)bt.DataContext;
-
-            WindowRight panelRight = new WindowRight();
-            panelRight.txtWindowTitle.Text = "Добавление Варианта";
-            panelRight.Owner = App.Current.MainWindow;
-
-            editChapter edit_object = new editChapter();
-            panelRight.forContent.Children.Add(edit_object);
-
-            if (panelRight.ShowDialog() == true)
-            {
-                Variant _item = new Variant();
-                _item.Text = edit_object.txtTitle.Text;
-                _item.Description = edit_object.txtDescription.Text;
-                _item.Chapter_Id = _chapter.Id;
-                _item.Chapter = _chapter;
-                _item.Created = DateTime.Now;
-                _item.Modify = DateTime.Now;
-
-                if (_questionare.addVariant(_item)) {
-                    Console.WriteLine("Успешно добавлено!");
-                    Root.DataContext = _questionare.getChapters();
-                }
+               // Root.DataContext = _questionare.getChapters();
             }
 
         }
@@ -188,9 +100,104 @@ namespace QuestionsProject
                 if (_questionare.addChapter(_item))
                 {
                     Console.WriteLine("Успешно добавлено!");
-                    Root.DataContext = _questionare.getChapters();
+                    //Root.DataContext = _questionare.getChapter();
                 }
             }
         }
+
+        #endregion
+        //      End Chapter 
+
+
+//      Работа с Vfriant
+#region ---------------------   Variant  ----------------------------------
+
+        private void editVariant(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            Variant _variant = (Variant)bt.DataContext;
+
+            WindowRight panelRight = new WindowRight();
+            panelRight.txtWindowTitle.Text = "Редактирование Варианта";
+            panelRight.Owner = App.Current.MainWindow;
+
+            editChapter edit_object = new editChapter(_variant);
+            panelRight.forContent.Children.Add(edit_object);
+
+            if (panelRight.ShowDialog() == true)
+            {
+                _variant.Text = edit_object.txtTitle.Text;
+                _variant.Description = edit_object.txtDescription.Text;
+
+                if (_questionare.editVariant(_variant)) { Console.WriteLine("Сохранено успешно!"); }
+            }
+        }
+
+        private void removeVariant_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            Variant _variant = (Variant)bt.DataContext;
+
+            if (MessageBox.Show("Вы уверены, что хотите удалить Вариант?", "Подтвердите удаление!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                _questionare.removeVariant(_variant);
+            }
+        }
+
+        private void addVariant_Click(object sender, RoutedEventArgs e)
+        {
+            Button bt = (Button)sender;
+            Chapter _chapter = (Chapter)bt.DataContext;
+
+            WindowRight panelRight = new WindowRight();
+            panelRight.txtWindowTitle.Text = "Добавление Варианта";
+            panelRight.Owner = App.Current.MainWindow;
+
+            editChapter edit_object = new editChapter();
+            panelRight.forContent.Children.Add(edit_object);
+
+            if (panelRight.ShowDialog() == true)
+            {
+                Variant _item = new Variant();
+                _item.Text = edit_object.txtTitle.Text;
+                _item.Description = edit_object.txtDescription.Text;
+                _item.Chapter = _chapter;
+                _item.Chapter_Id = _chapter.Id;
+
+                if (_questionare.addVariant(_item))
+                {
+                    Console.WriteLine("Вариант добавлен!");
+                    Root.DataContext = _questionare.getChapter();
+                }
+            }
+
+        }
+
+#endregion
+//      End Variant
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            Chapter cc = (Chapter)WrapperInfo.DataContext;
+            Console.WriteLine(cc.Text);
+
+           // Chapter ccc = (Chapter)stBigChapter.DataContext;
+            //Console.WriteLine(ccc.Text);
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+
+
+
+
+
+
+
+
+//  namespace
     }
 }

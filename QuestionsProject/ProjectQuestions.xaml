@@ -71,7 +71,7 @@
         </StackPanel>
 
 
-        <Grid x:Name="WrapperInfo" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Margin="5,0">
+        <Grid x:Name="WrapperInfo" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Margin="5,0" DataContext="{Binding ElementName=treeViewMenu, Path=SelectedItem}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="40"/>
@@ -96,9 +96,7 @@
                         <Button Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" Click="removeChapter_Click" Content="У"
             				IsEnabled="{Binding DataContext, Converter={StaticResource BigButton}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}"                             />
                         <TextBlock x:Name="txtChapter" TextWrapping="Wrap" FontSize="24" Foreground="#FF2C62BF" FontWeight="Light" Margin="15,0,0,0"  Text="{Binding DataContext, Converter={StaticResource BigTitle}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}"/>
-                        <Button Width="30" Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" Click="addChapter_Click" Content="Д"
-            				IsEnabled="{Binding DataContext, Converter={StaticResource BigButton}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}"
-                            />
+
                         <Button Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" 
                     	IsEnabled="{Binding DataContext, Converter={StaticResource BigButton}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}" Click="addVariant_Click" Content="Доб.Вар."/>
                     </StackPanel>

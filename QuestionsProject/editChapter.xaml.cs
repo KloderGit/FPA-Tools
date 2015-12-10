@@ -30,9 +30,8 @@ namespace QuestionsProject
         {
             InitializeComponent();
 
-            Console.WriteLine(_context.GetType());
-
-            if (_context.GetType().BaseType == typeof(Chapter)) {
+            if (_context.GetType().BaseType == typeof(Chapter))
+            {
                 _context = (Chapter)_context;
             }
             if (_context.GetType().BaseType == typeof(Variant))
@@ -41,6 +40,7 @@ namespace QuestionsProject
             }
 
             Root.DataContext = _context;
+
         }
 
     }

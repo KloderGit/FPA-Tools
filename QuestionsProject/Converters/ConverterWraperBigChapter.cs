@@ -31,11 +31,11 @@ namespace QuestionsProject
         {
             Chapter ch = null;
 
-            if (_value.GetType().BaseType == typeof(Chapter))
+            if ((_value is Chapter))
             {
                 ch = (Chapter)_value;
             }
-            if (_value.GetType().BaseType == typeof(Variant))
+            if (_value is Variant)
             {
                 Variant v = (Variant)_value;
                 ch = v.Chapter;

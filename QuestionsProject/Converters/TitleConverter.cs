@@ -27,14 +27,14 @@ namespace QuestionsProject
 
         private string selectValue(Object _value) {
 
-            string txt = "Выберите тему";
+            string txt = "Выберите тему!!";
 
-            if (_value.GetType().BaseType == typeof(Chapter))
+            if (_value is Chapter)
             {
                 Chapter v = (Chapter)_value;
                 txt = v.Text;
             }
-            if (_value.GetType().BaseType == typeof(Variant))
+            if (_value is Variant)
             {
                 Variant v = (Variant)_value;
                 txt = v.Chapter.Text;
