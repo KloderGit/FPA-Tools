@@ -11,15 +11,16 @@ namespace QuestionsEntityClassLibrary
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     
     public partial class Quest
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Quest()
         {
-            this.Answers = new HashSet<Answer>();
-            this.QuestItems = new HashSet<QuestItem>();
-            this.QuestProrams = new HashSet<QuestProram>();
+            this.Answers = new ObservableCollection<Answer>();
+            this.QuestItems = new ObservableCollection<QuestItem>();
+            this.QuestProrams = new ObservableCollection<QuestProram>();
         }
     
         public int Id { get; set; }
@@ -31,11 +32,11 @@ namespace QuestionsEntityClassLibrary
         public Nullable<int> Chapter_Id { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Answer> Answers { get; set; }
+        public virtual ObservableCollection<Answer> Answers { get; set; }
         public virtual Chapter Chapter { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuestItem> QuestItems { get; set; }
+        public virtual ObservableCollection<QuestItem> QuestItems { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<QuestProram> QuestProrams { get; set; }
+        public virtual ObservableCollection<QuestProram> QuestProrams { get; set; }
     }
 }

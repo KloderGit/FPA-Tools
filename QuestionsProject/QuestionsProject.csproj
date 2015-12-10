@@ -79,13 +79,24 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="answerControl.xaml.cs">
+      <DependentUpon>answerControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Converters\ConverterForListItems.cs" />
     <Compile Include="Converters\BigButtonConverter.cs" />
     <Compile Include="Converters\ConverterWraperBigChapter.cs" />
     <Compile Include="Converters\ConverterWrapperBigVariant.cs" />
     <Compile Include="Converters\DescriptionConverter.cs" />
     <Compile Include="Converters\TitleConverter.cs" />
+    <Page Include="answerControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="editChapter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="editQuest.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -99,6 +110,9 @@
     </Compile>
     <Compile Include="editChapter.xaml.cs">
       <DependentUpon>editChapter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="editQuest.xaml.cs">
+      <DependentUpon>editQuest.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

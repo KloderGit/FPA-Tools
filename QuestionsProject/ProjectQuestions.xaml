@@ -81,7 +81,7 @@
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="button" Content="Добавить вопросы" Margin="0,0,10,0" />
                     <Button x:Name="button1" Content="Удалить выделенное" />
-                    <Button x:Name="button2" Content="Button" Width="75" Height="40" VerticalAlignment="Top" Click="button2_Click"/>
+                    <Button x:Name="button2" Content="Button" Width="75" Click="button2_Click"/>
                     <Button x:Name="button3" Content="Button" Width="75" Click="button3_Click"/>
                 </StackPanel>
             </Grid>

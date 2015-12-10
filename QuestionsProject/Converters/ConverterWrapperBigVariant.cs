@@ -32,11 +32,11 @@ namespace QuestionsProject
         {
             Variant vr = null;
 
-            if (_value.GetType().BaseType == typeof(Chapter))
+            if (_value is Chapter)
             {
                 vr = null;
             }
-            if (_value.GetType().BaseType == typeof(Variant))
+            if (_value is Variant)
             {
                 vr = (Variant)_value;
             }

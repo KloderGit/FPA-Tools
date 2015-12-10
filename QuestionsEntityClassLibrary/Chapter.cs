@@ -12,14 +12,15 @@ namespace QuestionsEntityClassLibrary
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.ObjectModel;
     
     public partial class Chapter
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Chapter()
         {
-            this.Quests = new HashSet<Quest>();
-            this.Variants = new HashSet<Variant>();
+            this.Quests = new ObservableCollection<Quest>();
+            this.Variants = new ObservableCollection<Variant>();
         }
     
         public int Id { get; set; }
@@ -30,8 +31,8 @@ namespace QuestionsEntityClassLibrary
         public string Editor { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Quest> Quests { get; set; }
+        public virtual ObservableCollection<Quest> Quests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Variant> Variants { get; set; }
+        public virtual ObservableCollection<Variant> Variants { get; set; }
     }
 }

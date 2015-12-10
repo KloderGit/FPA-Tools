@@ -167,7 +167,8 @@ namespace QuestionsProject
                 if (_questionare.addVariant(_item))
                 {
                     Console.WriteLine("Вариант добавлен!");
-                    Root.DataContext = _questionare.getChapter();
+                    //Root.DataContext = null;
+                   // Root.DataContext = _questionare.getChapter();
                 }
             }
 
@@ -178,11 +179,13 @@ namespace QuestionsProject
 
         private void button2_Click(object sender, RoutedEventArgs e)
         {
-            Chapter cc = (Chapter)WrapperInfo.DataContext;
-            Console.WriteLine(cc.Text);
+            WindowRight panelRight = new WindowRight();
+            panelRight.txtWindowTitle.Text = "Добавление Jndtnf";
+            panelRight.Owner = App.Current.MainWindow;
 
-           // Chapter ccc = (Chapter)stBigChapter.DataContext;
-            //Console.WriteLine(ccc.Text);
+            panelRight.forContent.Children.Add(new editQuest());
+
+            panelRight.ShowDialog();
         }
 
         private void button3_Click(object sender, RoutedEventArgs e)

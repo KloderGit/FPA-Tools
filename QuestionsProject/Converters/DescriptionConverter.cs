@@ -30,11 +30,11 @@ namespace QuestionsProject
 
             string txt = null;
 
-            if (_value.GetType().BaseType == typeof(Chapter))
+            if (_value is Chapter)
             {
                 txt = "Все вопросы темы";
             }
-            if (_value.GetType().BaseType == typeof(Variant))
+            if (_value is Variant)
             {
                 Variant v = (Variant)_value;
                 txt = v.Text;

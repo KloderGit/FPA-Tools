@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="QuestionsProject.answerControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QuestionsProject"
+             mc:Ignorable="d" d:DesignWidth="300" Height="112.333">
+    <Grid>
+        <Border BorderBrush="#FF5398DE" BorderThickness="2" Padding="5" Background="#FFFEFFF1">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="81*"/>
+                    <RowDefinition Height="31*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="TextBlock" Foreground="#FF2E2E2E" FontWeight="Light" FontSize="13.333"/>
+                <StackPanel Grid.Row="1" Orientation="Horizontal">
+                    <CheckBox x:Name="checkBox" Content="Верный" Margin="0,0,10,0" VerticalAlignment="Center"/>
+                    <Button x:Name="button" Content="Ред." Width="50" Margin="0,0,15,0" Height="25"/>
+                    <Button x:Name="button1" Content="Удл." Width="50" Margin="0,0,15,0" Height="25"/>
+                </StackPanel>
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+</UserControl>
