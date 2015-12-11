@@ -1,0 +1,25 @@
+﻿<UserControl x:Class="QuestionsProject.editQuests"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:QuestionsProject"
+             xmlns:kld="clr-namespace:QuestionsEntityClassLibrary;assembly=QuestionsEntityClassLibrary"
+             mc:Ignorable="d" Height="auto" Width="782">
+    <Grid x:Name="RootQuest">
+        <Label x:Name="label" Content="Текст вопроса" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,11,0,0" FontSize="16" FontWeight="Light"/>
+        <TextBox x:Name="txtTitle" HorizontalAlignment="Left" Height="165" Margin="10,56,0,0" TextWrapping="Wrap" Text="{Binding Text}" VerticalAlignment="Top" Width="364" FontSize="13.333"/>
+        <Label x:Name="label1" Content="Описание" HorizontalAlignment="Left" Margin="10,234,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
+        <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="51" Margin="108,246,0,0" TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top" Width="266" FontSize="13.333"/>
+        <Button x:Name="button" Content="Добавить ответ" HorizontalAlignment="Left" Margin="592,15,0,0" VerticalAlignment="Top" Width="138" Height="26" Click="addAnswer_Click"/>
+        <Label x:Name="label2" Content="Ответы на вопрос" HorizontalAlignment="Left" Margin="405,11,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
+        <ListBox x:Name="listAnswers" Margin="405,56,10,0" 
+                 ItemsSource="{Binding Path=Answers}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Text}" />
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </Grid>
+</UserControl>

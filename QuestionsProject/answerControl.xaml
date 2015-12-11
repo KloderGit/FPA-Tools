@@ -4,13 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuestionsProject"
-             mc:Ignorable="d" d:DesignWidth="300" Height="112.333">
+             mc:Ignorable="d" Height="119.333" Margin="3,3,0,0" Width="269">
     <Grid>
         <Border BorderBrush="#FF5398DE" BorderThickness="2" Padding="5" Background="#FFFEFFF1">
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="81*"/>
-                    <RowDefinition Height="31*"/>
+                    <RowDefinition Height="71*"/>
+                    <RowDefinition Height="34*"/>
                 </Grid.RowDefinitions>
 
                 <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="TextBlock" Foreground="#FF2E2E2E" FontWeight="Light" FontSize="13.333"/>

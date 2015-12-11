@@ -92,11 +92,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="editAnswer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="editChapter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="editQuest.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="editQuests.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -108,11 +116,17 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="editAnswer.xaml.cs">
+      <DependentUpon>editAnswer.xaml</DependentUpon>
+    </Compile>
     <Compile Include="editChapter.xaml.cs">
       <DependentUpon>editChapter.xaml</DependentUpon>
     </Compile>
     <Compile Include="editQuest.xaml.cs">
       <DependentUpon>editQuest.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="editQuests.xaml.cs">
+      <DependentUpon>editQuests.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>

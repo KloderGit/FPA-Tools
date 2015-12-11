@@ -21,26 +21,38 @@ namespace QuestionsProject
     /// </summary>
     public partial class editChapter : UserControl
     {
+
+        public string Title
+        {
+            get { return txtTitle.Text; }
+            set { txtTitle.Text = value; }
+        }
+        public string Description
+        {
+            get { return txtDescription.Text; }
+            set { txtDescription.Text = value; }
+        }
+
+
         public editChapter()
         {
             InitializeComponent();
         }
 
-        public editChapter(Object _context)
+        public editChapter(Chapter _chapter)
         {
             InitializeComponent();
 
-            if (_context.GetType().BaseType == typeof(Chapter))
-            {
-                _context = (Chapter)_context;
-            }
-            if (_context.GetType().BaseType == typeof(Variant))
-            {
-                _context = (Variant)_context;
-            }
+            txtTitle.Text = _chapter.Text;
+            txtDescription.Text = _chapter.Description;
+        }
 
-            Root.DataContext = _context;
+        public editChapter(Variant _variant)
+        {
+            InitializeComponent();
 
+            txtTitle.Text = _variant.Text;
+            txtDescription.Text = _variant.Description;
         }
 
     }

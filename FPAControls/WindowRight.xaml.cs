@@ -32,5 +32,10 @@ namespace FPAControls
         {
             this.DialogResult = true;
         }
+
+        ~WindowRight()
+        {
+            Console.WriteLine("Экземпляр окна уничтожен!");
+        }
     }
 }

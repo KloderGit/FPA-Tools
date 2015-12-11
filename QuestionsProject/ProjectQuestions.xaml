@@ -16,6 +16,9 @@
         <local:ConverterWraperBigChapter x:Key="BigChapterWrapper"></local:ConverterWraperBigChapter>
         <local:ConverterWrapperBigVariant x:Key="BigVariantWrapper"></local:ConverterWrapperBigVariant>
         <local:ConverterForListItems x:Key="listSources"></local:ConverterForListItems>
+        <CollectionViewSource x:Key="ItemsForTreeViewMenu"
+                          Source="{Binding ElementName=Root, Path=DataContext}"  >
+        </CollectionViewSource>
     </UserControl.Resources>
 
     <Grid x:Name="Root" Margin="0,0,-646,0">
@@ -31,7 +34,7 @@
 
         <StackPanel Orientation="Vertical" Grid.Row="1">
 
-            <TreeView x:Name="treeViewMenu" ItemsSource="{Binding}" SelectedItemChanged="treeViewMenu_SelectedItemChanged" Margin="2,5" BorderBrush="{x:Null}"  >
+            <TreeView x:Name="treeViewMenu" ItemsSource="{Binding Source={StaticResource ItemsForTreeViewMenu}}" SelectedItemChanged="treeViewMenu_SelectedItemChanged" Margin="2,5" BorderBrush="{x:Null}"  >
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type kld:Chapter}" ItemsSource="{Binding Variants}" >
                         <Border BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="1" Margin="2" Padding="2" Height="30" >
@@ -79,10 +82,10 @@
             </Grid.RowDefinitions>
             <Grid Grid.Row="1">
                 <StackPanel Orientation="Horizontal">
-                    <Button x:Name="button" Content="Добавить вопросы" Margin="0,0,10,0" />
                     <Button x:Name="button1" Content="Удалить выделенное" />
-                    <Button x:Name="button2" Content="Button" Width="75" Click="button2_Click"/>
-                    <Button x:Name="button3" Content="Button" Width="75" Click="button3_Click"/>
+                    <Button x:Name="button2" Content="Button" Width="75" />
+                    <Button x:Name="button3" Content="Button" Width="75" />
+                    <Button x:Name="button4" Content="Button" Width="75" Click="button4_Click"/>
                 </StackPanel>
             </Grid>
             <StackPanel Margin="0,0,0,10">
@@ -99,6 +102,9 @@
 
                         <Button Height="30" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="7,0,0,0" 
                     	IsEnabled="{Binding DataContext, Converter={StaticResource BigButton}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}" Click="addVariant_Click" Content="Доб.Вар."/>
+
+                        <Button Content="Добавить вопросы" 
+                            IsEnabled="{Binding DataContext, Converter={StaticResource BigButton}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}" Click="addQuest_Click"/>
                     </StackPanel>
 
                 </Border>
@@ -110,23 +116,28 @@
                             IsEnabled="{Binding DataContext, Converter={StaticResource BigButton}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}" Click="removeVariant_Click" Content="У"/>
                     <TextBlock x:Name="txtVAriant" TextWrapping="Wrap" FontSize="18.667" Foreground="#FF5582CF" FontWeight="Light" Margin="15,0,0,0"
                      Text="{Binding DataContext, Converter={StaticResource BigDescription}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}"/>
+
+
                 </StackPanel>
             </StackPanel>
-            <ListBox x:Name="listItems" Grid.Row="2" Margin="0,5,0,0">
+            <ListBox x:Name="listItems" Grid.Row="2" Margin="0,5,0,0" SelectionMode="Extended">
+                <ListBox.ItemsSource>
+                    <Binding Converter="{StaticResource listSources}" ElementName="WrapperInfo" Path="DataContext"/>
+                </ListBox.ItemsSource>
                 <ListBox.Resources>
                     <DataTemplate DataType="{x:Type kld:QuestItem}">
-                        <TextBlock Text="{Binding Quest.Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333" />
+                        <StackPanel>
+                            <TextBlock Text="{Binding Quest.Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333" />
+                            <TextBlock Text="{Binding Quest.Answers.Count}"/>
+                        </StackPanel>
                     </DataTemplate>
                     <DataTemplate DataType="{x:Type kld:Quest}">
                         <StackPanel Orientation="Horizontal">
-                            <CheckBox/>
+                            <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"/>
                             <TextBlock Text="{Binding Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333"/>
                         </StackPanel>
                     </DataTemplate>
                 </ListBox.Resources>
-                <ListBox.ItemsSource>
-                    <Binding Converter="{StaticResource listSources}" ElementName="WrapperInfo" Path="DataContext"/>
-                </ListBox.ItemsSource>
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                         <EventSetter Event="Control.MouseDoubleClick" Handler="listItems_ListBoxItem_MouseDoubleClick"/>

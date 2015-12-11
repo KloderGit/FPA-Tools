@@ -4,9 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuestionsProject"
-             mc:Ignorable="d" 
-             d:DesignHeight="419" d:DesignWidth="563">
-    <Grid Margin="0,0,-266,-117">
+             mc:Ignorable="d" d:DesignWidth="563" Height="606">
+    <Grid Margin="0,0,0,10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -17,7 +16,7 @@
         <TextBox x:Name="textBox1" HorizontalAlignment="Left" Height="74" Margin="206,189,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="349"/>
         <Button x:Name="button" Content="Button" HorizontalAlignment="Center" Margin="246,278,246,0" VerticalAlignment="Top" Width="74"/>
         <Label x:Name="label_Copy1" Content="Ответы:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Grid.Row="1"/>
-        <WrapPanel x:Name="PanelAnswers" HorizontalAlignment="Left" Height="67" Margin="10,41,0,-69" Grid.Row="1" VerticalAlignment="Top" Width="546"/>
+        <WrapPanel x:Name="PanelAnswers" HorizontalAlignment="Left" Height="257" Margin="6,41,0,-253" Grid.Row="1" VerticalAlignment="Top" Width="550"/>
 
     </Grid>
 </UserControl>

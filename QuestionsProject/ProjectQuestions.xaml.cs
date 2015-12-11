@@ -38,9 +38,7 @@ namespace QuestionsProject
             //WrapperInfo.DataContext = treeViewMenu.SelectedItem;
         }
 
-        private void listItems_ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            Console.WriteLine("double click");
-        }
+
 
 //      Работа с Chapter 
 #region ---------------------   Chapter  ----------------------------------
@@ -59,8 +57,8 @@ namespace QuestionsProject
 
             if (panelRight.ShowDialog() == true)
             {
-                _chapter.Text = edit_object.txtTitle.Text;
-                _chapter.Description = edit_object.txtDescription.Text;
+                _chapter.Text = edit_object.Title;
+                _chapter.Description = edit_object.Description;
 
                 if (_questionare.editChapter(_chapter)) { Console.WriteLine("Сохранено успешно!");  }
             }
@@ -126,8 +124,8 @@ namespace QuestionsProject
 
             if (panelRight.ShowDialog() == true)
             {
-                _variant.Text = edit_object.txtTitle.Text;
-                _variant.Description = edit_object.txtDescription.Text;
+                _variant.Text = edit_object.Title;
+                _variant.Description = edit_object.Description;
 
                 if (_questionare.editVariant(_variant)) { Console.WriteLine("Сохранено успешно!"); }
             }
@@ -177,30 +175,81 @@ namespace QuestionsProject
 #endregion
 //      End Variant
 
-        private void button2_Click(object sender, RoutedEventArgs e)
+
+
+        private void button4_Click(object sender, RoutedEventArgs e)
         {
+            ((CollectionViewSource)this.Resources["ItemsForTreeViewMenu"]).View.Refresh();
+
+        }
+
+
+//      Работа с Quest
+#region ---------------------   Variant  ----------------------------------
+
+        private void listItems_ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            ListBoxItem lstItem = (ListBoxItem)sender;
+            Quest _quest = null;
+
+            if (lstItem.DataContext is Quest)
+            {
+                _quest = (Quest)lstItem.DataContext;
+            }
+            if (lstItem.DataContext is QuestItem)
+            {
+                _quest = ((QuestItem)lstItem.DataContext).Quest;
+            }
+
             WindowRight panelRight = new WindowRight();
-            panelRight.txtWindowTitle.Text = "Добавление Jndtnf";
+            panelRight.txtWindowTitle.Text = "Редактирование Вопроса";
             panelRight.Owner = App.Current.MainWindow;
 
-            panelRight.forContent.Children.Add(new editQuest());
+            editQuests edit_object = new editQuests(_quest, _questionare);
+            panelRight.forContent.Children.Add(edit_object);
 
-            panelRight.ShowDialog();
+            if (panelRight.ShowDialog() == true)
+            {
+                _quest.Text = edit_object.Title;
+                _quest.Description = edit_object.Description;
+
+                if (_questionare.editQuest(_quest)) { Console.WriteLine("Вопрос сохранен!"); }
+            }
         }
 
-        private void button3_Click(object sender, RoutedEventArgs e)
+
+        private void addQuest_Click(object sender, RoutedEventArgs e)
         {
+            Button bt = (Button)sender;
+            Chapter _chapter = (Chapter)bt.DataContext;
 
+            Quest _quest = new Quest();
+            _quest.Chapter = _chapter;
+            _quest.Chapter_Id = _chapter.Id;
+
+            WindowRight panelRight = new WindowRight();
+            panelRight.txtWindowTitle.Text = "Добавление Вопроса";
+            panelRight.Owner = App.Current.MainWindow;
+
+            editQuests edit_object = new editQuests(_quest, _questionare);
+            panelRight.forContent.Children.Add(edit_object);
+
+            if (panelRight.ShowDialog() == true)
+            {
+                if (_questionare.addQuest(_quest)) {
+                    Console.WriteLine("Вопрос для Темы сохранен!");
+                }
+            }
         }
 
 
+        #endregion
+        //      End Quest
 
 
 
 
 
-
-
-//  namespace
+        //  namespace
     }
 }

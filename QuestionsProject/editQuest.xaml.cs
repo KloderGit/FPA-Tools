@@ -24,7 +24,7 @@ namespace QuestionsProject
         {
             InitializeComponent();
 
-            PanelAnswers.Children.Add(new answerControl());
+            PanelAnswers.Children.Add(new answerControl()); PanelAnswers.Children.Add(new answerControl()); PanelAnswers.Children.Add(new answerControl());
         }
     }
 }
