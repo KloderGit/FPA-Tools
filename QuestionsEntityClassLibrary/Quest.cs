@@ -15,6 +15,11 @@ namespace QuestionsEntityClassLibrary
     
     public partial class Quest
     {
+        public ObservableCollection<Answer> GetChildren
+        {
+            get { return this.Answers; }
+        }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Quest()
         {

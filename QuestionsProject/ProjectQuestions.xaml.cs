@@ -205,13 +205,42 @@ namespace QuestionsProject
             panelRight.txtWindowTitle.Text = "Редактирование Вопроса";
             panelRight.Owner = App.Current.MainWindow;
 
-            editQuests edit_object = new editQuests(_quest);
+
+            Quest _tempQuest = new Quest();
+            _tempQuest.Text = _quest.Text;
+            _tempQuest.Description = _quest.Description;
+            _tempQuest.Chapter = _quest.Chapter;
+            _tempQuest.Chapter_Id = _quest.Chapter_Id;
+            _tempQuest.Created = _quest.Created;
+            _tempQuest.Editor = _quest.Editor;
+            _tempQuest.Modify = _quest.Modify;
+
+            _tempQuest.Answers = new System.Collections.ObjectModel.ObservableCollection<Answer>();
+
+            foreach (var oc in _quest.Answers) {
+                _tempQuest.Answers.Add(oc);
+            }
+
+            editQuests edit_object = new editQuests(_tempQuest);
             panelRight.forContent.Children.Add(edit_object);
 
             if (panelRight.ShowDialog() == true)
             {
-                _quest.Text = edit_object.Title;
-                _quest.Description = edit_object.Description;
+                _quest.Text = _tempQuest.Text;
+                _quest.Description = _tempQuest.Description;
+
+                var minus_answers = _quest.Answers.Except(_tempQuest.Answers);
+                var plus_answers = _tempQuest.Answers.Except(_quest.Answers);
+
+                if (plus_answers.Count() != 0) {
+                    foreach (var an in plus_answers) {
+                        _quest.Answers.Add(an);
+                    }
+                }
+
+                if (minus_answers.Count() != 0) {
+                    if (_questionare.removeAnswers(minus_answers)) { Console.WriteLine("Ответы удалены"); }
+                }             
 
                 if (_questionare.editQuest(_quest)) { Console.WriteLine("Вопрос сохранен!"); }
             }
@@ -238,30 +267,6 @@ namespace QuestionsProject
             {
                 if (_questionare.addQuest(_quest)) {
                     Console.WriteLine("Вопрос для Темы сохранен!");                    
-                }
-            }
-        }
-
-        private void addQuest111_Click(object sender, RoutedEventArgs e)
-        {
-            Chapter _chapter = (Chapter)((Button)sender).DataContext;
-
-            Quest _quest = new Quest();
-            _quest.Chapter = _chapter;
-            _quest.Chapter_Id = _chapter.Id;
-
-            WindowRight panelRight = new WindowRight();
-            panelRight.txtWindowTitle.Text = "Добавление Вопроса";
-            panelRight.Owner = App.Current.MainWindow;
-
-            editQuests edit_object = new editQuests(_quest);
-            panelRight.forContent.Children.Add(edit_object);
-
-            if (panelRight.ShowDialog() == true)
-            {
-                if (_questionare.addQuest(_quest))
-                {
-                    Console.WriteLine("Вопрос для Темы сохранен!");
                 }
             }
         }

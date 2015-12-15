@@ -16,12 +16,21 @@ namespace QuestionsEntityClassLibrary
     
     public partial class Chapter
     {
+
+        public ObservableCollection<Quest> GetChildren
+        {
+            get { return this.Quests; }
+        }
+
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Chapter()
         {
             this.Quests = new ObservableCollection<Quest>();
             this.Variants = new ObservableCollection<Variant>();
         }
+
+
     
         public int Id { get; set; }
         public string Text { get; set; }
@@ -34,5 +43,6 @@ namespace QuestionsEntityClassLibrary
         public virtual ObservableCollection<Quest> Quests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Variant> Variants { get; set; }
+
     }
 }

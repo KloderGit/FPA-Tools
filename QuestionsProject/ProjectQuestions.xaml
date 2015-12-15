@@ -123,30 +123,32 @@
 
                 </StackPanel>
             </StackPanel>
-            <ListBox x:Name="listItems" Grid.Row="2" Margin="0,5,0,0" SelectionMode="Extended" ItemsSource="{Binding Path=Quests}">
-                <!--<ListBox.ItemsSource>
+            <ScrollViewer Grid.Row="2"  >
+                <ListBox x:Name="listItems" SelectionMode="Extended" ItemsSource="{Binding GetChildren}">
+                    <!--<ListBox.ItemsSource>
                     <Binding Converter="{StaticResource listSources}" ElementName="WrapperInfo" Path="DataContext"/>
                 </ListBox.ItemsSource>-->
-                <ListBox.Resources>
-                    <DataTemplate DataType="{x:Type kld:QuestItem}">
-                        <StackPanel>
-                            <TextBlock Text="{Binding Quest.Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333" />
-                            <TextBlock Text="{Binding Quest.Answers.Count}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type kld:Quest}">
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox IsChecked="{Binding Path=IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"/>
-                            <TextBlock Text="{Binding Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.Resources>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                        <EventSetter Event="Control.MouseDoubleClick" Handler="listItems_ListBoxItem_MouseDoubleClick"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
+                    <ListBox.Resources>
+                        <DataTemplate DataType="{x:Type kld:QuestItem}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Quest.Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333" />
+                                <TextBlock Text="{Binding Quest.Answers.Count}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type kld:Quest}">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"/>
+                                <TextBlock Text="{Binding Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.Resources>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                            <EventSetter Event="Control.MouseDoubleClick" Handler="listItems_ListBoxItem_MouseDoubleClick"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </ScrollViewer>
         </Grid>
     </Grid>
 </UserControl>
