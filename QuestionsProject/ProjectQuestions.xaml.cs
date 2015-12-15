@@ -185,7 +185,7 @@ namespace QuestionsProject
 
 
 //      Работа с Quest
-#region ---------------------   Variant  ----------------------------------
+#region ---------------------   Quest  ----------------------------------
 
         private void listItems_ListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
@@ -205,7 +205,7 @@ namespace QuestionsProject
             panelRight.txtWindowTitle.Text = "Редактирование Вопроса";
             panelRight.Owner = App.Current.MainWindow;
 
-            editQuests edit_object = new editQuests(_quest, _questionare);
+            editQuests edit_object = new editQuests(_quest);
             panelRight.forContent.Children.Add(edit_object);
 
             if (panelRight.ShowDialog() == true)
@@ -231,15 +231,61 @@ namespace QuestionsProject
             panelRight.txtWindowTitle.Text = "Добавление Вопроса";
             panelRight.Owner = App.Current.MainWindow;
 
-            editQuests edit_object = new editQuests(_quest, _questionare);
+            editQuests edit_object = new editQuests(_quest);
             panelRight.forContent.Children.Add(edit_object);
 
             if (panelRight.ShowDialog() == true)
             {
                 if (_questionare.addQuest(_quest)) {
+                    Console.WriteLine("Вопрос для Темы сохранен!");                    
+                }
+            }
+        }
+
+        private void addQuest111_Click(object sender, RoutedEventArgs e)
+        {
+            Chapter _chapter = (Chapter)((Button)sender).DataContext;
+
+            Quest _quest = new Quest();
+            _quest.Chapter = _chapter;
+            _quest.Chapter_Id = _chapter.Id;
+
+            WindowRight panelRight = new WindowRight();
+            panelRight.txtWindowTitle.Text = "Добавление Вопроса";
+            panelRight.Owner = App.Current.MainWindow;
+
+            editQuests edit_object = new editQuests(_quest);
+            panelRight.forContent.Children.Add(edit_object);
+
+            if (panelRight.ShowDialog() == true)
+            {
+                if (_questionare.addQuest(_quest))
+                {
                     Console.WriteLine("Вопрос для Темы сохранен!");
                 }
             }
+        }
+
+        private void removeQuest_Click(object sender, RoutedEventArgs e)
+        {
+            Chapter _chapter = (Chapter)((Button)sender).DataContext;
+
+            List<Quest> _quests = new List<Quest>();
+            foreach (var it in listItems.SelectedItems)
+            {
+                _quests.Add((Quest)it);
+                //Console.WriteLine(((Quest)it).Text);
+                //Console.WriteLine(it.GetType());
+
+            }
+
+
+            if (_questionare.removeQuests(_quests)) {
+                //_questionare.Reload(_chapter);
+                //Console.WriteLine(_chapter.Quests);
+            }
+
+
         }
 
 

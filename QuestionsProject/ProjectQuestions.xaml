@@ -105,6 +105,9 @@
 
                         <Button Content="Добавить вопросы" 
                             IsEnabled="{Binding DataContext, Converter={StaticResource BigButton}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}" Click="addQuest_Click"/>
+
+                        <Button Content="Удалить вопросы" 
+                            IsEnabled="{Binding DataContext, Converter={StaticResource BigButton}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}" Click="removeQuest_Click"/>
                     </StackPanel>
 
                 </Border>
@@ -120,10 +123,10 @@
 
                 </StackPanel>
             </StackPanel>
-            <ListBox x:Name="listItems" Grid.Row="2" Margin="0,5,0,0" SelectionMode="Extended">
-                <ListBox.ItemsSource>
+            <ListBox x:Name="listItems" Grid.Row="2" Margin="0,5,0,0" SelectionMode="Extended" ItemsSource="{Binding Path=Quests}">
+                <!--<ListBox.ItemsSource>
                     <Binding Converter="{StaticResource listSources}" ElementName="WrapperInfo" Path="DataContext"/>
-                </ListBox.ItemsSource>
+                </ListBox.ItemsSource>-->
                 <ListBox.Resources>
                     <DataTemplate DataType="{x:Type kld:QuestItem}">
                         <StackPanel>

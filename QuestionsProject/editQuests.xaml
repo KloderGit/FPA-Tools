@@ -11,9 +11,9 @@
         <TextBox x:Name="txtTitle" HorizontalAlignment="Left" Height="165" Margin="10,56,0,0" TextWrapping="Wrap" Text="{Binding Text}" VerticalAlignment="Top" Width="364" FontSize="13.333"/>
         <Label x:Name="label1" Content="Описание" HorizontalAlignment="Left" Margin="10,234,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
         <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="51" Margin="108,246,0,0" TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top" Width="266" FontSize="13.333"/>
-        <Button x:Name="button" Content="Добавить ответ" HorizontalAlignment="Left" Margin="592,15,0,0" VerticalAlignment="Top" Width="138" Height="26" Click="addAnswer_Click"/>
+        <Button x:Name="button" Content="Добавить ответ" HorizontalAlignment="Left" Margin="561,15,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="addAnswer_Click"/>
         <Label x:Name="label2" Content="Ответы на вопрос" HorizontalAlignment="Left" Margin="405,11,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
-        <ListBox x:Name="listAnswers" Margin="405,56,10,0" 
+        <ListBox x:Name="listAnswers" Margin="405,56,10,0" SelectionMode="Extended"
                  ItemsSource="{Binding Path=Answers}">
             <ListBox.ItemTemplate>
                 <DataTemplate>
@@ -21,5 +21,6 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
+        <Button Content="Удалить ответ" HorizontalAlignment="Left" Margin="663,15,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="removeAnswer_Click"/>
     </Grid>
 </UserControl>
