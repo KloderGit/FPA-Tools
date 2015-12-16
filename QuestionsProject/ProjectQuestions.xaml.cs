@@ -214,6 +214,7 @@ namespace QuestionsProject
             _tempQuest.Created = _quest.Created;
             _tempQuest.Editor = _quest.Editor;
             _tempQuest.Modify = _quest.Modify;
+            _tempQuest.QuestProrams = _quest.QuestProrams;
 
             _tempQuest.Answers = new System.Collections.ObjectModel.ObservableCollection<Answer>();
 

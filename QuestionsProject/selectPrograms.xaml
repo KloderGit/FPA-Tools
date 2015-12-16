@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="QuestionsProject.selectPrograms"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:kld="clr-namespace:QuestionsEntityClassLibrary;assembly=QuestionsEntityClassLibrary"
+             xmlns:local="clr-namespace:QuestionsProject"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="13"/>
+            <RowDefinition Height="60"/>
+            <RowDefinition Height="36"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <TextBlock x:Name="textBlock" TextWrapping="Wrap" Grid.Row="1" FontSize="21.333" FontWeight="Light"><Run Text="Теория и методика фитнес тренировки"/></TextBlock>
+        <Label x:Name="label" Content="Этот вопрос подходит для групп:" Grid.Row="2" FontSize="16" />
+        <ScrollViewer Grid.Row="3">
+            <ListBox x:Name="listBox" />
+        </ScrollViewer>
+    </Grid>
+</UserControl>
