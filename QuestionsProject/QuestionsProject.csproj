@@ -103,10 +103,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="editQuest.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="editQuests.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -124,9 +120,6 @@
     </Compile>
     <Compile Include="editChapter.xaml.cs">
       <DependentUpon>editChapter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="editQuest.xaml.cs">
-      <DependentUpon>editQuest.xaml</DependentUpon>
     </Compile>
     <Compile Include="editQuests.xaml.cs">
       <DependentUpon>editQuests.xaml</DependentUpon>

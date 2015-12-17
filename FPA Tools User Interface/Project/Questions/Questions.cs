@@ -12,19 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QuestionsProject;
 
-namespace QuestionsProject
+namespace FPA_Tools_User_Interface.Project.Questions
 {
-    /// <summary>
-    /// Interaction logic for editQuest.xaml
-    /// </summary>
-    public partial class editQuest : UserControl
+    class Questions
     {
-        public editQuest()
-        {
-            InitializeComponent();
+        ProjectQuestions _project = new ProjectQuestions();
 
-            PanelAnswers.Children.Add(new answerControl()); PanelAnswers.Children.Add(new answerControl()); PanelAnswers.Children.Add(new answerControl());
+        public UserControl getProject() {
+            return _project;
         }
+
+
     }
 }

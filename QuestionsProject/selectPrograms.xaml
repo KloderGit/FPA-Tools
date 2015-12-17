@@ -17,7 +17,7 @@
         <TextBlock x:Name="textBlock" TextWrapping="Wrap" Grid.Row="1" FontSize="21.333" FontWeight="Light"><Run Text="Теория и методика фитнес тренировки"/></TextBlock>
         <Label x:Name="label" Content="Этот вопрос подходит для групп:" Grid.Row="2" FontSize="16" />
         <ScrollViewer Grid.Row="3">
-            <ListBox x:Name="listBox" />
+            <ListBox x:Name="listBoxPrograms" />
         </ScrollViewer>
     </Grid>
 </UserControl>

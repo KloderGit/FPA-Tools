@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using QuestionsEntityClassLibrary;
+using System.Collections.ObjectModel;
 
 namespace QuestionsProject
 {
@@ -20,9 +22,41 @@ namespace QuestionsProject
     /// </summary>
     public partial class selectPrograms : UserControl
     {
+        Quest _quest;
+        ObservableCollection<Program> _allprograms;
+
         public selectPrograms()
         {
             InitializeComponent();
         }
+
+        public selectPrograms(Quest quest, ObservableCollection<Program> allprograms)
+        {
+            _quest = quest;
+            _allprograms = allprograms;
+
+            InitializeComponent();
+
+            listBoxPrograms.ItemsSource = aviablePrograms();
+        }
+
+        private ObservableCollection<Program> currentPrograms() {
+            ObservableCollection<Program> _addedPrograms = new ObservableCollection<Program>();
+
+            foreach (var item in _quest.QuestProrams)
+            {
+                _addedPrograms.Add(item.Program);
+            }
+
+            return _addedPrograms;
+        }
+
+
+        private IEnumerable<Program> aviablePrograms() {
+            return _allprograms.Except(currentPrograms());
+        }
+
+
+            
     }
 }

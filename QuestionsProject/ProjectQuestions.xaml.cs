@@ -222,7 +222,7 @@ namespace QuestionsProject
                 _tempQuest.Answers.Add(oc);
             }
 
-            editQuests edit_object = new editQuests(_tempQuest);
+            editQuests edit_object = new editQuests(_tempQuest, _questionare);
             panelRight.forContent.Children.Add(edit_object);
 
             if (panelRight.ShowDialog() == true)
@@ -261,7 +261,7 @@ namespace QuestionsProject
             panelRight.txtWindowTitle.Text = "Добавление Вопроса";
             panelRight.Owner = App.Current.MainWindow;
 
-            editQuests edit_object = new editQuests(_quest);
+            editQuests edit_object = new editQuests(_quest, _questionare);
             panelRight.forContent.Children.Add(edit_object);
 
             if (panelRight.ShowDialog() == true)
