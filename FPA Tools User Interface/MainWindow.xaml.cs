@@ -21,13 +21,17 @@ namespace FPA_Tools_User_Interface
     /// </summary>
     public partial class MainWindow : Window
     {
+        Questions QuestionsProject;
+
         public MainWindow()
         {
             InitializeComponent();
 
-            Questions QuestionsProject = new Questions();
+            QuestionsProject = new Questions();
 
-            Root.Children.Add(QuestionsProject.getProject());
+            QuestionareRoot.Children.Add(QuestionsProject.getProject());
         }
+
     }
+    
 }

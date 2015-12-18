@@ -27,6 +27,11 @@
 
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <EventSetter Event="Control.MouseDoubleClick" Handler="listAnswers_MouseDoubleClick"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
             </ListBox>
         </ScrollViewer>
         <Button Content="Удалить ответ" HorizontalAlignment="Left" Margin="663,8,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="removeAnswer_Click"/>

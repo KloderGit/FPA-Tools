@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using QuestionsEntityClassLibrary;
 using FPAControls;
+using System.ComponentModel;
 
 namespace QuestionsProject
 {
@@ -292,6 +293,20 @@ namespace QuestionsProject
             }
 
 
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            ListCollectionView cv = (ListCollectionView)CollectionViewSource.GetDefaultView(listItems.ItemsSource);
+            cv.SortDescriptions.Clear();
+            cv.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Descending));
+        }
+
+        private void button3_Click(object sender, RoutedEventArgs e)
+        {
+            ListCollectionView cv = (ListCollectionView)CollectionViewSource.GetDefaultView(listItems.ItemsSource);
+            cv.SortDescriptions.Clear();
+            cv.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
         }
 
 

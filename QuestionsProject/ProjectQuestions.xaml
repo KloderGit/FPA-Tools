@@ -16,15 +16,16 @@
         <local:ConverterWraperBigChapter x:Key="BigChapterWrapper"></local:ConverterWraperBigChapter>
         <local:ConverterWrapperBigVariant x:Key="BigVariantWrapper"></local:ConverterWrapperBigVariant>
         <local:ConverterForListItems x:Key="listSources"></local:ConverterForListItems>
-        <CollectionViewSource x:Key="ItemsForTreeViewMenu"
-                          Source="{Binding ElementName=Root, Path=DataContext}"  >
+        <CollectionViewSource 
+            x:Key="ItemsForTreeViewMenu"
+            Source="{Binding ElementName=Root, Path=DataContext}"  >
         </CollectionViewSource>
     </UserControl.Resources>
 
     <Grid x:Name="Root" Margin="0,0,-646,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="50"/>
-            <RowDefinition Height="50*"/>
+            <RowDefinition Height="11"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="321"/>
@@ -74,7 +75,7 @@
         </StackPanel>
 
 
-        <Grid x:Name="WrapperInfo" Grid.Column="1" Grid.Row="1" Grid.RowSpan="3" Margin="5,0" DataContext="{Binding ElementName=treeViewMenu, Path=SelectedItem}">
+        <Grid x:Name="WrapperInfo" Grid.Column="1" Grid.Row="1" Margin="5,0" DataContext="{Binding ElementName=treeViewMenu, Path=SelectedItem}">
             <Grid.RowDefinitions>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="40"/>
@@ -83,8 +84,8 @@
             <Grid Grid.Row="1">
                 <StackPanel Orientation="Horizontal">
                     <Button x:Name="button1" Content="Удалить выделенное" />
-                    <Button x:Name="button2" Content="Button" Width="75" />
-                    <Button x:Name="button3" Content="Button" Width="75" />
+                    <Button x:Name="button2" Content="Button" Width="75" Click="button2_Click" />
+                    <Button x:Name="button3" Content="Button" Width="75" Click="button3_Click" />
                     <Button x:Name="button4" Content="Button" Width="75" Click="button4_Click"/>
                 </StackPanel>
             </Grid>
@@ -124,13 +125,17 @@
                 </StackPanel>
             </StackPanel>
             <ScrollViewer Grid.Row="2"  >
-                <ListBox x:Name="listItems" SelectionMode="Extended" ItemsSource="{Binding GetChildren}">
+                <ListBox x:Name="listItems" 
+                         SelectionMode="Extended" 
+                         ItemsSource="{Binding Path=GetChildren}"
+                         IsSynchronizedWithCurrentItem="True">
                     <!--<ListBox.ItemsSource>
                     <Binding Converter="{StaticResource listSources}" ElementName="WrapperInfo" Path="DataContext"/>
                 </ListBox.ItemsSource>-->
                     <ListBox.Resources>
                         <DataTemplate DataType="{x:Type kld:QuestItem}">
                             <StackPanel>
+                                <TextBlock Text="{Binding Order}"/>
                                 <TextBlock Text="{Binding Quest.Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333" />
                                 <TextBlock Text="{Binding Quest.Answers.Count}"/>
                             </StackPanel>
