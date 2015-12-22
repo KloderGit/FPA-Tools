@@ -6,9 +6,10 @@
              xmlns:local="clr-namespace:QuestionsProject"
              xmlns:kld="clr-namespace:QuestionsEntityClassLibrary;assembly=QuestionsEntityClassLibrary"
              mc:Ignorable="d" Height="343.877" Width="782">
+
     <Grid x:Name="RootQuest" Height="331" >
         <Label x:Name="label" Content="Текст вопроса" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,4,0,0" FontSize="16" FontWeight="Light"/>
-        <TextBox x:Name="txtTitle" HorizontalAlignment="Left" Height="165" Margin="10,49,0,0" TextWrapping="Wrap" Text="{Binding Text}" VerticalAlignment="Top" Width="364" FontSize="13.333"/>
+        <TextBox x:Name="txtTitle" HorizontalAlignment="Left" Height="165" Margin="10,49,0,0" TextWrapping="Wrap" Text="{Binding Text}" VerticalAlignment="Top" Width="364" />
         <Label x:Name="label1" Content="Описание" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
         <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="51" Margin="108,239,0,0" TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top" Width="266" FontSize="13.333"/>
         <Button x:Name="button" Content="Добавить ответ" HorizontalAlignment="Left" Margin="561,8,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="addAnswer_Click"/>
@@ -65,7 +66,7 @@
             </Grid.RowDefinitions>
             <Rectangle Fill="#FF2E72A0"/>
             <Rectangle Grid.RowSpan="4" Stroke="#FF3D78BD"/>
-            <TextBlock TextWrapping="Wrap" Text="Вопрос темы: Теория и методика фитнес тренировки" Grid.Row="1" Margin="67,5,9,6" VerticalAlignment="Center" Height="32" Padding="7,0,0,0"/>
+            <TextBlock TextWrapping="Wrap" Text="{Binding Path=Chapter.Text}" Grid.Row="1" Margin="67,5,9,6" VerticalAlignment="Center" Height="32" Padding="7,0,0,0"/>
             <Label x:Name="label3" Content="Специальный вопрос для группы" Grid.Row="2" VerticalAlignment="Center" Margin="67,2,4,0" Height="25" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
             <ListBox x:Name="listPrograms" Grid.Row="3" Margin="5,0,5,5">
                 <ListBox.ItemTemplate>

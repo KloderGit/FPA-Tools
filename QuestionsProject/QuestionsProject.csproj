@@ -116,6 +116,9 @@
     <Compile Include="answerControl.xaml.cs">
       <DependentUpon>answerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\ConverterForMissingQuestinVariant.cs" />
+    <Compile Include="Converters\ConverterButtonForVariant.cs" />
+    <Compile Include="Converters\ConverterButtonForChapter.cs" />
     <Compile Include="Converters\ConverterForListItems.cs" />
     <Compile Include="Converters\BigButtonConverter.cs" />
     <Compile Include="Converters\ConverterWraperBigChapter.cs" />

@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using QuestionsEntityClassLibrary;
 using FPAControls;
 using System.ComponentModel;
+using System.Collections;
 
 namespace QuestionsProject
 {
@@ -268,7 +269,8 @@ namespace QuestionsProject
             if (panelRight.ShowDialog() == true)
             {
                 if (_questionare.addQuest(_quest)) {
-                    Console.WriteLine("Вопрос для Темы сохранен!");                    
+                    Console.WriteLine("Вопрос для Темы сохранен!");
+                    var ctx = WrapperInfo.DataContext; WrapperInfo.DataContext = null; WrapperInfo.DataContext = ctx;
                 }
             }
         }
@@ -308,6 +310,89 @@ namespace QuestionsProject
             cv.SortDescriptions.Clear();
             cv.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
         }
+
+        private void addQuestIntoVariant_Click(object sender, RoutedEventArgs e)
+        {
+            Variant _variant = (Variant)(((Button)sender).DataContext);
+            Chapter _chapter = _variant.Chapter;
+
+            Quest _quest = new Quest();
+            _quest.Chapter = _chapter;
+            _quest.Chapter_Id = _chapter.Id;
+
+            WindowRight panelRight = new WindowRight();
+            panelRight.txtWindowTitle.Text = "Добавление Вопроса";
+            panelRight.Owner = App.Current.MainWindow;
+
+            editQuests edit_object = new editQuests(_quest, _questionare);
+            panelRight.forContent.Children.Add(edit_object);
+
+            if (panelRight.ShowDialog() == true)
+            {
+                if (_questionare.addQuest(_quest))
+                {
+                    QuestItem _questItem = new QuestItem();
+                    _questItem.Quest = _quest;
+                    _questItem.Quest_Id = _quest.Id;
+
+                    _questItem.Modify = DateTime.Now;
+                    _questItem.Created = DateTime.Now;
+
+                    _variant.QuestItems.Add(_questItem);
+
+                    if (_questionare.editVariant(_variant)) { Console.WriteLine("Вопрос для Варианта добавлен!"); var ctx = WrapperInfo.DataContext; WrapperInfo.DataContext = null; WrapperInfo.DataContext = ctx; }
+                }
+            }
+        }
+
+        private void addRandomQuest(object sender, RoutedEventArgs e)
+        {
+            Random rand = new Random(DateTime.Now.Millisecond);
+
+            Variant _variant = (Variant)((Button)sender).DataContext;
+
+            var _missing = listBoxQuests.ItemsSource.Cast<Quest>().ToList();
+            Console.WriteLine(_missing.Count);
+
+            int quest_count =15;
+
+            if (quest_count > _missing.Count()) { quest_count = _missing.Count(); }
+
+            Console.WriteLine(" минусы ");
+            foreach (var item in _missing)
+            {
+                Console.WriteLine(item.Text);
+            }
+
+            Console.WriteLine(" Перенос ");
+
+
+            int ui =0;
+            while (_missing.Count > 0)
+            {
+                int c = _missing.Count;
+                int rnd = rand.Next(0, c);
+                var SelectedId = _missing.ElementAt(rnd);
+                Console.WriteLine(SelectedId.Text);
+
+                _missing.Remove(SelectedId);
+                ui++;
+                if (ui == 3) { break; }
+            }
+
+            Console.WriteLine(_missing.Count);
+
+
+        }
+
+        private void showPaneladdQuestItem(object sender, RoutedEventArgs e)
+        {
+            if (PaneladdQuestItem.Visibility == Visibility.Visible) { PaneladdQuestItem.Visibility = Visibility.Collapsed; }
+            if (PaneladdQuestItem.Visibility == Visibility.Collapsed) { PaneladdQuestItem.Visibility = Visibility.Visible; }
+        }
+
+
+
 
 
         #endregion
