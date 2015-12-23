@@ -348,40 +348,73 @@ namespace QuestionsProject
         private void addRandomQuest(object sender, RoutedEventArgs e)
         {
             Random rand = new Random(DateTime.Now.Millisecond);
-
             Variant _variant = (Variant)((Button)sender).DataContext;
+            
+            int maximum_in_variant = 100;   //  Максимум
+            var current_in_variant = (from i in _variant.QuestItems select i.Quest).ToList();  //  Существуют
+            var selected_in_panel = listBoxQuests.SelectedItems.Cast<Quest>().ToList();
+            //var missing_in_variant = listBoxQuests.ItemsSource.Cast<Quest>().ToList();     //  Выделены
+            int count_to_add = 0;
 
-            var _missing = listBoxQuests.ItemsSource.Cast<Quest>().ToList();
-            Console.WriteLine(_missing.Count);
+            if (selected_in_panel.Count > 0)
+            {
+                count_to_add = selected_in_panel.Count;
+                if (maximum_in_variant - current_in_variant.Count < selected_in_panel.Count) { count_to_add = maximum_in_variant - current_in_variant.Count; }
+                else {
+                    foreach (var item in selected_in_panel)
+                    {
+                        QuestItem _questItem = new QuestItem();
+                        _questItem.Created = DateTime.Now;
+                        _questItem.Modify = DateTime.Now;
+                        _questItem.Quest = item;
+                        _questItem.Quest_Id = item.Id;
 
-            int quest_count =15;
+                        _variant.QuestItems.Add(_questItem);
 
-            if (quest_count > _missing.Count()) { quest_count = _missing.Count(); }
+                        var wc = WrapperInfo.DataContext; WrapperInfo.DataContext = null; WrapperInfo.DataContext = wc;
+                    }
 
-            Console.WriteLine(" минусы ");
-            foreach (var item in _missing)
+                    _questionare.editVariant(_variant);
+                }
+            }
+            else {
+
+            }
+
+
+            foreach (var item in selected_in_panel)
             {
                 Console.WriteLine(item.Text);
             }
 
-            Console.WriteLine(" Перенос ");
+            //var current_in_variant = listBoxQuests.ItemsSource.Cast<Quest>().ToList();
 
 
-            int ui =0;
-            while (_missing.Count > 0)
-            {
-                int c = _missing.Count;
-                int rnd = rand.Next(0, c);
-                var SelectedId = _missing.ElementAt(rnd);
-                Console.WriteLine(SelectedId.Text);
+            //Console.WriteLine(_missing.Count);
 
-                _missing.Remove(SelectedId);
-                ui++;
-                if (ui == 3) { break; }
-            }
+            //int quest_count =15;
 
-            Console.WriteLine(_missing.Count);
+            //if (quest_count > _missing.Count()) { quest_count = _missing.Count(); }
 
+            //int ui =0;
+            //while (_missing.Count > 0)
+            //{
+            //    int c = _missing.Count;
+            //    int rnd = rand.Next(0, c);
+            //    var SelectedId = _missing.ElementAt(rnd);
+            //    Console.WriteLine(SelectedId.Text);
+
+            //    _missing.Remove(SelectedId);
+            //    ui++;
+            //    if (ui == 3) { break; }
+            //}
+
+            //Console.WriteLine(_missing.Count);
+
+
+        }
+
+        private void addQuestItems_in_variants() {
 
         }
 
