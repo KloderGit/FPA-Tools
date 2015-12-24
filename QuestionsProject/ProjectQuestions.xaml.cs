@@ -16,6 +16,7 @@ using QuestionsEntityClassLibrary;
 using FPAControls;
 using System.ComponentModel;
 using System.Collections;
+using System.Windows.Media.Animation;
 
 namespace QuestionsProject
 {
@@ -36,14 +37,17 @@ namespace QuestionsProject
 
         private void treeViewMenu_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
+            if (treeViewMenu.SelectedItem is Chapter) { hideRightPanel(); }
+            if (treeViewMenu.SelectedItem is Variant) { showRightPanel(); }
+
             //Console.WriteLine(WrapperInfo.DataContext);
             //WrapperInfo.DataContext = treeViewMenu.SelectedItem;
         }
 
 
 
-//      Работа с Chapter 
-#region ---------------------   Chapter  ----------------------------------
+        //      Работа с Chapter 
+        #region ---------------------   Chapter  ----------------------------------
 
         private void editChapter_Click(object sender, RoutedEventArgs e)
         {
@@ -297,18 +301,18 @@ namespace QuestionsProject
 
         }
 
-        private void button2_Click(object sender, RoutedEventArgs e)
+        private void showRightPanel()
         {
-            ListCollectionView cv = (ListCollectionView)CollectionViewSource.GetDefaultView(listItems.ItemsSource);
-            cv.SortDescriptions.Clear();
-            cv.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Descending));
+            //ShadowPanel.Visibility = Visibility.Visible;
+            Storyboard sb = Resources["sbShowRightMenu"] as Storyboard;
+            sb.Begin(PaneladdQuestItem);
         }
 
-        private void button3_Click(object sender, RoutedEventArgs e)
+        private void hideRightPanel()
         {
-            ListCollectionView cv = (ListCollectionView)CollectionViewSource.GetDefaultView(listItems.ItemsSource);
-            cv.SortDescriptions.Clear();
-            cv.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
+            //ShadowPanel.Visibility = Visibility.Hidden;
+            Storyboard sb = Resources["sbHideRightMenu"] as Storyboard;
+            sb.Begin(PaneladdQuestItem);
         }
 
         private void addQuestIntoVariant_Click(object sender, RoutedEventArgs e)
@@ -444,6 +448,12 @@ namespace QuestionsProject
                     MessageBox.Show("Успешно удалены", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
                 }
             }
+
+        }
+
+        private void hidePanel(object sender, RoutedEventArgs e)
+        {
+            hideRightPanel();
 
         }
 
