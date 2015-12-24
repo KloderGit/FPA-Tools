@@ -10,6 +10,35 @@
              d:DesignHeight="300" d:DesignWidth="300">
 
     <UserControl.Resources>
+
+        <Style x:Key="Flat" TargetType="Button">
+            <Setter Property="Control.Background" Value="{x:Null}" />
+            <Setter Property="Control.BorderBrush" Value="{x:Null}" />
+            <Style.Triggers>
+                <Trigger Property="Control.IsMouseOver" Value="True">
+                    <Setter Property="Control.Background" Value="{x:Null}" />
+                    <Setter Property="Control.BorderBrush" Value="{x:Null}" />
+                    <Setter Property="Control.FontWeight" Value="Normal" />
+                    <Setter Property="Control.Foreground" Value="Blue" />
+                </Trigger>
+                <Trigger Property="Control.IsFocused" Value="True">
+                    <Setter Property="Control.FontWeight" Value="Normal" />
+                </Trigger>
+                <Trigger Property="Control.IsEnabled" Value="False">
+                    <Setter Property="Control.Background" Value="BlueViolet" />
+                    <Setter Property="Control.BorderBrush" Value="{x:Null}" />
+                    <Setter Property="Control.FontWeight" Value="Normal" />
+                    <Setter Property="Control.Foreground" Value="Gray" />
+                    <Setter Property="Control.Opacity" Value=".5" />
+
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <ObjectDataProvider x:Key="get" MethodName="getDifferent"
+                            ObjectInstance="{x:Type local:ProjectQuestions}" >
+        </ObjectDataProvider>
+
         <local:TitleConverter x:Key="BigTitle"></local:TitleConverter>
         <local:DescriptionConverter x:Key="BigDescription"></local:DescriptionConverter>
 
@@ -32,15 +61,15 @@
             Source="{Binding ElementName=Root, Path=DataContext}"  >
         </CollectionViewSource>
 
-        <CollectionViewSource Source="{Binding}" x:Key="missingQuestList">
+        <CollectionViewSource Source="{StaticResource get}" x:Key="missingQuestList">
         </CollectionViewSource>
 
     </UserControl.Resources>
 
     <Grid x:Name="Root" Margin="0,0,-823,0">
         <Grid.RowDefinitions>
-            <RowDefinition Height="73"/>
-            <RowDefinition Height="14"/>
+            <RowDefinition Height="85"/>
+            <RowDefinition Height="16"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -93,6 +122,12 @@
                 <Button x:Name="button3" Content="Button" Width="75" Click="button3_Click" />
                 <Button x:Name="button4" Content="Button" Width="75" Click="button4_Click"/>
             </StackPanel>
+
+            <ListBox x:Name="lstInfo" 
+                     ItemsSource="{Binding Source={StaticResource get}}" Height="138">
+            </ListBox>
+            <Button />
+
         </StackPanel>
 
 
@@ -120,35 +155,47 @@
                      Text="{Binding DataContext, Converter={StaticResource BigDescription}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}"/>
                 </StackPanel>
             </StackPanel>
-            <ListBox x:Name="listItems" Grid.Row="1"
-                         SelectionMode="Extended" 
-                         ItemsSource="{Binding Path=GetChildren}"
-                         IsSynchronizedWithCurrentItem="True" Width="700" HorizontalAlignment="Left">
-                <!--<ListBox.ItemsSource>
+            <Grid Grid.Row="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <ListBox x:Name="listItems" Grid.Row="0"
+            		SelectionMode="Extended" 
+            		ItemsSource="{Binding GetChildren}"
+            		IsSynchronizedWithCurrentItem="True" Width="535" HorizontalAlignment="Left">
+                    <!--<ListBox.ItemsSource>
                     <Binding Converter="{StaticResource listSources}" ElementName="WrapperInfo" Path="DataContext"/>
                 </ListBox.ItemsSource>-->
-                <ListBox.Resources>
-                    <DataTemplate DataType="{x:Type kld:QuestItem}">
-                        <StackPanel>
-                            <TextBlock Text="{Binding Order}"/>
-                            <TextBlock Text="{Binding Quest.Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333" />
-                            <TextBlock Text="{Binding Quest.Answers.Count}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                    <DataTemplate DataType="{x:Type kld:Quest}">
-                        <StackPanel Orientation="Horizontal">
-                            <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"/>
-                            <TextBlock Text="{Binding Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.Resources>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                        <EventSetter Event="Control.MouseDoubleClick" Handler="listItems_ListBoxItem_MouseDoubleClick"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
-            <Border x:Name="PaneladdQuestItem" Visibility="Collapsed" BorderBrush="#FF4180B4" BorderThickness="3,5,0,0" Grid.Column="1" Grid.Row="1" 
+                    <ListBox.Resources>
+                        <DataTemplate DataType="{x:Type kld:QuestItem}">
+                            <StackPanel>
+                                <TextBlock Text="{Binding Order}"/>
+                                <TextBlock Text="{Binding Quest.Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333" />
+                                <TextBlock Text="{Binding Quest.Answers.Count}"/>
+                            </StackPanel>
+                        </DataTemplate>
+                        <DataTemplate DataType="{x:Type kld:Quest}">
+                            <StackPanel Orientation="Horizontal">
+                                <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"/>
+                                <TextBlock Text="{Binding Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333"/>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.Resources>
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                            <EventSetter Event="Control.MouseDoubleClick" Handler="listItems_ListBoxItem_MouseDoubleClick"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+                <StackPanel Orientation="Horizontal" Grid.Row="1">
+                    <TextBlock Text="Количество вопросов:"/>
+                    <TextBlock Text="{Binding ElementName=listItems, Path=ItemsSource.Count}"/>
+                </StackPanel>
+            </Grid>
+
+
+            <Border x:Name="PaneladdQuestItem" BorderBrush="#FF4180B4" BorderThickness="3,5,0,0" Grid.Column="1" Grid.Row="1" 
                     Margin="5,0,0,0" Padding="5,10,5,0" Background="White" 
                     Width="400">
                 <Grid>
@@ -158,7 +205,7 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <TextBlock x:Name="textBlock1" TextWrapping="Wrap" Text="TextBlock"/>
-                    <Button x:Name="button" Content="Random" HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="52" Height="21" Click="addRandomQuest"/>
+                    <Button x:Name="button" Content="Random"  HorizontalAlignment="Left" Grid.Row="1" VerticalAlignment="Top" Width="52" Height="21" Click="addRandomQuest"/>
                     <ListBox x:Name="listBoxQuests" Grid.Row="2" IsSynchronizedWithCurrentItem="True"
                              SelectionMode="Extended"
                              ItemsSource="{Binding Converter={StaticResource listMissingQuests}}" >
@@ -179,59 +226,77 @@
         <Border BorderThickness="1" Background="#FF427CA4">
             <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Опросник" VerticalAlignment="Bottom" Padding="15,0,0,5" Foreground="White" FontSize="21.333" FontWeight="Light"/>
         </Border>
-        <Border BorderThickness="1" Grid.Column="1" Background="#FF3B9AC7">
+        <Border BorderThickness="1" Grid.Column="1" Background="#FF67A2BD">
             <StackPanel Orientation="Horizontal">
                 <StackPanel Width="auto">
                     <TextBox Text="Темы" VerticalAlignment="Top" Foreground="White" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Background="{x:Null}" FontSize="10.667" Margin="0" HorizontalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal" Margin="5,0,0,0">
-                        <Button 
-                                Height="30"
+                        <Button Style="{StaticResource Flat}"                                
                                 Margin="0,0,5,0"
                                 IsEnabled="{Binding ElementName=Root, 
                                             Path=DataContext, 
                                             Converter={StaticResource
-                                            BigButton}}" Content="Сзд.Тему"             
-                                            Click="addChapter_Click"/>
+                                            BigButton}}"              
+                                            Click="addChapter_Click">
+                            <ContentControl>
+                                <StackPanel>
+                                    <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\newChapter.png" Width="30"/>
+                                    <TextBlock Text="Создать" FontSize="10.667" Foreground="White"/>
+                                </StackPanel>
+                            </ContentControl>
+                        </Button>
 
-                        <Button 
-                                Height="30"
+                        <Button Style="{DynamicResource Flat}" 
                                 Margin="0,0,5,0"
                                 IsEnabled="{Binding ElementName=WrapperInfo, 
                                             Path=DataContext, 
                                             Converter={StaticResource
-                                            ButtonForChapter}}" Content="Ред. Тему"
+                                            ButtonForChapter}}" 
                                 DataContext="{Binding DataContext, 
                                             Converter={StaticResource
                                             BigChapterWrapper}, 
                                             ElementName=WrapperInfo, 
                                             Mode=TwoWay}" 
-                                            Click="editChapter_Click"/>
-                        <Button 
-                                Height="30"
+                                            Click="editChapter_Click">
+                            <ContentControl Padding="3">
+                                <StackPanel>
+                                    <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\edit.png" Width="30"/>
+                                    <TextBlock Text="Редактировать" FontSize="10.667" Foreground="White"/>
+                                </StackPanel>
+                            </ContentControl>
+                        </Button>
+                        <Button Style="{StaticResource Flat}"
                                 Margin="0,0,5,0"
                                 IsEnabled="{Binding ElementName=WrapperInfo, 
                                             Path=DataContext, 
                                             Converter={StaticResource
-                                            ButtonForChapter}}" Content="Удл. Тему"
+                                            ButtonForChapter}}" 
                                 DataContext="{Binding DataContext, 
                                             Converter={StaticResource
                                             BigChapterWrapper}, 
                                             ElementName=WrapperInfo, 
                                             Mode=TwoWay}" 
-                                            Click="removeChapter_Click"/>
+                                            Click="removeChapter_Click">
+                            <ContentControl>
+                                <StackPanel>
+                                    <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\remove.png" Width="30"/>
+                                    <TextBlock Text="Удалить" FontSize="10.667" Foreground="White"/>
+                                </StackPanel>
+                            </ContentControl>
+                        </Button>
                     </StackPanel>
                 </StackPanel>
                 <Rectangle HorizontalAlignment="Center" VerticalAlignment="Center" Width="1" Stroke="#FFA0D4F1" StrokeThickness="2" Margin="0,0,5,0" Height="40"/>
                 <StackPanel Width="auto">
                     <TextBox Text="Варианты" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Background="{x:Null}" FontSize="10.667" Margin="0"/>
                     <StackPanel Orientation="Horizontal">
-                        <Button 
+                         <Button Style="{StaticResource Flat}"
                                 Height="30"
                                 Margin="0,0,5,0"
                                 IsEnabled="{Binding ElementName=WrapperInfo, 
                                             Path=DataContext, 
                                             Converter={StaticResource
-                                            ButtonForChapter}}" Content="Сзд.Вариант"
+                                            ButtonForChapter}}" 
                                 DataContext="{Binding DataContext, 
                                             Converter={StaticResource
                                             BigChapterWrapper}, 
@@ -239,110 +304,166 @@
                                             Mode=TwoWay}" 
                                             Click="addVariant_Click"/>
 
-                        <Button 
-                                Height="30"
+                        <Button Style="{StaticResource Flat}"
                                 Margin="0,0,5,0"
                                 IsEnabled="{Binding ElementName=WrapperInfo, 
                                             Path=DataContext, 
                                             Converter={StaticResource
                                             ButtonForVariant}}" 
-                                Content="Ред.Вариант"
                                 DataContext="{Binding DataContext, 
                                             Converter={StaticResource
                                             BigVariantWrapper}, 
                                             ElementName=WrapperInfo, 
                                             Mode=TwoWay}" 
-                                            Click="editVariant"/>
-                        <Button 
-                                Height="30"
+                                            Click="editVariant">
+                            <ContentControl>
+                                <StackPanel>
+                                    <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\newVariants.png" Width="30"/>
+                                    <TextBlock Text="Добавить" FontSize="10.667" Foreground="White"/>
+                                </StackPanel>
+                            </ContentControl>
+                        </Button>
+                        <Button Style="{StaticResource Flat}"
                                 Margin="0,0,5,0"
                                 IsEnabled="{Binding ElementName=WrapperInfo, 
                                             Path=DataContext, 
                                             Converter={StaticResource
-                                            ButtonForVariant}}" Content="Удл.Вариант"
+                                            ButtonForVariant}}" 
                                 DataContext="{Binding DataContext, 
                                             Converter={StaticResource
                                             BigVariantWrapper}, 
                                             ElementName=WrapperInfo, 
                                             Mode=TwoWay}" 
-                                            Click="removeVariant_Click"/>
+                                            Click="removeVariant_Click">
+                            <ContentControl>
+                                <StackPanel>
+                                    <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\remove.png" Width="30"/>
+                                    <TextBlock Text="Удалить" FontSize="10.667" Foreground="White"/>
+                                </StackPanel>
+                            </ContentControl>
+                        </Button>
 
-                        <Button 
-                                Height="30"
+                        <Button Style="{StaticResource Flat}"
                                 Margin="0,0,5,0"
                                 IsEnabled="{Binding ElementName=WrapperInfo, 
                                             Path=DataContext, 
                                             Converter={StaticResource
                                             ButtonForVariant}}"     
-                                Content="Сзд.Вопрос"
                                 DataContext="{Binding DataContext, 
                                             Converter={StaticResource
                                             BigVariantWrapper}, 
                                             ElementName=WrapperInfo, 
                                             Mode=TwoWay}" 
-                                            Click="addQuestIntoVariant_Click"/>
+                                            Click="addQuestIntoVariant_Click">
+                            <ContentControl>
+                                <StackPanel>
+                                    <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\addItem.png" Width="30"/>
+                                    <TextBlock Text="+ Вопрос" FontSize="10.667" Foreground="White"/>
+                                </StackPanel>
+                            </ContentControl>                            
+                        </Button>
 
-                        <Button   
-                                Height="30"
+                        <Button Style="{StaticResource Flat}"   
                                 Margin="0,0,5,0"
                                 IsEnabled="{Binding ElementName=WrapperInfo, 
                                             Path=DataContext, 
                                             Converter={StaticResource
                                             ButtonForVariant}}"     
-                                Content="Сварить" 
                                 DataContext="{Binding DataContext, 
                                             Converter={StaticResource
                                             BigVariantWrapper}, 
                                             ElementName=WrapperInfo, 
-                                            Mode=TwoWay}"  Click="showPaneladdQuestItem"/>
+                                            Mode=TwoWay}"  Click="removeQuestItems_Click">
+                            <ContentControl>
+                                <StackPanel>
+                                    <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\removeVariant.png" Width="30"/>
+                                    <TextBlock Text="- Вопросы" FontSize="10.667" Foreground="White"/>
+                                </StackPanel>
+                            </ContentControl>
+                        </Button>
+
+                        <Button Style="{StaticResource Flat}"  
+                                Margin="0,0,5,0"
+                                IsEnabled="{Binding ElementName=WrapperInfo, 
+                                            Path=DataContext, 
+                                            Converter={StaticResource
+                                            ButtonForVariant}}"     
+                                DataContext="{Binding DataContext, 
+                                            Converter={StaticResource
+                                            BigVariantWrapper}, 
+                                            ElementName=WrapperInfo, 
+                                            Mode=TwoWay}"  Click="showPaneladdQuestItem">
+                            <ContentControl>
+                                <StackPanel>
+                                    <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\newVariants.png" Width="30"/>
+                                    <TextBlock Text="Сгенерировать" FontSize="10.667" Foreground="White"/>
+                                </StackPanel>
+                            </ContentControl>
+                        </Button>
                     </StackPanel>
                 </StackPanel>
                 <Rectangle HorizontalAlignment="Center" VerticalAlignment="Center" Width="1" Stroke="#FFA0D4F1" StrokeThickness="2" Margin="0,0,5,0" Height="40"/>
                 <StackPanel Width="auto">
                     <TextBox Text="Вопросы" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White" BorderBrush="{x:Null}" SelectionBrush="{x:Null}" Background="{x:Null}" FontSize="10.667" Margin="0"/>
                     <StackPanel Orientation="Horizontal">
-                        <Button 
-                                Height="30"
+                        <Button Style="{StaticResource Flat}"
                                 Margin="0,0,5,0"
                                 IsEnabled="{Binding ElementName=WrapperInfo, 
                                             Path=DataContext, 
                                             Converter={StaticResource
-                                            ButtonForChapter}}" Content="Сзд.Вопрос"
+                                            ButtonForChapter}}" 
                                 DataContext="{Binding DataContext, 
                                             Converter={StaticResource
                                             BigChapterWrapper}, 
                                             ElementName=WrapperInfo, 
                                             Mode=TwoWay}" 
-                                            Click="addQuest_Click"/>
+                                            Click="addQuest_Click">
+                            <ContentControl>
+                                <StackPanel>
+                                    <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\addItem.png" Width="30"/>
+                                    <TextBlock Text="Создать" FontSize="10.667" Foreground="White"/>
+                                </StackPanel>
+                            </ContentControl>
+                        </Button>
 
-                        <Button 
-                                Height="30"
+                        <Button Style="{StaticResource Flat}"
                                 Margin="0,0,5,0"
                                 IsEnabled="{Binding ElementName=WrapperInfo, 
                                             Path=DataContext, 
                                             Converter={StaticResource
-                                            ButtonForChapter}}" Content="Ред.Вопрос"
+                                            ButtonForChapter}}" 
                                 DataContext="{Binding DataContext, 
                                             Converter={StaticResource
                                             BigChapterWrapper}, 
                                             ElementName=WrapperInfo, 
                                             Mode=TwoWay}" 
-                                            Click="editChapter_Click"/>
-                        <Button 
-                                Height="30"
+                                            Click="editChapter_Click">
+                            <ContentControl>
+                                <StackPanel>
+                                    <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\edit.png" Width="30"/>
+                                    <TextBlock Text="Редактировать" FontSize="10.667" Foreground="White"/>
+                                </StackPanel>
+                            </ContentControl>                            
+                        </Button>
+                        <Button Style="{StaticResource Flat}"
                                 Margin="0,0,5,0"
                                 IsEnabled="{Binding ElementName=WrapperInfo, 
                                             Path=DataContext, 
                                             Converter={StaticResource
-                                            ButtonForChapter}}" Content="Удл.Вопрос"
+                                            ButtonForChapter}}" 
                                 DataContext="{Binding DataContext, 
                                             Converter={StaticResource
                                             BigChapterWrapper}, 
                                             ElementName=WrapperInfo, 
                                             Mode=TwoWay}" 
-                                            Click="removeQuest_Click"/>
-                        <Button Width="40" Height="30" Margin="0,0,5,0"/>
-                        <Button Width="40" Height="30" Margin="0,0,5,0"/>
+                                            Click="removeQuest_Click">
+                            <ContentControl>
+                                <StackPanel>
+                                    <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\remove.png" Width="30"/>
+                                    <TextBlock Text="Удалить" FontSize="10.667" Foreground="White"/>
+                                </StackPanel>
+                            </ContentControl>
+                        </Button>
                     </StackPanel>
                 </StackPanel>
             </StackPanel>

@@ -346,76 +346,78 @@ namespace QuestionsProject
         }
 
         private void addRandomQuest(object sender, RoutedEventArgs e)
-        {
-            Random rand = new Random(DateTime.Now.Millisecond);
+        {          
             Variant _variant = (Variant)((Button)sender).DataContext;
             
-            int maximum_in_variant = 100;   //  Максимум
+            int maximum_in_variant = 5;   //  Максимум
             var current_in_variant = (from i in _variant.QuestItems select i.Quest).ToList();  //  Существуют
-            var selected_in_panel = listBoxQuests.SelectedItems.Cast<Quest>().ToList();
-            //var missing_in_variant = listBoxQuests.ItemsSource.Cast<Quest>().ToList();     //  Выделены
+            var selected_in_panel = listBoxQuests.SelectedItems.Cast<Quest>().ToList();         //  Выделены
+            var missing_in_variant = listBoxQuests.ItemsSource.Cast<Quest>().ToList();          //  Отсутствуют
             int count_to_add = 0;
 
             if (selected_in_panel.Count > 0)
             {
-                count_to_add = selected_in_panel.Count;
-                if (maximum_in_variant - current_in_variant.Count < selected_in_panel.Count) { count_to_add = maximum_in_variant - current_in_variant.Count; }
-                else {
-                    foreach (var item in selected_in_panel)
+                if (maximum_in_variant - current_in_variant.Count < selected_in_panel.Count)
+                {
+                    if (maximum_in_variant - current_in_variant.Count > 0)
                     {
-                        QuestItem _questItem = new QuestItem();
-                        _questItem.Created = DateTime.Now;
-                        _questItem.Modify = DateTime.Now;
-                        _questItem.Quest = item;
-                        _questItem.Quest_Id = item.Id;
-
-                        _variant.QuestItems.Add(_questItem);
-
-                        var wc = WrapperInfo.DataContext; WrapperInfo.DataContext = null; WrapperInfo.DataContext = wc;
+                        count_to_add = maximum_in_variant - current_in_variant.Count;
+                        addQuestItems_in_variants(count_to_add, selected_in_panel, _variant);
                     }
-
-                    _questionare.editVariant(_variant);
+                    else
+                    {
+                        Console.WriteLine("Вариант заполнен!");
+                    }
+                }
+                else
+                {
+                    count_to_add = selected_in_panel.Count;
+                    addQuestItems_in_variants(count_to_add, selected_in_panel, _variant);
                 }
             }
             else {
-
+                if (maximum_in_variant - current_in_variant.Count < missing_in_variant.Count)
+                {
+                    if (maximum_in_variant - current_in_variant.Count > 0)
+                    {
+                        count_to_add = maximum_in_variant - current_in_variant.Count;
+                        addQuestItems_in_variants(count_to_add, missing_in_variant, _variant);
+                    }
+                    else
+                    {
+                        Console.WriteLine("Вариант заполнен!");
+                    }
+                }
+                else
+                {
+                    count_to_add = missing_in_variant.Count;
+                    addQuestItems_in_variants(count_to_add, missing_in_variant, _variant);
+                }
             }
-
-
-            foreach (var item in selected_in_panel)
-            {
-                Console.WriteLine(item.Text);
-            }
-
-            //var current_in_variant = listBoxQuests.ItemsSource.Cast<Quest>().ToList();
-
-
-            //Console.WriteLine(_missing.Count);
-
-            //int quest_count =15;
-
-            //if (quest_count > _missing.Count()) { quest_count = _missing.Count(); }
-
-            //int ui =0;
-            //while (_missing.Count > 0)
-            //{
-            //    int c = _missing.Count;
-            //    int rnd = rand.Next(0, c);
-            //    var SelectedId = _missing.ElementAt(rnd);
-            //    Console.WriteLine(SelectedId.Text);
-
-            //    _missing.Remove(SelectedId);
-            //    ui++;
-            //    if (ui == 3) { break; }
-            //}
-
-            //Console.WriteLine(_missing.Count);
-
-
         }
 
-        private void addQuestItems_in_variants() {
+        private void addQuestItems_in_variants(int count, List<Quest> _list, Variant _variant) {
+            Random rand = new Random(DateTime.Now.Millisecond);
+            int ui = 0;
+            while (_list.Count > 0)
+            {
+                int c = _list.Count;
+                int rnd = rand.Next(0, c);
+                var Selected = _list.ElementAt(rnd);
 
+                QuestItem _questItem = new QuestItem();
+                _questItem.Created = DateTime.Now;
+                _questItem.Modify = DateTime.Now;
+                _questItem.Quest = Selected;
+                _questItem.Quest_Id = Selected.Id;
+
+                _variant.QuestItems.Add(_questItem);
+                _list.Remove(Selected);
+                ui++;
+                if (ui == count) { break; }
+            }
+            //var wc = listBoxQuests.DataContext; listBoxQuests.DataContext = null; listBoxQuests.DataContext = wc;
+            _questionare.editVariant(_variant);
         }
 
         private void showPaneladdQuestItem(object sender, RoutedEventArgs e)
@@ -424,7 +426,26 @@ namespace QuestionsProject
             if (PaneladdQuestItem.Visibility == Visibility.Collapsed) { PaneladdQuestItem.Visibility = Visibility.Visible; }
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine(listBoxQuests.DataContext.GetType());
+            
+        }
 
+        private void removeQuestItems_Click(object sender, RoutedEventArgs e)
+        {
+            Variant _variant = (Variant)((Button)sender).DataContext;
+
+            List<QuestItem> selected_items = listItems.SelectedItems.Cast<QuestItem>().ToList();
+
+            if (MessageBox.Show("Вы уверены, что хотите удалить выделенное?", "Подтвердите удаление!", MessageBoxButton.YesNo, MessageBoxImage.Question) == MessageBoxResult.Yes)
+            {
+                if (_questionare.removeQuestsItems(selected_items)) {
+                    MessageBox.Show("Успешно удалены", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+            }
+
+        }
 
 
 

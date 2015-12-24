@@ -315,6 +315,33 @@ namespace QuestionsEntityClassLibrary
             return result;
         }
 
+        public bool removeQuestsItems(List<QuestItem> _list)
+        {
+            bool result;
+
+            try
+            {
+                db.Database.Log = Console.Write;
+                //foreach (var item in _list)
+                //{
+                //    db.Quests.Remove(item);
+
+                //    //db.Entry(item).State = EntityState.Deleted;
+                //}
+
+                db.QuestItems.RemoveRange(_list);
+                db.SaveChanges();
+
+                result = true;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                result = false;
+            }
+            return result;
+        }
+
         public void Reload(Chapter _chapter) {
 
             Console.WriteLine(_chapter.Text);
