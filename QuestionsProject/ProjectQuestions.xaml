@@ -11,13 +11,6 @@
 
     <UserControl.Resources>
 
-        <Storyboard x:Key="sbShowRightMenu" >
-            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,-605,0" To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:.3" />
-        </Storyboard>
-        <Storyboard x:Key="sbHideRightMenu">
-            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,0,0" To="0,0,-605,0" AccelerationRatio=".9" Duration="0:0:.3" />
-        </Storyboard>
-
         <Style x:Key="Flat" TargetType="Button">
             <Setter Property="Control.Background" Value="{x:Null}" />
             <Setter Property="Control.BorderBrush" Value="{x:Null}" />
@@ -41,6 +34,14 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+
+
+        <Storyboard x:Key="sbShowRightMenu" >
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,-605,0" To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:.3" />
+        </Storyboard>
+        <Storyboard x:Key="sbHideRightMenu">
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,0,0" To="0,0,-605,0" AccelerationRatio=".9" Duration="0:0:.3" />
+        </Storyboard>
 
         <ObjectDataProvider x:Key="get" MethodName="getDifferent"
                             ObjectInstance="{x:Type local:ProjectQuestions}" >
@@ -69,6 +70,9 @@
         </CollectionViewSource>
 
         <CollectionViewSource Source="{StaticResource get}" x:Key="missingQuestList">
+        </CollectionViewSource>
+
+        <CollectionViewSource Source="{Binding QuestItems}" x:Key="QuestList">
         </CollectionViewSource>
 
     </UserControl.Resources>
@@ -133,9 +137,6 @@
                     <Button x:Name="button4" Content="Button" Width="75" Click="button4_Click"/>
                 </StackPanel>
 
-                <ListBox x:Name="lstInfo" 
-					ItemsSource="{Binding Source={StaticResource get}}" Height="138"/>
-                <Button />
 
             </StackPanel>
 
@@ -162,8 +163,8 @@
                 </StackPanel>
                 <Grid Grid.Row="2">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="auto" />
+                        <RowDefinition/>
+                        <RowDefinition Height="auto" MinHeight="36" />
                     </Grid.RowDefinitions>
                     <ListBox x:Name="listItems" Grid.Row="0"
 						SelectionMode="Extended" 
@@ -174,10 +175,10 @@
                 </ListBox.ItemsSource>-->
                         <ListBox.Resources>
                             <DataTemplate DataType="{x:Type kld:QuestItem}">
-                                <StackPanel>
+                                <StackPanel Orientation="Horizontal">
                                     <TextBlock Text="{Binding Order}"/>
                                     <TextBlock Text="{Binding Quest.Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333" />
-                                    <TextBlock Text="{Binding Quest.Answers.Count}"/>
+                                    <TextBlock Text="{Binding Quest.Answers.Count}" VerticalAlignment="Center"/>
                                 </StackPanel>
                             </DataTemplate>
                             <DataTemplate DataType="{x:Type kld:Quest}">
@@ -194,8 +195,10 @@
                         </ListBox.ItemContainerStyle>
                     </ListBox>
                     <StackPanel Orientation="Horizontal" Grid.Row="1">
-                        <TextBlock Text="Количество вопросов:"/>
-                        <TextBlock Text="{Binding ItemsSource.Count, ElementName=listItems}"/>
+                        <TextBlock Text="Количество вопросов:" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding ItemsSource.Count, ElementName=listItems}" Margin="20,0,0,0" VerticalAlignment="Center"/>
+                        <TextBlock Text="Фильтр" VerticalAlignment="Center" Margin="15,0,0,0"/>
+                        <TextBox x:Name="txtFilter" Width="200" Margin="15,10,0,10" Height="25" TextChanged="txtFilter_TextChanged"/>
                     </StackPanel>
                 </Grid>
 
@@ -212,16 +215,24 @@
 
                                 <Grid Grid.Row="2">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition Height="40"/>
-                                        <RowDefinition Height="*"/>
+                                        <RowDefinition Height="54"/>
+                                        <RowDefinition/>
                                     </Grid.RowDefinitions>
-                                    <Button x:Name="button" Content="Random"  HorizontalAlignment="Left" Grid.Row="0" VerticalAlignment="Top" Width="52" Height="21" Click="addRandomQuest"/>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Content="Выделенные"
+                                                HorizontalAlignment="Left" 
+                                                VerticalAlignment="Center" 
+                                                Height="30" Click="addRandomQuest" Margin="15,0,0,0"/>
+                                        <Button Content="Случайный выбор"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                Height="30" Click="generateFromRandomQuest" Margin="15,0,0,0"/>
+                                    </StackPanel>
                                     <ListBox x:Name="listBoxQuests" Grid.Row="1" IsSynchronizedWithCurrentItem="True"
-                    					SelectionMode="Extended"
-                    					ItemsSource="{Binding Converter={StaticResource listMissingQuests}}" >
+                    					SelectionMode="Extended">
                                         <ListBox.ItemTemplate>
                                             <DataTemplate>
-                                                <StackPanel>
+                                                <StackPanel Orientation="Horizontal">
                                                     <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"/>
                                                     <TextBlock Text="{Binding Text}"/>
                                                 </StackPanel>
@@ -232,7 +243,15 @@
 
                                 <Border Grid.Row="1" Background="#FF5D8BC3">
                                     <StackPanel Orientation="Horizontal">
-                                        <Button Width="58" HorizontalAlignment="Center" Click="hidePanel" Height="30" Content="Закрыть" Margin="10,4,0,5" />
+                                        <Button Style="{StaticResource Flat}" 
+                                                HorizontalAlignment="Center"
+                                                Click="hidePanel"  Margin="10,0,0,0">
+                                            <ContentControl>
+                                                <StackPanel>
+                                                    <Image Source=".\images\close-Arrow.png" Width="40"/>
+                                                </StackPanel>
+                                            </ContentControl>
+                                        </Button>
                                         <TextBlock x:Name="PanelName" Text="Добавление" FontSize="21.333" Foreground="White" VerticalAlignment="Top" Padding="15,10,0,0" FontWeight="Light" Margin="20,0,0,0"/>
                                     </StackPanel>
                                 </Border>
@@ -242,7 +261,7 @@
                     </Border>
                 </StackPanel>
             </Grid>
-            
+
             <Border BorderThickness="1" Background="#FF427CA4">
                 <TextBlock x:Name="textBlock" TextWrapping="Wrap" Text="Опросник" VerticalAlignment="Bottom" Padding="15,0,0,5" Foreground="White" FontSize="21.333" FontWeight="Light"/>
             </Border>
@@ -257,7 +276,7 @@
 								Click="addChapter_Click">
                                 <ContentControl>
                                     <StackPanel>
-                                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\newChapter.png" Width="30"/>
+                                        <Image Source=".\images\newChapter.png" Width="30"/>
                                         <TextBlock Text="Создать" FontSize="10.667" Foreground="White"/>
                                     </StackPanel>
                                 </ContentControl>
@@ -270,7 +289,7 @@
 								Click="editChapter_Click">
                                 <ContentControl Padding="3">
                                     <StackPanel>
-                                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\edit.png" Width="30"/>
+                                        <Image Source=".\images\edit.png" Width="30"/>
                                         <TextBlock Text="Редактировать" FontSize="10.667" Foreground="White"/>
                                     </StackPanel>
                                 </ContentControl>
@@ -282,7 +301,7 @@
 								Click="removeChapter_Click">
                                 <ContentControl>
                                     <StackPanel>
-                                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\remove.png" Width="30"/>
+                                        <Image Source=".\images\remove.png" Width="30"/>
                                         <TextBlock Text="Удалить" FontSize="10.667" Foreground="White"/>
                                     </StackPanel>
                                 </ContentControl>
@@ -306,7 +325,7 @@
 								Click="addVariant_Click">
                                 <ContentControl Padding="3">
                                     <StackPanel>
-                                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\newVariants.png" Width="30"/>
+                                        <Image Source=".\images\newVariants.png" Width="30"/>
                                         <TextBlock Text="Добавить" FontSize="10.667" Foreground="White"/>
                                     </StackPanel>
                                 </ContentControl>
@@ -318,7 +337,7 @@
 								Click="editVariant">
                                 <ContentControl>
                                     <StackPanel>
-                                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\newVariants.png" Width="30"/>
+                                        <Image Source=".\images\newVariants.png" Width="30"/>
                                         <TextBlock Text="Редактировать" FontSize="10.667" Foreground="White"/>
                                     </StackPanel>
                                 </ContentControl>
@@ -330,7 +349,7 @@
 								Click="removeVariant_Click">
                                 <ContentControl>
                                     <StackPanel>
-                                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\remove.png" Width="30"/>
+                                        <Image Source=".\images\remove.png" Width="30"/>
                                         <TextBlock Text="Удалить" FontSize="10.667" Foreground="White"/>
                                     </StackPanel>
                                 </ContentControl>
@@ -343,7 +362,7 @@
 								Click="addQuestIntoVariant_Click">
                                 <ContentControl>
                                     <StackPanel>
-                                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\addItem.png" Width="30"/>
+                                        <Image Source=".\images\addItem.png" Width="30"/>
                                         <TextBlock Text="+ Вопрос" FontSize="10.667" Foreground="White"/>
                                     </StackPanel>
                                 </ContentControl>
@@ -355,7 +374,7 @@
 								DataContext="{Binding DataContext, Converter={StaticResource BigVariantWrapper}, ElementName=WrapperInfo, Mode=TwoWay}"  Click="removeQuestItems_Click">
                                 <ContentControl>
                                     <StackPanel>
-                                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\removeVariant.png" Width="30"/>
+                                        <Image Source=".\images\removeVariant.png" Width="30"/>
                                         <TextBlock Text="- Вопросы" FontSize="10.667" Foreground="White"/>
                                     </StackPanel>
                                 </ContentControl>
@@ -367,7 +386,7 @@
 								DataContext="{Binding DataContext, Converter={StaticResource BigVariantWrapper}, ElementName=WrapperInfo, Mode=TwoWay}"  Click="showPaneladdQuestItem">
                                 <ContentControl>
                                     <StackPanel>
-                                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\newVariants.png" Width="30"/>
+                                        <Image Source=".\images\newVariants.png" Width="30"/>
                                         <TextBlock Text="Сгенерировать" FontSize="10.667" Foreground="White"/>
                                     </StackPanel>
                                 </ContentControl>
@@ -385,24 +404,24 @@
 								Click="addQuest_Click">
                                 <ContentControl>
                                     <StackPanel>
-                                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\addItem.png" Width="30"/>
+                                        <Image Source=".\images\addItem.png" Width="30"/>
                                         <TextBlock Text="Создать" FontSize="10.667" Foreground="White"/>
                                     </StackPanel>
                                 </ContentControl>
                             </Button>
 
-                            <Button Style="{StaticResource Flat}"
+                            <!--<Button Style="{StaticResource Flat}"
 								Margin="0,0,5,0"
 								IsEnabled="{Binding DataContext, Converter={StaticResource ButtonForChapter}, ElementName=WrapperInfo}" 
 								DataContext="{Binding DataContext, Converter={StaticResource BigChapterWrapper}, ElementName=WrapperInfo, Mode=TwoWay}" 
 								Click="editChapter_Click">
                                 <ContentControl>
                                     <StackPanel>
-                                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\edit.png" Width="30"/>
+                                        <Image Source=".\images\edit.png" Width="30"/>
                                         <TextBlock Text="Редактировать" FontSize="10.667" Foreground="White"/>
                                     </StackPanel>
                                 </ContentControl>
-                            </Button>
+                            </Button>-->
                             <Button Style="{StaticResource Flat}"
 								Margin="0,0,5,0"
 								IsEnabled="{Binding DataContext, Converter={StaticResource ButtonForChapter}, ElementName=WrapperInfo}" 
@@ -410,7 +429,7 @@
 								Click="removeQuest_Click">
                                 <ContentControl>
                                     <StackPanel>
-                                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\remove.png" Width="30"/>
+                                        <Image Source=".\images\remove.png" Width="30"/>
                                         <TextBlock Text="Удалить" FontSize="10.667" Foreground="White"/>
                                     </StackPanel>
                                 </ContentControl>

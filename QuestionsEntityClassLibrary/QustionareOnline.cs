@@ -274,7 +274,8 @@ namespace QuestionsEntityClassLibrary
 
             try
             {
-                db.Entry(_item).State = EntityState.Deleted;
+                db.QuestProrams.Remove(_item);
+                //db.Entry(_item).State = EntityState.Deleted;
 
                 db.SaveChanges();
 

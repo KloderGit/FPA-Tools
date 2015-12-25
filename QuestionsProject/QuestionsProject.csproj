@@ -224,12 +224,14 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="images\addItem.png" />
-    <Content Include="images\edit.png" />
-    <Content Include="images\newChapter.png" />
-    <Content Include="images\newVariants.png" />
-    <Content Include="images\remove.png" />
-    <Content Include="images\removeVariant.png" />
+    <Resource Include="images\addItem.png" />
+    <Resource Include="images\close-Arrow.png" />
+    <Resource Include="images\checkProgram.png" />
+    <Resource Include="images\edit.png" />
+    <Resource Include="images\newChapter.png" />
+    <Resource Include="images\newVariants.png" />
+    <Resource Include="images\remove.png" />
+    <Resource Include="images\removeVariant.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

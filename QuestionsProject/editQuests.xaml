@@ -7,6 +7,32 @@
              xmlns:kld="clr-namespace:QuestionsEntityClassLibrary;assembly=QuestionsEntityClassLibrary"
              mc:Ignorable="d" Height="343.877" Width="782">
 
+    <UserControl.Resources>
+        <Style x:Key="Flat" TargetType="Button">
+            <Setter Property="Control.Background" Value="{x:Null}" />
+            <Setter Property="Control.BorderBrush" Value="{x:Null}" />
+            <Style.Triggers>
+                <Trigger Property="Control.IsMouseOver" Value="True">
+                    <Setter Property="Control.Background" Value="{x:Null}" />
+                    <Setter Property="Control.BorderBrush" Value="{x:Null}" />
+                    <Setter Property="Control.FontWeight" Value="Normal" />
+                    <Setter Property="Control.Foreground" Value="Blue" />
+                </Trigger>
+                <Trigger Property="Control.IsFocused" Value="True">
+                    <Setter Property="Control.FontWeight" Value="Normal" />
+                </Trigger>
+                <Trigger Property="Control.IsEnabled" Value="False">
+                    <Setter Property="Control.Background" Value="BlueViolet" />
+                    <Setter Property="Control.BorderBrush" Value="{x:Null}" />
+                    <Setter Property="Control.FontWeight" Value="Normal" />
+                    <Setter Property="Control.Foreground" Value="Gray" />
+                    <Setter Property="Control.Opacity" Value=".5" />
+
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </UserControl.Resources>
+
     <Grid x:Name="RootQuest" Height="331" >
         <Label x:Name="label" Content="Текст вопроса" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,4,0,0" FontSize="16" FontWeight="Light"/>
         <TextBox x:Name="txtTitle" HorizontalAlignment="Left" Height="165" Margin="10,49,0,0" TextWrapping="Wrap" Text="{Binding Text}" VerticalAlignment="Top" Width="364" />
@@ -38,7 +64,13 @@
         <Button Content="Удалить ответ" HorizontalAlignment="Left" Margin="663,8,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="removeAnswer_Click"/>
         <Label x:Name="label2_Copy" Content="Всего ответов:" HorizontalAlignment="Left" Margin="405,249,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
         <Label x:Name="label2_Copy1" Content="{Binding Answers.Count}" HorizontalAlignment="Left" Margin="518,249,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
-        <Button x:Name="button1" Content="+" Width="15" HorizontalAlignment="Left" VerticalAlignment="Top" Height="15" Margin="112,305,0,0" Background="#FFCBE2B0" FontSize="10.667" Click="selectPrograms_Click"/>
+        <Button Style="{StaticResource Flat}" x:Name="button1" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="107,297,0,0" FontSize="10.667" Click="selectPrograms_Click" Width="30" Height="30">
+            <ContentControl>
+                <StackPanel>
+                    <Image Source=".\images\checkProgram.png" Width="21" Height="21"/>
+                </StackPanel>
+            </ContentControl>
+        </Button>
         <WrapPanel HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="630" Margin="142,301,0,0">
             <ItemsControl ItemsSource="{Binding QuestProrams}">
                 <ItemsControl.ItemsPanel>
@@ -83,7 +115,13 @@
                     </Style>
                 </ListBox.ItemContainerStyle>
             </ListBox>
-            <Button x:Name="btnClose" Content="Button" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="50" Height="50" Grid.RowSpan="2" Click="btnClose_Click"/>
+            <Button x:Name="btnClose" Style="{StaticResource Flat}" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="50" Height="50" Grid.RowSpan="2" Click="btnClose_Click">
+                <ContentControl>
+                    <StackPanel>
+                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\close-Arrow.png" Width="40"/>
+                    </StackPanel>
+                </ContentControl>
+            </Button>
         </Grid>
 
     </Grid>

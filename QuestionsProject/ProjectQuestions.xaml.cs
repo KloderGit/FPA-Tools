@@ -40,6 +40,9 @@ namespace QuestionsProject
             if (treeViewMenu.SelectedItem is Chapter) { hideRightPanel(); }
             if (treeViewMenu.SelectedItem is Variant) { showRightPanel(); }
 
+            listBoxQuests.ItemsSource = getDifferentQuest();
+            //txtFilter.Text = "";
+
             //Console.WriteLine(WrapperInfo.DataContext);
             //WrapperInfo.DataContext = treeViewMenu.SelectedItem;
         }
@@ -274,7 +277,7 @@ namespace QuestionsProject
             {
                 if (_questionare.addQuest(_quest)) {
                     Console.WriteLine("Вопрос для Темы сохранен!");
-                    var ctx = WrapperInfo.DataContext; WrapperInfo.DataContext = null; WrapperInfo.DataContext = ctx;
+                    //var ctx = WrapperInfo.DataContext; WrapperInfo.DataContext = null; WrapperInfo.DataContext = ctx;
                 }
             }
         }
@@ -344,8 +347,9 @@ namespace QuestionsProject
 
                     _variant.QuestItems.Add(_questItem);
 
-                    if (_questionare.editVariant(_variant)) { Console.WriteLine("Вопрос для Варианта добавлен!"); var ctx = WrapperInfo.DataContext; WrapperInfo.DataContext = null; WrapperInfo.DataContext = ctx; }
-                }
+                    if (_questionare.editVariant(_variant)) { Console.WriteLine("Вопрос для Варианта добавлен!"); listBoxQuests.ItemsSource = getDifferentQuest();
+                    }
+                 }
             }
         }
 
@@ -353,10 +357,10 @@ namespace QuestionsProject
         {          
             Variant _variant = (Variant)((Button)sender).DataContext;
             
-            int maximum_in_variant = 5;   //  Максимум
+            int maximum_in_variant = 60;   //  Максимум
             var current_in_variant = (from i in _variant.QuestItems select i.Quest).ToList();  //  Существуют
             var selected_in_panel = listBoxQuests.SelectedItems.Cast<Quest>().ToList();         //  Выделены
-            var missing_in_variant = listBoxQuests.ItemsSource.Cast<Quest>().ToList();          //  Отсутствуют
+            //var missing_in_variant = listBoxQuests.ItemsSource.Cast<Quest>().ToList();          //  Отсутствуют
             int count_to_add = 0;
 
             if (selected_in_panel.Count > 0)
@@ -366,39 +370,52 @@ namespace QuestionsProject
                     if (maximum_in_variant - current_in_variant.Count > 0)
                     {
                         count_to_add = maximum_in_variant - current_in_variant.Count;
-                        addQuestItems_in_variants(count_to_add, selected_in_panel, _variant);
+                        addQuestItems_in_variants(count_to_add, selected_in_panel, _variant); listBoxQuests.ItemsSource = getDifferentQuest();
                     }
                     else
                     {
-                        Console.WriteLine("Вариант заполнен!");
+                        MessageBox.Show("Вариант заполнен максимальным количеством вопросов", "Переполнение", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
                 else
                 {
                     count_to_add = selected_in_panel.Count;
-                    addQuestItems_in_variants(count_to_add, selected_in_panel, _variant);
+                    addQuestItems_in_variants(count_to_add, selected_in_panel, _variant); listBoxQuests.ItemsSource = getDifferentQuest();
                 }
             }
-            else {
-                if (maximum_in_variant - current_in_variant.Count < missing_in_variant.Count)
+            else
+            {
+                MessageBox.Show("Вопросы не выделенны!", "Выделите вопросы!", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
+        }
+
+        private void generateFromRandomQuest(object sender, RoutedEventArgs e)
+        {
+            Variant _variant = (Variant)((Button)sender).DataContext;
+            int maximum_in_variant = 60;   //  Максимум
+            var current_in_variant = (from i in _variant.QuestItems select i.Quest).ToList();  //  Существуют
+            var missing_in_variant = listBoxQuests.ItemsSource.Cast<Quest>().ToList();          //  Отсутствуют
+            int count_to_add = 0;
+
+            if (maximum_in_variant - current_in_variant.Count < missing_in_variant.Count)
+            {
+                if (maximum_in_variant - current_in_variant.Count > 0)
                 {
-                    if (maximum_in_variant - current_in_variant.Count > 0)
-                    {
-                        count_to_add = maximum_in_variant - current_in_variant.Count;
-                        addQuestItems_in_variants(count_to_add, missing_in_variant, _variant);
-                    }
-                    else
-                    {
-                        Console.WriteLine("Вариант заполнен!");
-                    }
+                    count_to_add = maximum_in_variant - current_in_variant.Count;
+                    addQuestItems_in_variants(count_to_add, missing_in_variant, _variant); listBoxQuests.ItemsSource = getDifferentQuest();
                 }
                 else
                 {
-                    count_to_add = missing_in_variant.Count;
-                    addQuestItems_in_variants(count_to_add, missing_in_variant, _variant);
+                    MessageBox.Show("Вариант заполнен максимальным количеством вопросов", "Переполнение", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
+            else
+            {
+                count_to_add = missing_in_variant.Count;
+                addQuestItems_in_variants(count_to_add, missing_in_variant, _variant); listBoxQuests.ItemsSource = getDifferentQuest();
+            }
         }
+
 
         private void addQuestItems_in_variants(int count, List<Quest> _list, Variant _variant) {
             Random rand = new Random(DateTime.Now.Millisecond);
@@ -446,15 +463,62 @@ namespace QuestionsProject
             {
                 if (_questionare.removeQuestsItems(selected_items)) {
                     MessageBox.Show("Успешно удалены", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
+                    listBoxQuests.ItemsSource = getDifferentQuest();
                 }
             }
-
         }
 
         private void hidePanel(object sender, RoutedEventArgs e)
         {
             hideRightPanel();
 
+        }
+
+        private IEnumerable getDifferentQuest() {
+
+            IEnumerable array = null;
+            var contex = WrapperInfo.DataContext;
+
+            if (contex is Chapter)
+            {
+                return null;
+            }
+            if (contex is Variant)
+            {
+                Variant v = (Variant)contex;
+                Chapter Ch = v.Chapter;
+
+                var aviable = from i in v.Chapter.Quests select i;
+                var missing = from i in v.QuestItems select i.Quest;
+                var diferent = aviable.Except(missing);
+
+                array = aviable.Except(missing);
+            }
+
+            return array;
+        }
+
+        private void txtFilter_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox txtBlock = (TextBox)sender;
+            ICollectionView view = CollectionViewSource.GetDefaultView(listItems.ItemsSource);
+            view.Filter = target =>
+            {
+                bool ret = false;
+
+                if (target is Quest) {
+                    Quest item = (Quest)target;
+                    var x = item.Text.ToUpper(); var x1 = txtBlock.Text.ToUpper();
+                    if (x.Contains(x1)) { ret = true; }
+                }
+                if (target is QuestItem)
+                {
+                    QuestItem item = (QuestItem)target;
+                    var x = item.Quest.Text.ToUpper(); var x1 = txtBlock.Text.ToUpper();
+                    if (x.Contains(x1)) { ret = true; }
+                }
+                return ret;
+            };
         }
 
 
