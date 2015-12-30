@@ -116,6 +116,8 @@
     <Compile Include="answerControl.xaml.cs">
       <DependentUpon>answerControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="CharAnswerEnum.cs" />
+    <Compile Include="ConverterQuestItemWarning.cs" />
     <Compile Include="Converters\ConverterForMissingQuestinVariant.cs" />
     <Compile Include="Converters\ConverterButtonForVariant.cs" />
     <Compile Include="Converters\ConverterButtonForChapter.cs" />
@@ -232,6 +234,13 @@
     <Resource Include="images\newVariants.png" />
     <Resource Include="images\remove.png" />
     <Resource Include="images\removeVariant.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Print - 01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Measurements - 01.png" />
+    <Resource Include="images\Warning - 04.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

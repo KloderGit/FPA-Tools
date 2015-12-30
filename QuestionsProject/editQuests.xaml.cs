@@ -15,6 +15,8 @@ using System.Windows.Shapes;
 using FPAControls;
 using QuestionsEntityClassLibrary;
 using System.Data.Entity;
+using System.Collections;
+using System.ComponentModel;
 using System.Collections.ObjectModel;
 
 namespace QuestionsProject
@@ -91,6 +93,7 @@ namespace QuestionsProject
             if (panelRight.ShowDialog() == true)
             {
                 _quest.Answers.Add(_answer);
+                orderAnswer();
             }
         }
 
@@ -101,6 +104,8 @@ namespace QuestionsProject
             Answer _answer =(Answer)listAnswers.SelectedItem;
 
             _quest.Answers.Remove(_answer);
+
+            orderAnswer();
         }
 
         private void listAnswers_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
@@ -115,6 +120,50 @@ namespace QuestionsProject
             {
                 Console.WriteLine("Ответ изменен?");
             }
+        }
+
+        private void orderAnswer()
+        {
+            Quest _quest = (Quest)RootQuest.DataContext;
+
+            int itemCount = 1;
+
+            foreach (var item in _quest.Answers)
+            {
+                item.Order = itemCount;
+                itemCount++;
+            }
+
+            ICollectionView _customerView = CollectionViewSource.GetDefaultView(listAnswers.ItemsSource);
+            _customerView.SortDescriptions.Clear();
+            _customerView.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
+        }
+
+        private void mixAnswer()
+        {
+            Quest _quest = (Quest)RootQuest.DataContext;
+
+            var array = _quest.Answers.ToArray();
+
+            var rand = new Random();
+            for (var i = 1; i < array.Length; i++)
+            {
+                var rnd = rand.Next(i, array.Length);
+
+                var item1 = array[i];
+                var item2 = array[rnd];
+
+                var order1 = item1.Order;
+                var order2 = item2.Order;
+
+                item2.Order = order1;
+                item1.Order = order2;
+
+            }
+
+            ICollectionView _customerView = CollectionViewSource.GetDefaultView(listAnswers.ItemsSource);
+            _customerView.SortDescriptions.Clear();
+            _customerView.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
         }
 
         private void selectPrograms_Click(object sender, RoutedEventArgs e)
@@ -182,6 +231,11 @@ namespace QuestionsProject
             _questionare.removeProgram(itemQuestProgram);
 
             listPrograms.ItemsSource = null; listPrograms.ItemsSource = aviablePrograms();
+        }
+
+        private void button2_Click(object sender, RoutedEventArgs e)
+        {
+            mixAnswer();
         }
     }
 }

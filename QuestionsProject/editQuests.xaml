@@ -50,6 +50,7 @@
                             <TextBlock 
                             Text="{Binding Text}" 
                             Width="{Binding Path=Width, RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}}" />
+                            <TextBlock Text="{Binding Order}"/>
                         </StackPanel>
 
                     </DataTemplate>
@@ -123,6 +124,7 @@
                 </ContentControl>
             </Button>
         </Grid>
+        <Button x:Name="button2" Content="Перемешать" HorizontalAlignment="Left" Margin="676,256,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click"/>
 
     </Grid>
 </UserControl>

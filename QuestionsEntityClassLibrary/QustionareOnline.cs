@@ -16,6 +16,7 @@ namespace QuestionsEntityClassLibrary
             Connect();
             db.Chapters.Load();
             db.Programs.Load();
+            db.Answers.Load();
         }
 
         public bool Connect() {

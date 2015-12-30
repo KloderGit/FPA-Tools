@@ -26,6 +26,7 @@ namespace QuestionsProject
     public partial class ProjectQuestions : UserControl
     {
         QuestionsEntityClassLibrary.QustionareOnline _questionare;
+         Dictionary<int, string> AnswerChair;
 
         public ProjectQuestions()
         {
@@ -33,6 +34,13 @@ namespace QuestionsProject
             _questionare = new QustionareOnline();
             Root.DataContext = _questionare.getChapter();
             //WrapperInfo.DataContext = null;
+
+            AnswerChair = new Dictionary<int, string>(5);
+            AnswerChair.Add(1, "A");
+            AnswerChair.Add(2, "B");
+            AnswerChair.Add(3, "C");
+            AnswerChair.Add(4, "D");
+            AnswerChair.Add(0, "Z");  
         }
 
         private void treeViewMenu_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -252,7 +260,9 @@ namespace QuestionsProject
                     if (_questionare.removeAnswers(minus_answers)) { Console.WriteLine("Ответы удалены"); }
                 }             
 
-                if (_questionare.editQuest(_quest)) { Console.WriteLine("Вопрос сохранен!"); }
+                if (_questionare.editQuest(_quest)) { Console.WriteLine("Вопрос сохранен!");
+                    updateListItems();
+                }
             }
         }
 
@@ -327,6 +337,11 @@ namespace QuestionsProject
             _quest.Chapter = _chapter;
             _quest.Chapter_Id = _chapter.Id;
 
+            //  Определяем максимальное значение ORder у элементов для добавления ордер у добавляемых
+            int countOrder = 0;
+            var listOrder = from i in _variant.QuestItems where i.Order != null select (int)i.Order;
+            if (listOrder.Count() > 0) { countOrder = listOrder.Max(); }
+
             WindowRight panelRight = new WindowRight();
             panelRight.txtWindowTitle.Text = "Добавление Вопроса";
             panelRight.Owner = App.Current.MainWindow;
@@ -341,18 +356,25 @@ namespace QuestionsProject
                     QuestItem _questItem = new QuestItem();
                     _questItem.Quest = _quest;
                     _questItem.Quest_Id = _quest.Id;
-
+                    _questItem.Order = ++countOrder;
                     _questItem.Modify = DateTime.Now;
                     _questItem.Created = DateTime.Now;
 
                     _variant.QuestItems.Add(_questItem);
 
-                    if (_questionare.editVariant(_variant)) { Console.WriteLine("Вопрос для Варианта добавлен!"); listBoxQuests.ItemsSource = getDifferentQuest();
+                    //orderQuestItems(_variant);
+
+                    if (_questionare.editVariant(_variant)) {
+                        Console.WriteLine("Вопрос для Варианта добавлен!");
+                        listBoxQuests.ItemsSource = getDifferentQuest();
+                        updateListItems();
                     }
                  }
             }
         }
 
+
+        //  Добавление выделенных вручную (несмотря на название)
         private void addRandomQuest(object sender, RoutedEventArgs e)
         {          
             Variant _variant = (Variant)((Button)sender).DataContext;
@@ -389,6 +411,7 @@ namespace QuestionsProject
             }
         }
 
+        //  Добавление автоматом
         private void generateFromRandomQuest(object sender, RoutedEventArgs e)
         {
             Variant _variant = (Variant)((Button)sender).DataContext;
@@ -420,6 +443,12 @@ namespace QuestionsProject
         private void addQuestItems_in_variants(int count, List<Quest> _list, Variant _variant) {
             Random rand = new Random(DateTime.Now.Millisecond);
             int ui = 0;
+
+            //  Определяем максимальное значение ORder у элементов для добавления ордер у добавляемых
+            int countOrder = 0;
+            var listOrder = from i in _variant.QuestItems where i.Order != null select (int)i.Order;
+            if (listOrder.Count() > 0) { countOrder = listOrder.Max(); }
+
             while (_list.Count > 0)
             {
                 int c = _list.Count;
@@ -431,6 +460,7 @@ namespace QuestionsProject
                 _questItem.Modify = DateTime.Now;
                 _questItem.Quest = Selected;
                 _questItem.Quest_Id = Selected.Id;
+                _questItem.Order = ++countOrder;
 
                 _variant.QuestItems.Add(_questItem);
                 _list.Remove(Selected);
@@ -438,14 +468,20 @@ namespace QuestionsProject
                 if (ui == count) { break; }
             }
             //var wc = listBoxQuests.DataContext; listBoxQuests.DataContext = null; listBoxQuests.DataContext = wc;
-            _questionare.editVariant(_variant);
+
+            //orderQuestItems(_variant);
+
+            if (_questionare.editVariant(_variant)) { Console.WriteLine("QuestItems - Добавлены!"); updateListItems(); };
+
         }
 
         private void showPaneladdQuestItem(object sender, RoutedEventArgs e)
         {
-            if (PaneladdQuestItem.Visibility == Visibility.Visible) { PaneladdQuestItem.Visibility = Visibility.Collapsed; }
-            if (PaneladdQuestItem.Visibility == Visibility.Collapsed) { PaneladdQuestItem.Visibility = Visibility.Visible; }
+            //if (PaneladdQuestItem.Visibility == Visibility.Visible) { PaneladdQuestItem.Visibility = Visibility.Collapsed; }
+            //if (PaneladdQuestItem.Visibility == Visibility.Collapsed) { PaneladdQuestItem.Visibility = Visibility.Visible; }
         }
+
+
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -521,7 +557,140 @@ namespace QuestionsProject
             };
         }
 
+        private void printVariant(object sender, RoutedEventArgs e)
+        {
+            Variant _variant = (Variant)((Button)sender).DataContext;
 
+            PrintDialog printDlg = new PrintDialog();
+            FlowDocument doc = CreateFlowDocument(_variant);
+
+
+            if (printDlg.ShowDialog() == true)
+            {
+                doc.PageHeight = printDlg.PrintableAreaHeight;
+                doc.PageWidth = printDlg.PrintableAreaWidth;
+                doc.PagePadding = new Thickness(50);
+                doc.ColumnGap = 0;
+                doc.ColumnWidth = printDlg.PrintableAreaWidth;
+                doc.Name = "FlowDoc";
+
+                IDocumentPaginatorSource idpSource = doc;
+
+                printDlg.PrintDocument(idpSource.DocumentPaginator, "Variant Print.");
+
+            }
+        }
+
+
+        private FlowDocument CreateFlowDocument(Variant _variant)
+        {
+            // Create a FlowDocument
+            FlowDocument doc = new FlowDocument();
+
+            // Create a Section
+            Section sec = new Section();
+
+            foreach (var item in _variant.QuestItems.OrderBy(p=> p.Order))
+            {
+                Paragraph _questTitle = new Paragraph();
+                _questTitle.TextAlignment = TextAlignment.Left;
+                _questTitle.KeepTogether = true;
+
+                _questTitle.Inlines.Add("Вопрос:");
+                _questTitle.Inlines.Add(new LineBreak());
+                _questTitle.Inlines.Add(item.Quest.Text);
+                _questTitle.Inlines.Add(new LineBreak());
+
+                _questTitle.Inlines.Add("Ответы:");
+                _questTitle.Inlines.Add(new LineBreak());
+
+                foreach (var asnwer in item.Quest.Answers)
+                {
+                    string let;
+                    if (asnwer.Order == null) { let = "Z"; } else { let = AnswerChair[(int)asnwer.Order]; }
+
+                    if (asnwer.Correct == true)
+                    {
+                        Bold bld = new Bold();
+                        bld.Inlines.Add(let + ".  ");
+                        bld.Inlines.Add(asnwer.Text);
+                        _questTitle.Inlines.Add(bld);
+                        _questTitle.Inlines.Add(new LineBreak());
+                    }
+                    else
+                    {
+                        _questTitle.Inlines.Add(let + ".  ");
+                        _questTitle.Inlines.Add(asnwer.Text);
+                        _questTitle.Inlines.Add(new LineBreak());
+                    }
+                }
+                _questTitle.Inlines.Add(new LineBreak());
+                _questTitle.Inlines.Add("_____________________________________________________________");
+
+                sec.Blocks.Add(_questTitle);
+            }
+
+            doc.Blocks.Add(sec);
+
+            return doc;
+        }
+
+        private void mixingQuestItems(object sender, RoutedEventArgs e)
+        {
+            Variant _variant = (Variant)((Button)sender).DataContext;
+            mixQuestItems(_variant);
+
+            _questionare.editVariant(_variant);
+        }
+
+        private void mixQuestItems(Variant _variant)
+        {
+            var array = _variant.QuestItems.ToArray();
+
+            var rand = new Random();
+            for (var i = 1; i < array.Length; i++)
+            {
+                var rnd = rand.Next(i, array.Length);
+
+                var item1 = array[i];
+                var item2 = array[rnd];
+
+                var order1 = item1.Order;
+                var order2 = item2.Order;
+
+                item2.Order = order1;
+                item1.Order = order2;
+
+            }
+
+            ICollectionView _customerView = CollectionViewSource.GetDefaultView(listItems.ItemsSource);
+            _customerView.SortDescriptions.Clear();
+            _customerView.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
+        }
+
+        private void orderQuestItems(Variant _variant)
+        {
+            var array = _variant.QuestItems.ToArray();
+
+            int itemCount = 1;
+
+            foreach (var item in array)
+            {
+                item.Order = itemCount;
+                itemCount++;
+            }
+
+            _questionare.editVariant(_variant);
+
+            ICollectionView _customerView = CollectionViewSource.GetDefaultView(listItems.ItemsSource);
+            _customerView.SortDescriptions.Clear();
+            _customerView.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
+        }
+
+        private void updateListItems() {
+            ICollectionView _customerView = CollectionViewSource.GetDefaultView(listItems.ItemsSource);
+            _customerView.Refresh();
+        }
 
         #endregion
         //      End Quest
