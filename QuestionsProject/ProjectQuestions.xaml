@@ -66,7 +66,7 @@
 
         <local:ConverterQuestItemWarning x:Key="ConverterQuestItemWarning"></local:ConverterQuestItemWarning>
 
-        
+
 
         <CollectionViewSource 
             x:Key="ItemsForTreeViewMenu"
@@ -219,59 +219,72 @@
 
                 <StackPanel Panel.ZIndex="5" x:Name="PaneladdQuestItem" Orientation="Horizontal" HorizontalAlignment="Right" Width="602" Margin="0,0,-607,0"  Grid.RowSpan="2">
                     <Border BorderBrush="#FF176AAF" BorderThickness="1" Width="600" Background="White" >
-                        <StackPanel>
-                            <Grid>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="15"/>
+                                <RowDefinition Height="50"/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+
+                            <Grid Grid.Row="2" >
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="15"/>
-                                    <RowDefinition Height="50"/>
-                                    <RowDefinition Height="147*"/>
+                                    <RowDefinition Height="54"/>
+                                    <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-
-                                <Grid Grid.Row="2">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="54"/>
-                                        <RowDefinition/>
-                                    </Grid.RowDefinitions>
-                                    <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
-                                        <Button Content="Выделенные"
-                                                HorizontalAlignment="Left" 
-                                                VerticalAlignment="Center" 
-                                                Height="30" Click="addRandomQuest" Margin="15,0,0,0"/>
-                                        <Button Content="Случайный выбор"
-                                                HorizontalAlignment="Left"
-                                                VerticalAlignment="Center"
-                                                Height="30" Click="generateFromRandomQuest" Margin="15,0,0,0"/>
-                                    </StackPanel>
-                                    <ListBox x:Name="listBoxQuests" Grid.Row="1" IsSynchronizedWithCurrentItem="True"
-                    					SelectionMode="Extended">
-                                        <ListBox.ItemTemplate>
-                                            <DataTemplate>
-                                                <StackPanel Orientation="Horizontal">
-                                                    <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"/>
-                                                    <TextBlock Text="{Binding Text}"/>
-                                                </StackPanel>
-                                            </DataTemplate>
-                                        </ListBox.ItemTemplate>
-                                    </ListBox>
-                                </Grid>
-
-                                <Border Grid.Row="1" Background="#FF5D8BC3">
-                                    <StackPanel Orientation="Horizontal">
-                                        <Button Style="{StaticResource Flat}" 
-                                                HorizontalAlignment="Center"
-                                                Click="hidePanel"  Margin="10,0,0,0">
-                                            <ContentControl>
-                                                <StackPanel>
-                                                    <Image Source=".\images\Measurements - 01.png" Width="40"/>
-                                                </StackPanel>
-                                            </ContentControl>
-                                        </Button>
-                                        <TextBlock x:Name="PanelName" Text="Добавление" FontSize="21.333" Foreground="White" VerticalAlignment="Top" Padding="15,10,0,0" FontWeight="Light" Margin="20,0,0,0"/>
-                                    </StackPanel>
-                                </Border>
+                                <Canvas Margin="5,0,0,0" Panel.ZIndex="10">
+                                    <Button Content="Выделенные"
+                                    	HorizontalAlignment="Left" 
+                                    	VerticalAlignment="Center" 
+                                    	Height="30" Click="addRandomQuest" Canvas.Left="257" Canvas.Top="14"/>
+                                    <Button Content="Случайный выбор"
+                                    	HorizontalAlignment="Left"
+                                    	VerticalAlignment="Center"
+                                    	Height="30" Click="generateFromRandomQuest" Canvas.Left="408" Canvas.Top="14"/>
+                                    <Expander x:Name="expanderPrograms" Header="Специально для:" Panel.ZIndex="10" IsExpanded="False" ClipToBounds="False" Canvas.Left="10" Canvas.Top="10">
+                                        <Grid Background="#FFE5E5E5">
+                                            <ListBox x:Name="listBoxPrograms" Grid.Row="1"
+                    				SelectionMode="Extended" SelectionChanged="listItems_changeSelectProgram">
+                                                <ListBox.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <StackPanel Orientation="Horizontal">
+                                                            <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"/>
+                                                            <TextBlock Text="{Binding Name}"/>
+                                                        </StackPanel>
+                                                    </DataTemplate>
+                                                </ListBox.ItemTemplate>
+                                            </ListBox>
+                                        </Grid>
+                                    </Expander>
+                                </Canvas>
+                                <ListBox x:Name="listBoxQuests" Grid.Row="1" IsSynchronizedWithCurrentItem="True"
+                    				SelectionMode="Extended">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}"/>
+                                                <TextBlock Text="{Binding Text}"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
                             </Grid>
 
-                        </StackPanel>
+                            <Border Grid.Row="1" Background="#FF5D8BC3">
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Style="{StaticResource Flat}" 
+                    					HorizontalAlignment="Center"
+                    					Click="hidePanel"  Margin="10,0,0,0">
+                                        <ContentControl>
+                                            <StackPanel>
+                                                <Image Source=".\images\Measurements - 01.png" Width="40"/>
+                                            </StackPanel>
+                                        </ContentControl>
+                                    </Button>
+                                    <TextBlock x:Name="PanelName" Text="Добавление" FontSize="21.333" Foreground="White" VerticalAlignment="Top" Padding="15,10,0,0" FontWeight="Light" Margin="20,0,0,0"/>
+                                </StackPanel>
+                            </Border>
+
+                        </Grid>
                     </Border>
                 </StackPanel>
             </Grid>
@@ -405,7 +418,7 @@
                                     </StackPanel>
                                 </ContentControl>
                             </Button>
-                            
+
                             <Button Style="{StaticResource Flat}"  
 								Margin="0,0,5,0"
 								IsEnabled="{Binding DataContext, Converter={StaticResource ButtonForVariant}, ElementName=WrapperInfo}"     
@@ -417,7 +430,7 @@
                                     </StackPanel>
                                 </ContentControl>
                             </Button>
-                            
+
                         </StackPanel>
                     </StackPanel>
                     <Rectangle HorizontalAlignment="Center" VerticalAlignment="Center" Width="1" Stroke="#FFA0D4F1" StrokeThickness="2" Margin="0,0,5,0" Height="40"/>

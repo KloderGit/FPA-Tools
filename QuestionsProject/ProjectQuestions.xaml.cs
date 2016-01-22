@@ -26,21 +26,14 @@ namespace QuestionsProject
     public partial class ProjectQuestions : UserControl
     {
         QuestionsEntityClassLibrary.QustionareOnline _questionare;
-         Dictionary<int, string> AnswerChair;
 
         public ProjectQuestions()
         {
             InitializeComponent();
             _questionare = new QustionareOnline();
             Root.DataContext = _questionare.getChapter();
-            //WrapperInfo.DataContext = null;
-
-            AnswerChair = new Dictionary<int, string>(5);
-            AnswerChair.Add(1, "A");
-            AnswerChair.Add(2, "B");
-            AnswerChair.Add(3, "C");
-            AnswerChair.Add(4, "D");
-            AnswerChair.Add(0, "Z");  
+            listBoxPrograms.ItemsSource = _questionare.getPrograms();
+            //WrapperInfo.DataContext = null; 
         }
 
         private void treeViewMenu_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -48,6 +41,7 @@ namespace QuestionsProject
             if (treeViewMenu.SelectedItem is Chapter) { hideRightPanel(); }
             if (treeViewMenu.SelectedItem is Variant) { showRightPanel(); }
 
+            listBoxPrograms.UnselectAll(); expanderPrograms.IsExpanded = false;
             listBoxQuests.ItemsSource = getDifferentQuest();
             //txtFilter.Text = "";
 
@@ -513,6 +507,9 @@ namespace QuestionsProject
         private IEnumerable getDifferentQuest() {
 
             IEnumerable array = null;
+
+            List<Quest> result = new List<Quest>();
+
             var contex = WrapperInfo.DataContext;
 
             if (contex is Chapter)
@@ -524,14 +521,46 @@ namespace QuestionsProject
                 Variant v = (Variant)contex;
                 Chapter Ch = v.Chapter;
 
-                var aviable = from i in v.Chapter.Quests select i;
+                var aviable = from i in Ch.Quests select i;
                 var missing = from i in v.QuestItems select i.Quest;
                 var diferent = aviable.Except(missing);
 
-                array = aviable.Except(missing);
+                if (listBoxPrograms.SelectedItems.Count > 0)
+                {
+                    var _currentProgram = from p in listBoxPrograms.SelectedItems.Cast<Program>() select p;
+                    var _questWithProgram = from q in diferent where q.QuestProrams.Count() > 0 select q;
+
+
+                    if (_questWithProgram.Count() > 0)
+                    {
+                        foreach (var _quest in _questWithProgram)
+                        {
+                            var a = _quest.QuestProrams.Select(p => p.Program);
+                            var b = a.Intersect(_currentProgram);
+
+                            if (b.Count() > 0)
+                            {
+                                result.Add(_quest);
+                            }
+                        }
+                    }
+                    foreach (var item in result)
+                    {
+                        Console.WriteLine(item.Text);
+                    }
+                }
+                else
+                {
+                    result = diferent.ToList();
+                }
+
+
+                //array = aviable.Except(missing);
             }
 
-            return array;
+            //return array;
+
+            return (IEnumerable)result;
         }
 
         private void txtFilter_TextChanged(object sender, TextChangedEventArgs e)
@@ -562,17 +591,18 @@ namespace QuestionsProject
             Variant _variant = (Variant)((Button)sender).DataContext;
 
             PrintDialog printDlg = new PrintDialog();
-            FlowDocument doc = CreateFlowDocument(_variant);
 
 
             if (printDlg.ShowDialog() == true)
             {
+                FlowDocument doc = CreateFlowDocument(_variant, printDlg);
+
                 doc.PageHeight = printDlg.PrintableAreaHeight;
                 doc.PageWidth = printDlg.PrintableAreaWidth;
                 doc.PagePadding = new Thickness(50);
                 doc.ColumnGap = 0;
                 doc.ColumnWidth = printDlg.PrintableAreaWidth;
-                doc.Name = "FlowDoc";
+                //doc.Name = _variant.Chapter.Text;
 
                 IDocumentPaginatorSource idpSource = doc;
 
@@ -582,7 +612,7 @@ namespace QuestionsProject
         }
 
 
-        private FlowDocument CreateFlowDocument(Variant _variant)
+        private FlowDocument CreateFlowDocument(Variant _variant, PrintDialog printDlg)
         {
             // Create a FlowDocument
             FlowDocument doc = new FlowDocument();
@@ -590,50 +620,14 @@ namespace QuestionsProject
             // Create a Section
             Section sec = new Section();
 
-            foreach (var item in _variant.QuestItems.OrderBy(p=> p.Order))
-            {
-                Paragraph _questTitle = new Paragraph();
-                _questTitle.TextAlignment = TextAlignment.Left;
-                _questTitle.KeepTogether = true;
-
-                _questTitle.Inlines.Add("Вопрос:");
-                _questTitle.Inlines.Add(new LineBreak());
-                _questTitle.Inlines.Add(item.Quest.Text);
-                _questTitle.Inlines.Add(new LineBreak());
-
-                _questTitle.Inlines.Add("Ответы:");
-                _questTitle.Inlines.Add(new LineBreak());
-
-                foreach (var asnwer in item.Quest.Answers)
-                {
-                    string let;
-                    if (asnwer.Order == null) { let = "Z"; } else { let = AnswerChair[(int)asnwer.Order]; }
-
-                    if (asnwer.Correct == true)
-                    {
-                        Bold bld = new Bold();
-                        bld.Inlines.Add(let + ".  ");
-                        bld.Inlines.Add(asnwer.Text);
-                        _questTitle.Inlines.Add(bld);
-                        _questTitle.Inlines.Add(new LineBreak());
-                    }
-                    else
-                    {
-                        _questTitle.Inlines.Add(let + ".  ");
-                        _questTitle.Inlines.Add(asnwer.Text);
-                        _questTitle.Inlines.Add(new LineBreak());
-                    }
-                }
-                _questTitle.Inlines.Add(new LineBreak());
-                _questTitle.Inlines.Add("_____________________________________________________________");
-
-                sec.Blocks.Add(_questTitle);
-            }
+            sec.Blocks.AddRange((new ContentForPrint(_variant)).getContent());
 
             doc.Blocks.Add(sec);
 
             return doc;
         }
+
+
 
         private void mixingQuestItems(object sender, RoutedEventArgs e)
         {
@@ -648,7 +642,7 @@ namespace QuestionsProject
             var array = _variant.QuestItems.ToArray();
 
             var rand = new Random();
-            for (var i = 1; i < array.Length; i++)
+            for (var i = 0; i < array.Length; i++)
             {
                 var rnd = rand.Next(i, array.Length);
 
@@ -696,6 +690,16 @@ namespace QuestionsProject
         //      End Quest
 
 
+        private void listItems_changeSelectProgram(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox lstbox = (ListBox)sender;
+
+            var _programs = from p in lstbox.SelectedItems.Cast<Program>() select p;
+
+            expanderPrograms.IsExpanded = false;
+
+            listBoxQuests.ItemsSource = getDifferentQuest();
+        }
 
 
 

@@ -146,7 +146,7 @@ namespace QuestionsProject
             var array = _quest.Answers.ToArray();
 
             var rand = new Random();
-            for (var i = 1; i < array.Length; i++)
+            for (var i = 0; i < array.Length; i++)
             {
                 var rnd = rand.Next(i, array.Length);
 
