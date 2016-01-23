@@ -51,19 +51,36 @@ namespace QuestionsProject
             {
                 gridAnswers.RowDefinitions.Add(new RowDefinition() { Height = GridLength.Auto });
 
-                var txtLetterAnswer = new TextBlock() { Text = AnswerChair[(int)answer.Order] };
-                txtLetterAnswer.SetValue(Grid.ColumnProperty, 0);
-                txtLetterAnswer.SetValue(Grid.RowProperty, row);
-                txtLetterAnswer.VerticalAlignment = VerticalAlignment.Top;
-                txtLetterAnswer.Margin = new Thickness(0, 0, 0, 7);
+                var txtLetterAnswer = new TextBlock();
 
-                gridAnswers.Children.Add(txtLetterAnswer);
+                if (answer.Order != null) { txtLetterAnswer.Text = AnswerChair[(int)answer.Order]; }
+                else { txtLetterAnswer.Text = ""; }
+
+                //txtLetterAnswer.SetValue(Grid.ColumnProperty, 0);
+                //txtLetterAnswer.SetValue(Grid.RowProperty, row);
+                txtLetterAnswer.VerticalAlignment = VerticalAlignment.Center;
+                txtLetterAnswer.HorizontalAlignment = HorizontalAlignment.Center;
+
+                //txtLetterAnswer.Margin = new Thickness(0, 0, 0, 7);
+
+                Border _circleLetter = new Border();
+                _circleLetter.Width = 30; _circleLetter.Height = 30;
+                _circleLetter.CornerRadius = new CornerRadius(50);
+                _circleLetter.BorderThickness = new Thickness(1);
+                _circleLetter.BorderBrush = Brushes.Bisque;
+                _circleLetter.Padding = new Thickness(5);
+                _circleLetter.Margin = new Thickness(0, 0, 7, 4);
+                _circleLetter.SetValue(Grid.ColumnProperty, 0);
+                _circleLetter.SetValue(Grid.RowProperty, row);
+                _circleLetter.Child = txtLetterAnswer;
+
+                gridAnswers.Children.Add(_circleLetter);
 
                 var txtTextAnswer = new TextBlock() { Text = answer.Text };
                 txtTextAnswer.TextWrapping = TextWrapping.Wrap;
                 txtTextAnswer.TextAlignment = TextAlignment.Left;
-                txtTextAnswer.VerticalAlignment = VerticalAlignment.Top;
-                txtTextAnswer.Margin = new Thickness(0, 0, 0, 7);
+                txtTextAnswer.VerticalAlignment = VerticalAlignment.Center;
+                //txtTextAnswer.Margin = new Thickness(0, 0, 0, 7);
                 txtTextAnswer.SetValue(Grid.ColumnProperty, 1);
                 txtTextAnswer.SetValue(Grid.RowProperty, row);
 

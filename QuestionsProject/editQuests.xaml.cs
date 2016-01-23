@@ -44,6 +44,7 @@ namespace QuestionsProject
         {
             _questionare = questionare;
             InitializeComponent();
+            listAnswers.Items.SortDescriptions.Add( new System.ComponentModel.SortDescription("Order", System.ComponentModel.ListSortDirection.Ascending));
         }
 
         public editQuests(Quest _quest, QustionareOnline questionare)
@@ -53,6 +54,8 @@ namespace QuestionsProject
             InitializeComponent();
 
             RootQuest.DataContext = _quest;
+
+            listAnswers.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Order", System.ComponentModel.ListSortDirection.Ascending));
 
             //using (_db = new QuestionsContext()) {
             //    _db.Database.Log = Console.Write;
@@ -69,6 +72,8 @@ namespace QuestionsProject
             _questionare = questionare;
 
             InitializeComponent();
+
+            listAnswers.Items.SortDescriptions.Add(new System.ComponentModel.SortDescription("Order", System.ComponentModel.ListSortDirection.Ascending));
 
             RootQuest.DataContext = _questitem.Quest;
         }

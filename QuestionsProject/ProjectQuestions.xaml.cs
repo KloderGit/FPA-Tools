@@ -33,6 +33,7 @@ namespace QuestionsProject
             _questionare = new QustionareOnline();
             Root.DataContext = _questionare.getChapter();
             listBoxPrograms.ItemsSource = _questionare.getPrograms();
+            listItems.Items.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
             //WrapperInfo.DataContext = null; 
         }
 
@@ -506,7 +507,7 @@ namespace QuestionsProject
 
         private IEnumerable getDifferentQuest() {
 
-            IEnumerable array = null;
+            //IEnumerable array = null;
 
             List<Quest> result = new List<Quest>();
 
@@ -599,7 +600,7 @@ namespace QuestionsProject
 
                 doc.PageHeight = printDlg.PrintableAreaHeight;
                 doc.PageWidth = printDlg.PrintableAreaWidth;
-                doc.PagePadding = new Thickness(50);
+                doc.PagePadding = new Thickness(60, 45, 30, 30);
                 doc.ColumnGap = 0;
                 doc.ColumnWidth = printDlg.PrintableAreaWidth;
                 //doc.Name = _variant.Chapter.Text;
@@ -616,9 +617,36 @@ namespace QuestionsProject
         {
             // Create a FlowDocument
             FlowDocument doc = new FlowDocument();
+            doc.FontFamily = new FontFamily("Sergoe UI");
 
             // Create a Section
             Section sec = new Section();
+
+            Paragraph paraHeader = new Paragraph();
+            //paraHeader.FontSize = 22;
+            //Bold _bold1 = new Bold(new Run(_variant.Chapter.Text));
+            //paraHeader.Inlines.Add(_bold1); 
+
+            //sec.Blocks.Add(paraHeader);
+
+            //Paragraph paraHeaderVariant = new Paragraph();
+            //paraHeaderVariant.FontSize = 16;
+            //paraHeaderVariant.Inlines.Add(new Run("Вариант: " + _variant.Text + "   Дата генерации: " + _variant.Modify.ToString())); paraHeaderVariant.Inlines.Add(Environment.NewLine);
+
+            //sec.Blocks.Add(paraHeaderVariant);
+
+            Run _header = new Run();
+            _header.FontSize = 22;
+            _header.Text = _variant.Chapter.Text + Environment.NewLine;
+            Bold _bold = new Bold(_header);
+            paraHeader.Inlines.Add(_bold);
+
+            Run _headerV = new Run();
+            _headerV.FontSize = 16;
+            _headerV.Text = "Вариант: " + _variant.Text + "   Дата генерации: " + _variant.Modify.ToString() + Environment.NewLine + "_______________________________________________________________________________________";
+            paraHeader.Inlines.Add(_headerV);
+
+            sec.Blocks.Add(paraHeader);
 
             sec.Blocks.AddRange((new ContentForPrint(_variant)).getContent());
 
@@ -654,7 +682,6 @@ namespace QuestionsProject
 
                 item2.Order = order1;
                 item1.Order = order2;
-
             }
 
             ICollectionView _customerView = CollectionViewSource.GetDefaultView(listItems.ItemsSource);
