@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using QuestionsEntityClassLibrary;
 using System.Windows.Documents;
 using System.Collections;
+using System.Windows.Controls;
+
 
 namespace QuestionsProject
 {
@@ -30,6 +32,18 @@ namespace QuestionsProject
 
         public IEnumerable getContent() {
             return _content;
-        }  
+        }
+
+        public BlockUIContainer getAnswersRusult() {
+
+            WrapPanel _wrappanel = new WrapPanel();
+
+            foreach (var _questItem in _variant.QuestItems.OrderBy(p => p.Order))
+            {
+                _wrappanel.Children.Add( new OneAnswerForResult(_questItem) );
+            }
+
+            return new BlockUIContainer(_wrappanel);
+        }
     }
 }

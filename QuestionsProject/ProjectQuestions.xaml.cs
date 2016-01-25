@@ -659,7 +659,9 @@ namespace QuestionsProject
 
             sec.Blocks.Add(paraHeader);
 
-            sec.Blocks.AddRange((new ContentForPrint(_variant)).getContent());
+            //sec.Blocks.AddRange((new ContentForPrint(_variant)).getContent());            
+
+            sec.Blocks.Add((new ContentForPrint(_variant)).getAnswersRusult());
 
             doc.Blocks.Add(sec);
 
