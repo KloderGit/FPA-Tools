@@ -131,13 +131,14 @@ namespace QuestionsProject
             panelRight.txtWindowTitle.Text = "Редактирование Варианта";
             panelRight.Owner = App.Current.MainWindow;
 
-            editChapter edit_object = new editChapter(_variant);
+            editVariant edit_object = new editVariant(_variant);
             panelRight.forContent.Children.Add(edit_object);
 
             if (panelRight.ShowDialog() == true)
             {
                 _variant.Text = edit_object.Title;
                 _variant.Description = edit_object.Description;
+                _variant.CountQuests = int.Parse(edit_object.CountQuestInVariant);
 
                 if (_questionare.editVariant(_variant)) { Console.WriteLine("Сохранено успешно!"); }
             }
@@ -163,7 +164,7 @@ namespace QuestionsProject
             panelRight.txtWindowTitle.Text = "Добавление Варианта";
             panelRight.Owner = App.Current.MainWindow;
 
-            editChapter edit_object = new editChapter();
+            editVariant edit_object = new editVariant();
             panelRight.forContent.Children.Add(edit_object);
 
             if (panelRight.ShowDialog() == true)
@@ -171,6 +172,7 @@ namespace QuestionsProject
                 Variant _item = new Variant();
                 _item.Text = edit_object.txtTitle.Text;
                 _item.Description = edit_object.txtDescription.Text;
+                _item.CountQuests = int.Parse(edit_object.CountQuestInVariant);
                 _item.Chapter = _chapter;
                 _item.Chapter_Id = _chapter.Id;
 
@@ -189,11 +191,11 @@ namespace QuestionsProject
 
 
 
-        private void button4_Click(object sender, RoutedEventArgs e)
-        {
-            ((CollectionViewSource)this.Resources["ItemsForTreeViewMenu"]).View.Refresh();
+        //private void button4_Click(object sender, RoutedEventArgs e)
+        //{
+        //    ((CollectionViewSource)this.Resources["ItemsForTreeViewMenu"]).View.Refresh();
 
-        }
+        //}
 
 
 //      Работа с Quest
@@ -328,43 +330,52 @@ namespace QuestionsProject
             Variant _variant = (Variant)(((Button)sender).DataContext);
             Chapter _chapter = _variant.Chapter;
 
-            Quest _quest = new Quest();
-            _quest.Chapter = _chapter;
-            _quest.Chapter_Id = _chapter.Id;
-
-            //  Определяем максимальное значение ORder у элементов для добавления ордер у добавляемых
-            int countOrder = 0;
-            var listOrder = from i in _variant.QuestItems where i.Order != null select (int)i.Order;
-            if (listOrder.Count() > 0) { countOrder = listOrder.Max(); }
-
-            WindowRight panelRight = new WindowRight();
-            panelRight.txtWindowTitle.Text = "Добавление Вопроса";
-            panelRight.Owner = App.Current.MainWindow;
-
-            editQuests edit_object = new editQuests(_quest, _questionare);
-            panelRight.forContent.Children.Add(edit_object);
-
-            if (panelRight.ShowDialog() == true)
+            if (_variant.QuestItems.Count < _variant.CountQuests)   //  Если количество позволяет добавить новый
             {
-                if (_questionare.addQuest(_quest))
+
+                Quest _quest = new Quest();
+                _quest.Chapter = _chapter;
+                _quest.Chapter_Id = _chapter.Id;
+
+                //  Определяем максимальное значение ORder у элементов для добавления ордер у добавляемых
+                int countOrder = 0;
+                var listOrder = from i in _variant.QuestItems where i.Order != null select (int)i.Order;
+                if (listOrder.Count() > 0) { countOrder = listOrder.Max(); }
+
+                WindowRight panelRight = new WindowRight();
+                panelRight.txtWindowTitle.Text = "Добавление Вопроса";
+                panelRight.Owner = App.Current.MainWindow;
+
+                editQuests edit_object = new editQuests(_quest, _questionare);
+                panelRight.forContent.Children.Add(edit_object);
+
+                if (panelRight.ShowDialog() == true)
                 {
-                    QuestItem _questItem = new QuestItem();
-                    _questItem.Quest = _quest;
-                    _questItem.Quest_Id = _quest.Id;
-                    _questItem.Order = ++countOrder;
-                    _questItem.Modify = DateTime.Now;
-                    _questItem.Created = DateTime.Now;
+                    if (_questionare.addQuest(_quest))
+                    {
+                        QuestItem _questItem = new QuestItem();
+                        _questItem.Quest = _quest;
+                        _questItem.Quest_Id = _quest.Id;
+                        _questItem.Order = ++countOrder;
+                        _questItem.Modify = DateTime.Now;
+                        _questItem.Created = DateTime.Now;
 
-                    _variant.QuestItems.Add(_questItem);
+                        _variant.QuestItems.Add(_questItem);
 
-                    //orderQuestItems(_variant);
+                        //orderQuestItems(_variant);
 
-                    if (_questionare.editVariant(_variant)) {
-                        Console.WriteLine("Вопрос для Варианта добавлен!");
-                        listBoxQuests.ItemsSource = getDifferentQuest();
-                        updateListItems();
+                        if (_questionare.editVariant(_variant))
+                        {
+                            Console.WriteLine("Вопрос для Варианта добавлен!");
+                            listBoxQuests.ItemsSource = getDifferentQuest();
+                            updateListItems();
+                        }
                     }
-                 }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Вариант заполнен максимальным количеством вопросов", "Переполнение", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
         }
 
@@ -374,7 +385,7 @@ namespace QuestionsProject
         {          
             Variant _variant = (Variant)((Button)sender).DataContext;
             
-            int maximum_in_variant = 60;   //  Максимум
+            int maximum_in_variant = _variant.CountQuests;   //  Максимум
             var current_in_variant = (from i in _variant.QuestItems select i.Quest).ToList();  //  Существуют
             var selected_in_panel = listBoxQuests.SelectedItems.Cast<Quest>().ToList();         //  Выделены
             //var missing_in_variant = listBoxQuests.ItemsSource.Cast<Quest>().ToList();          //  Отсутствуют
@@ -410,7 +421,7 @@ namespace QuestionsProject
         private void generateFromRandomQuest(object sender, RoutedEventArgs e)
         {
             Variant _variant = (Variant)((Button)sender).DataContext;
-            int maximum_in_variant = 60;   //  Максимум
+            int maximum_in_variant = _variant.CountQuests;   //  Максимум
             var current_in_variant = (from i in _variant.QuestItems select i.Quest).ToList();  //  Существуют
             var missing_in_variant = listBoxQuests.ItemsSource.Cast<Quest>().ToList();          //  Отсутствуют
             int count_to_add = 0;
@@ -470,19 +481,19 @@ namespace QuestionsProject
 
         }
 
-        private void showPaneladdQuestItem(object sender, RoutedEventArgs e)
-        {
-            //if (PaneladdQuestItem.Visibility == Visibility.Visible) { PaneladdQuestItem.Visibility = Visibility.Collapsed; }
-            //if (PaneladdQuestItem.Visibility == Visibility.Collapsed) { PaneladdQuestItem.Visibility = Visibility.Visible; }
-        }
+        //private void showPaneladdQuestItem(object sender, RoutedEventArgs e)
+        //{
+        //    //if (PaneladdQuestItem.Visibility == Visibility.Visible) { PaneladdQuestItem.Visibility = Visibility.Collapsed; }
+        //    //if (PaneladdQuestItem.Visibility == Visibility.Collapsed) { PaneladdQuestItem.Visibility = Visibility.Visible; }
+        //}
 
 
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine(listBoxQuests.DataContext.GetType());
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Console.WriteLine(listBoxQuests.DataContext.GetType());
             
-        }
+        //}
 
         private void removeQuestItems_Click(object sender, RoutedEventArgs e)
         {
@@ -495,6 +506,7 @@ namespace QuestionsProject
                 if (_questionare.removeQuestsItems(selected_items)) {
                     MessageBox.Show("Успешно удалены", "Успешно!", MessageBoxButton.OK, MessageBoxImage.Information);
                     listBoxQuests.ItemsSource = getDifferentQuest();
+                    orderQuestItems(_variant); _questionare.editVariant(_variant);
                 }
             }
         }
@@ -502,7 +514,6 @@ namespace QuestionsProject
         private void hidePanel(object sender, RoutedEventArgs e)
         {
             hideRightPanel();
-
         }
 
         private IEnumerable getDifferentQuest() {
@@ -669,6 +680,8 @@ namespace QuestionsProject
         {
             var array = _variant.QuestItems.ToArray();
 
+            orderQuestItems(_variant);  // Сначало пересортировка от 1 до n. Иначе, как бы не изменил сортировку mixing этот order все вернет на место
+
             var rand = new Random();
             for (var i = 0; i < array.Length; i++)
             {
@@ -682,33 +695,32 @@ namespace QuestionsProject
 
                 item2.Order = order1;
                 item1.Order = order2;
-            }
+            }          
 
             ICollectionView _customerView = CollectionViewSource.GetDefaultView(listItems.ItemsSource);
             _customerView.SortDescriptions.Clear();
             _customerView.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
+
+            //_questionare.editVariant(_variant);
         }
 
         private void orderQuestItems(Variant _variant)
         {
             var array = _variant.QuestItems.ToArray();
 
-            int itemCount = 1;
-
-            foreach (var item in array)
+            int neworder = 1;
+            for (var i = 0; i < array.Length; i++)
             {
-                item.Order = itemCount;
-                itemCount++;
-            }
-
-            _questionare.editVariant(_variant);
+                array[i].Order = neworder++;
+            }            
 
             ICollectionView _customerView = CollectionViewSource.GetDefaultView(listItems.ItemsSource);
             _customerView.SortDescriptions.Clear();
             _customerView.SortDescriptions.Add(new SortDescription("Order", ListSortDirection.Ascending));
         }
 
-        private void updateListItems() {
+        private void updateListItems()
+        {
             ICollectionView _customerView = CollectionViewSource.GetDefaultView(listItems.ItemsSource);
             _customerView.Refresh();
         }

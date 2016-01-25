@@ -179,8 +179,8 @@
                             <DataTemplate DataType="{x:Type kld:QuestItem}">
                                 <StackPanel>
                                     <StackPanel Orientation="Horizontal">
-                                        <!--<TextBlock Text="{Binding Order}"
-                                                   VerticalAlignment="Center"/>-->
+                                        <TextBlock Text="{Binding Order}"
+                                                   VerticalAlignment="Center"/>
                                         <Image Visibility="{Binding   UpdateSourceTrigger=PropertyChanged, Converter={StaticResource  ConverterQuestItemWarning}}"
                                             Source=".\images\Warning - 04.png" Width="30" Height="30" VerticalAlignment="Center" Margin="0,5,0,0"/>
                                         <TextBlock Text="{Binding Quest.Text}" 

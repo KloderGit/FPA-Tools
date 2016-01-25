@@ -130,6 +130,9 @@
     <Compile Include="Converters\ConverterWrapperBigVariant.cs" />
     <Compile Include="Converters\DescriptionConverter.cs" />
     <Compile Include="Converters\TitleConverter.cs" />
+    <Compile Include="editVariant.xaml.cs">
+      <DependentUpon>editVariant.xaml</DependentUpon>
+    </Compile>
     <Compile Include="questForListForPrint.xaml.cs">
       <DependentUpon>questForListForPrint.xaml</DependentUpon>
     </Compile>
@@ -143,6 +146,10 @@
     <Page Include="editAnswer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="editVariant.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="editChapter.xaml">
       <SubType>Designer</SubType>

@@ -12,20 +12,20 @@ namespace QuestionsEntityClassLibrary
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    
+
     public partial class Variant
     {
-        public ObservableCollection<QuestItem> GetChildren
-        {
-            get { return this.QuestItems; }
-        }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Variant()
         {
             this.QuestItems = new ObservableCollection<QuestItem>();
         }
-    
+
+        public ObservableCollection<QuestItem> GetChildren
+        {
+            get { return this.QuestItems; }
+        }
+
         public int Id { get; set; }
         public string Text { get; set; }
         public string Description { get; set; }
@@ -33,6 +33,7 @@ namespace QuestionsEntityClassLibrary
         public System.DateTime Modify { get; set; }
         public string Editor { get; set; }
         public int Chapter_Id { get; set; }
+        public int CountQuests { get; set; }
     
         public virtual Chapter Chapter { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -19,7 +19,7 @@ namespace QuestionsProject
     /// <summary>
     /// Interaction logic for edit.xaml
     /// </summary>
-    public partial class editChapter : UserControl
+    public partial class editVariant : UserControl
     {
 
         public string Title
@@ -33,19 +33,22 @@ namespace QuestionsProject
             set { txtDescription.Text = value; }
         }
 
-        public editChapter()
+        public string CountQuestInVariant
+        {
+            get { return txtCount.Text; }
+            set { txtCount.Text = value; }
+        }
+
+
+        public editVariant()
         {
             InitializeComponent();
         }
 
-        public editChapter(Chapter _chapter)
+        public editVariant(Variant _variant)
         {
             InitializeComponent();
-
-            txtTitle.Text = _chapter.Text;
-            txtDescription.Text = _chapter.Description;
-
-            Root.DataContext = _chapter;
+            Root.DataContext = _variant;
         }
 
     }

@@ -7,22 +7,14 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-
 namespace QuestionsEntityClassLibrary
 {
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    
+
     public partial class Chapter
     {
-
-        public ObservableCollection<Quest> GetChildren
-        {
-            get { return this.Quests; }
-        }
-
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Chapter()
         {
@@ -30,8 +22,11 @@ namespace QuestionsEntityClassLibrary
             this.Variants = new ObservableCollection<Variant>();
         }
 
+        public ObservableCollection<Quest> GetChildren
+        {
+            get { return this.Quests; }
+        }
 
-    
         public int Id { get; set; }
         public string Text { get; set; }
         public string Description { get; set; }
@@ -43,6 +38,5 @@ namespace QuestionsEntityClassLibrary
         public virtual ObservableCollection<Quest> Quests { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Variant> Variants { get; set; }
-
     }
 }

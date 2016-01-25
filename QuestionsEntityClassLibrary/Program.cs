@@ -12,7 +12,7 @@ namespace QuestionsEntityClassLibrary
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    
+
     public partial class Program
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]

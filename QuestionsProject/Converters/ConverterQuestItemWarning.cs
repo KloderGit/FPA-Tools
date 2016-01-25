@@ -47,7 +47,7 @@ namespace QuestionsProject
 
             if (result == null) { error = true; }
 
-            return error ? Visibility.Visible : Visibility.Collapsed; ;
+            return error ? Visibility.Visible : Visibility.Collapsed;
         }
     }
 }

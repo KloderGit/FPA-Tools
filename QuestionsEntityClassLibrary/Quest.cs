@@ -12,14 +12,9 @@ namespace QuestionsEntityClassLibrary
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    
+
     public partial class Quest
     {
-        public ObservableCollection<Answer> GetChildren
-        {
-            get { return this.Answers; }
-        }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public Quest()
         {
@@ -27,7 +22,12 @@ namespace QuestionsEntityClassLibrary
             this.QuestItems = new ObservableCollection<QuestItem>();
             this.QuestProrams = new ObservableCollection<QuestProram>();
         }
-    
+
+        public ObservableCollection<Answer> GetChildren
+        {
+            get { return this.Answers; }
+        }
+
         public int Id { get; set; }
         public string Text { get; set; }
         public string Description { get; set; }
