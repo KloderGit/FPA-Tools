@@ -22,7 +22,7 @@ namespace QuestionsProject
     {
         Dictionary<int, string> AnswerChair;
 
-        public OneAnswerForResult(QuestionsEntityClassLibrary.QuestItem _questItem)
+        public OneAnswerForResult(QuestionsEntityClassLibrary.QuestItem _questItem, String _printType)
         {
             AnswerChair = new Dictionary<int, string>(5);
             AnswerChair.Add(1, "A");
@@ -33,9 +33,18 @@ namespace QuestionsProject
 
             InitializeComponent();
 
-            txtNumber.Text = _questItem.Order.ToString();
+            txtNumber.Text = _questItem.Order.ToString()+".";
 
             txtLetter.Text = AnswerChair[(int)((_questItem.Quest.Answers.FirstOrDefault(a => a.Correct == true)).Order)];
+
+            if (_printType == "key") {
+                StudentAnswer.Visibility = Visibility.Collapsed;
+            }
+            if (_printType == "blank")
+            {
+                KeyAnswer.BorderThickness = new Thickness(0);
+                txtLetter.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

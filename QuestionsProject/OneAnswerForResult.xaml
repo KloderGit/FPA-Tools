@@ -4,8 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuestionsProject"
-             mc:Ignorable="d" Width="133.25" Height="28.792" Margin="0,0,2,2">
-    <Border BorderBrush="#FF5B5B5B" BorderThickness="1,1,0,0">
+             mc:Ignorable="d" Width="155.583" Height="28.792" Margin="0,0,3,3">
+    <Border BorderBrush="#FF8F8F8F" BorderThickness="1,1,0,0">
         <Grid x:Name="Root">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="35"/>
@@ -13,8 +13,12 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock x:Name="txtNumber" Text="100"
-                       TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Center" FontSize="14.667"/>
+                       TextWrapping="Wrap" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="14.667"/>
             <TextBlock x:Name="txtLetter" Grid.Column="1" HorizontalAlignment="Center" TextWrapping="Wrap" Text="B." VerticalAlignment="Center" FontSize="14.667" FontWeight="Bold"/>
+
+            <Border x:Name="KeyAnswer" Grid.Column="2" Margin="0,1,0,0" BorderBrush="#FFCFCFCF" BorderThickness="1,0" >
+                <Border x:Name="StudentAnswer" Margin="7,2,7,0" BorderBrush="#FF8F8F8F" BorderThickness="1"/>
+            </Border>
 
         </Grid>
     </Border>

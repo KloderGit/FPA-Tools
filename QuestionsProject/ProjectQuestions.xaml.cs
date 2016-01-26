@@ -598,78 +598,6 @@ namespace QuestionsProject
             };
         }
 
-        private void printVariant(object sender, RoutedEventArgs e)
-        {
-            Variant _variant = (Variant)((Button)sender).DataContext;
-
-            PrintDialog printDlg = new PrintDialog();
-
-
-            if (printDlg.ShowDialog() == true)
-            {
-                FlowDocument doc = CreateFlowDocument(_variant, printDlg);
-
-                doc.PageHeight = printDlg.PrintableAreaHeight;
-                doc.PageWidth = printDlg.PrintableAreaWidth;
-                doc.PagePadding = new Thickness(60, 45, 30, 30);
-                doc.ColumnGap = 0;
-                doc.ColumnWidth = printDlg.PrintableAreaWidth;
-                //doc.Name = _variant.Chapter.Text;
-
-                IDocumentPaginatorSource idpSource = doc;
-
-                printDlg.PrintDocument(idpSource.DocumentPaginator, "Variant Print.");
-
-            }
-        }
-
-
-        private FlowDocument CreateFlowDocument(Variant _variant, PrintDialog printDlg)
-        {
-            // Create a FlowDocument
-            FlowDocument doc = new FlowDocument();
-            doc.FontFamily = new FontFamily("Sergoe UI");
-
-            // Create a Section
-            Section sec = new Section();
-
-            Paragraph paraHeader = new Paragraph();
-            //paraHeader.FontSize = 22;
-            //Bold _bold1 = new Bold(new Run(_variant.Chapter.Text));
-            //paraHeader.Inlines.Add(_bold1); 
-
-            //sec.Blocks.Add(paraHeader);
-
-            //Paragraph paraHeaderVariant = new Paragraph();
-            //paraHeaderVariant.FontSize = 16;
-            //paraHeaderVariant.Inlines.Add(new Run("Вариант: " + _variant.Text + "   Дата генерации: " + _variant.Modify.ToString())); paraHeaderVariant.Inlines.Add(Environment.NewLine);
-
-            //sec.Blocks.Add(paraHeaderVariant);
-
-            Run _header = new Run();
-            _header.FontSize = 22;
-            _header.Text = _variant.Chapter.Text + Environment.NewLine;
-            Bold _bold = new Bold(_header);
-            paraHeader.Inlines.Add(_bold);
-
-            Run _headerV = new Run();
-            _headerV.FontSize = 16;
-            _headerV.Text = "Вариант: " + _variant.Text + "   Дата генерации: " + _variant.Modify.ToString() + Environment.NewLine + "_______________________________________________________________________________________";
-            paraHeader.Inlines.Add(_headerV);
-
-            sec.Blocks.Add(paraHeader);
-
-            //sec.Blocks.AddRange((new ContentForPrint(_variant)).getContent());            
-
-            sec.Blocks.Add((new ContentForPrint(_variant)).getAnswersRusult());
-
-            doc.Blocks.Add(sec);
-
-            return doc;
-        }
-
-
-
         private void mixingQuestItems(object sender, RoutedEventArgs e)
         {
             Variant _variant = (Variant)((Button)sender).DataContext;
@@ -741,6 +669,74 @@ namespace QuestionsProject
 
             listBoxQuests.ItemsSource = getDifferentQuest();
         }
+
+
+
+        private void printVariant(object sender, RoutedEventArgs e)
+        {
+            PrintPanel.Visibility = Visibility.Visible;
+        }
+
+        private void QuestionarePrint_Click(object sender, RoutedEventArgs e)
+        {
+            Variant _variant = (Variant)WrapperInfo.DataContext;
+
+            Section _section = new ContentForPrint(_variant, "quest").getSection();
+
+            print(_section);
+        }
+
+        private void AnswerKeyPrint_Click(object sender, RoutedEventArgs e)
+        {
+            Variant _variant = (Variant)WrapperInfo.DataContext;
+
+            Section _section = new ContentForPrint(_variant, "key").getSection();
+
+            print(_section);
+        }
+
+        private void AnswerBlankPrint_Click(object sender, RoutedEventArgs e)
+        {
+            Variant _variant = (Variant)WrapperInfo.DataContext;
+
+            Section _section = new ContentForPrint(_variant, "blank").getSection();
+
+            print(_section);
+        }
+
+
+        private void print(Section _section) {
+            FlowDocument doc = new FlowDocument();
+            doc.FontFamily = new FontFamily("Sergoe UI");
+
+            doc.Blocks.Add(_section);
+
+            PrintDialog printDlg = new PrintDialog();
+
+
+            if (printDlg.ShowDialog() == true)
+            {
+                doc.PageHeight = printDlg.PrintableAreaHeight;
+                doc.PageWidth = printDlg.PrintableAreaWidth;
+                doc.PagePadding = new Thickness(60, 45, 30, 30);
+                doc.ColumnGap = 0;
+                doc.ColumnWidth = printDlg.PrintableAreaWidth;
+                //doc.Name = _variant.Chapter.Text;
+
+                IDocumentPaginatorSource idpSource = doc;
+
+                printDlg.PrintDocument(idpSource.DocumentPaginator, "Variant Print.");
+            }
+        }
+
+        private void printPanelClose_Click(object sender, RoutedEventArgs e)
+        {
+            PrintPanel.Visibility = Visibility.Collapsed;
+        }
+
+
+
+
 
 
 
