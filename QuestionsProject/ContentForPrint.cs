@@ -15,15 +15,7 @@ namespace QuestionsProject
     {
         Variant _variant;
         String _printType;
-        BlockUIContainer _printContent;
         Section _section = new Section();
-
-        List<BlockUIContainer> _content1 = new List<BlockUIContainer>();
-
-        public ContentForPrint(Variant variant) {
-            _variant = variant;
-            prepareContent();
-        }
 
         public ContentForPrint(Variant variant, String printType)
         {
@@ -33,35 +25,11 @@ namespace QuestionsProject
             preparePrintContent();
         }
 
-        private void prepareContent()
-        {
-            foreach (var _questItem in _variant.QuestItems.OrderBy(p => p.Order))
-            {
-                _content1.Add(new BlockUIContainer(new questForListForPrint(_questItem)));
-            }
-        }
-
-        public IEnumerable getContent() {
-            return _content1;
-        }
 
         public Section getSection()
         {
             return _section;
         }
-
-        public BlockUIContainer getAnswersRusult() {
-
-            WrapPanel _wrappanel = new WrapPanel();
-
-            foreach (var _questItem in _variant.QuestItems.OrderBy(p => p.Order))
-            {
-                _wrappanel.Children.Add( new OneAnswerForResult(_questItem, "key") );
-            }
-
-            return new BlockUIContainer(_wrappanel);
-        }
-
 
         protected void preparePrintContent()
         {
@@ -78,7 +46,8 @@ namespace QuestionsProject
 
             WrapPanel _wrappanel = new WrapPanel();
             _wrappanel.Orientation = Orientation.Vertical;
-            _wrappanel.Margin = new System.Windows.Thickness(0, 100, 0, 0);
+            //_wrappanel.Margin = new System.Windows.Thickness(0, 200, 0, 0);
+            _wrappanel.Height = 900;
 
             foreach (var _questItem in _variant.QuestItems.OrderBy(p => p.Order))
             {

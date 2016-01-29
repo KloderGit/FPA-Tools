@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FPAControls"
         mc:Ignorable="d"
-        Title="WindowRight" Height="300" Width="300" AllowsTransparency="True" WindowStyle="None" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" BorderBrush="#FF2E75DA" BorderThickness="2,7,2,2" ResizeMode="NoResize" ShowInTaskbar="False">
+        Title="WindowRight" Height="300" Width="300" AllowsTransparency="True" WindowStyle="None" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" BorderBrush="#FF427CA4" BorderThickness="2,7,2,2" ResizeMode="NoResize" ShowInTaskbar="False">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="15"/>
@@ -23,9 +23,9 @@
                 <Button x:Name="button1" IsCancel="True" Content="Отмена" Width="120" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"/>
             </StackPanel>
         </Grid>
-        <Border Grid.Row="1" Background="#FF2E75DA">
+        <Border Grid.Row="1" Background="#FF427CA4">
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="button3" IsCancel="True" Content="Button" Width="43" Height="43" Margin="10,0,0,0"/>
+                <Button x:Name="button3" Content="Закрыть" IsCancel="True"  Width="43" Height="43" Margin="10,0,0,0"/>
                 <TextBlock x:Name="txtWindowTitle" x:FieldModifier="public" TextWrapping="Wrap" Text="TextBlock" Foreground="White" VerticalAlignment="Center" Margin="20,0,0,0" FontSize="24" FontWeight="Light"/>
             </StackPanel>
 

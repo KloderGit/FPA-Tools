@@ -6,10 +6,10 @@
              xmlns:local="clr-namespace:QuestionsProject"
              mc:Ignorable="d" Height="266.912" Width="435.662">
     <Grid x:Name="RootAnswer" Margin="10">
-        <TextBox x:Name="txtText" TextWrapping="Wrap" Text="{Binding Text}" Margin="0,34,0,97"/>
+        <TextBox x:Name="txtText" TextWrapping="Wrap" AcceptsReturn="True" Text="{Binding Text}" Margin="0,34,0,97"/>
         <Label x:Name="label" Content="Ответ" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
         <Label x:Name="label_Copy" Content="Описание" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="16" FontWeight="Light" Margin="0,183,0,0"/>
-        <TextBox x:Name="txtDescription" HorizontalAlignment="Left" Height="53" Margin="103,191,0,0" TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top" Width="313"/>
+        <TextBox x:Name="txtDescription" HorizontalAlignment="Left" AcceptsReturn="True" Height="53" Margin="103,191,0,0" TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top" Width="313"/>
         <CheckBox x:Name="checkBox" Content="Это правильный ответ" IsChecked="{Binding Correct}" HorizontalAlignment="Left" Margin="103,163,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
     </Grid>
 </UserControl>

@@ -114,6 +114,30 @@
       <HintPath>packages\WPFToolkit.3.5.50211.1\lib\WPFToolkit.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=2.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=2.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=2.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=2.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=2.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=2.6.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.2.6\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -144,9 +168,6 @@
     <Compile Include="OneAnswerForResult.xaml.cs">
       <DependentUpon>OneAnswerForResult.xaml</DependentUpon>
     </Compile>
-    <Compile Include="PrintWariant.xaml.cs">
-      <DependentUpon>PrintWariant.xaml</DependentUpon>
-    </Compile>
     <Compile Include="questForListForPrint.xaml.cs">
       <DependentUpon>questForListForPrint.xaml</DependentUpon>
     </Compile>
@@ -158,6 +179,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="AnswersListForResult.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="appIcons.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="buttonStyle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -199,10 +228,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="OneAnswerForResult.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="PrintWariant.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -284,6 +309,25 @@
   <ItemGroup>
     <Resource Include="images\Measurements - 01.png" />
     <Resource Include="images\Warning - 04.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\Check List-WF.png" />
+    <Resource Include="images\Polling Board-WF.png" />
+    <Resource Include="images\View-List.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BigImage\CircleClose.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BigImage\AddQuest.png" />
+    <Resource Include="BigImage\EditChapter.png" />
+    <Resource Include="BigImage\MixVariant.png" />
+    <Resource Include="BigImage\NewChapter.png" />
+    <Resource Include="BigImage\NewVariant.png" />
+    <Resource Include="BigImage\Printer-WF.png" />
+    <Resource Include="BigImage\RemoveChapter.png" />
+    <Resource Include="BigImage\RemoveQuest.png" />
+    <Resource Include="BigImage\RemoveQuestList.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

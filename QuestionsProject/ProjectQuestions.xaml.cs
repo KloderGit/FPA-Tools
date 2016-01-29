@@ -731,7 +731,7 @@ namespace QuestionsProject
 
         private void printPanelClose_Click(object sender, RoutedEventArgs e)
         {
-            PrintPanel.Visibility = Visibility.Collapsed;
+            //PrintPanel.Visibility = Visibility.Collapsed;
         }
 
 
