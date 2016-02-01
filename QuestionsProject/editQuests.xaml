@@ -65,10 +65,10 @@
         <Button Content="Удалить ответ" HorizontalAlignment="Left" Margin="663,8,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="removeAnswer_Click"/>
         <Label x:Name="label2_Copy" Content="Всего ответов:" HorizontalAlignment="Left" Margin="405,249,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
         <Label x:Name="label2_Copy1" Content="{Binding Answers.Count}" HorizontalAlignment="Left" Margin="518,249,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
-        <Button Style="{StaticResource Flat}" x:Name="button1" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="107,297,0,0" FontSize="10.667" Click="selectPrograms_Click" Width="30" Height="30">
+        <Button  x:Name="button1" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="107,297,0,0" FontSize="10.667" Click="selectPrograms_Click" Width="30" Height="30" BorderThickness="0" Padding="0">
             <ContentControl>
                 <StackPanel>
-                    <Image Source=".\images\checkProgram.png" Width="21" Height="21"/>
+                    <Image Source=".\BigImage\Filter-Standard.png" Width="21" Height="21"/>
                    
                 </StackPanel>
             </ContentControl>

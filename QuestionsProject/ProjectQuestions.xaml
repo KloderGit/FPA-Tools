@@ -12,44 +12,6 @@
 
     <UserControl.Resources>
 
-
-        <Style x:Key="Flat" TargetType="{x:Type Button}">
-                <Setter Property="Background" Value="{x:Null}" />
-                <Setter Property="BorderBrush" Value="{x:Null}" />
-
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type Button}">
-                        <Grid x:Name="grid" Background="{x:Null}">
-                            <Rectangle x:Name="Fon" Height="Auto" Margin="0" VerticalAlignment="Stretch" Fill="#FFD3F700" Stroke="#FFFDDC00" Opacity="0"/>
-                            <Rectangle x:Name="ImageFon" Margin="0" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
-                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                        </Grid>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#FFC9EEFF" />
-                    <Setter Property="BorderBrush" Value="{x:Null}" />
-                    <Setter Property="FontWeight" Value="Normal" />
-                    <Setter Property="Foreground" Value="Blue" />
-                </Trigger>
-                <Trigger Property="IsFocused" Value="True">
-                    <Setter Property="FontWeight" Value="Normal" />
-                </Trigger>
-                <Trigger Property="Button.IsEnabled" Value="False">
-                    <Setter Property="Button.Background" Value="{x:Null}" />
-                    <Setter Property="Button.BorderBrush" Value="{x:Null}" />
-                    <Setter Property="FontWeight" Value="Normal" />
-                    <Setter Property="Foreground" Value="Gray" />
-                    <Setter Property="Opacity" Value=".3" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
-
-
         <Storyboard x:Key="sbShowRightMenu" >
             <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,-605,0" To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:.3" />
         </Storyboard>
@@ -248,14 +210,24 @@
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
                                 <Canvas Margin="5,0,0,0" Panel.ZIndex="10">
-                                    <Button Content="Выделенные"
-										HorizontalAlignment="Left" 
+                                    <Button HorizontalAlignment="Left" 
 										VerticalAlignment="Center" 
-										Height="30" Click="addRandomQuest" Canvas.Left="257" Canvas.Top="14"/>
-                                    <Button Content="Случайный выбор"
-										HorizontalAlignment="Left"
+										Height="30" Click="addRandomQuest" Canvas.Left="257" Canvas.Top="14">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source=".\BigImage\selected.png"  />
+                                            <TextBlock VerticalAlignment="Center">Выделенные</TextBlock>
+                                        </StackPanel>
+                                    </Button>
+
+                                    <Button HorizontalAlignment="Left"
 										VerticalAlignment="Center"
-										Height="30" Click="generateFromRandomQuest" Canvas.Left="408" Canvas.Top="14"/>
+										Height="30" Click="generateFromRandomQuest" Canvas.Left="408" Canvas.Top="14">
+                                        <StackPanel Orientation="Horizontal">
+                                            <Image Source=".\BigImage\random.png"  />
+                                            <TextBlock VerticalAlignment="Center">Случайный выбор</TextBlock>
+                                        </StackPanel>
+
+                                    </Button>
                                     <Expander x:Name="expanderPrograms" Header="Специально для:" Panel.ZIndex="10" IsExpanded="False" ClipToBounds="False" Canvas.Left="10" Canvas.Top="10">
                                         <Grid Background="#FFE5E5E5">
                                             <ListBox x:Name="listBoxPrograms" Grid.Row="1"
@@ -292,7 +264,7 @@
 										Click="hidePanel"  Margin="10,0,0,0">
                                         <ContentControl>
                                             <StackPanel>
-                                                <Image Source=".\images\Measurements - 01.png" Width="40"/>
+                                                <Image Source=".\BigImage\slideLeft.png" Width="40"/>
                                             </StackPanel>
                                         </ContentControl>
                                     </Button>

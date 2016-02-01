@@ -151,7 +151,7 @@
       <DependentUpon>AnswersListForResult.xaml</DependentUpon>
     </Compile>
     <Compile Include="CharAnswerEnum.cs" />
-    <Compile Include="ContentForPrint.cs" />
+    <Compile Include="Print\ContentForPrint.cs" />
     <Compile Include="Converters\ConverterQuestItemWarning.cs" />
     <Compile Include="Converters\ConverterForMissingQuestinVariant.cs" />
     <Compile Include="Converters\ConverterButtonForVariant.cs" />
@@ -165,10 +165,10 @@
     <Compile Include="editVariant.xaml.cs">
       <DependentUpon>editVariant.xaml</DependentUpon>
     </Compile>
-    <Compile Include="OneAnswerForResult.xaml.cs">
+    <Compile Include="Print\OneAnswerForResult.xaml.cs">
       <DependentUpon>OneAnswerForResult.xaml</DependentUpon>
     </Compile>
-    <Compile Include="questForListForPrint.xaml.cs">
+    <Compile Include="Print\questForListForPrint.xaml.cs">
       <DependentUpon>questForListForPrint.xaml</DependentUpon>
     </Compile>
     <Compile Include="selectPrograms.xaml.cs">
@@ -186,7 +186,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="buttonStyle.xaml">
+    <Page Include="buttonStyle11.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -227,7 +227,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="OneAnswerForResult.xaml">
+    <Page Include="Print\OneAnswerForResult.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -235,7 +235,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="questForListForPrint.xaml">
+    <Page Include="Print\questForListForPrint.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -328,6 +328,14 @@
     <Resource Include="BigImage\RemoveChapter.png" />
     <Resource Include="BigImage\RemoveQuest.png" />
     <Resource Include="BigImage\RemoveQuestList.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="BigImage\closePanel.png" />
+    <Resource Include="BigImage\Filter-Standard.png" />
+    <Resource Include="BigImage\random.png" />
+    <Resource Include="BigImage\selected.png" />
+    <Resource Include="BigImage\slideLeft.png" />
+    <Resource Include="BigImage\slideRight.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

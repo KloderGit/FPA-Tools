@@ -25,10 +25,10 @@ namespace QuestionsProject
 
         private bool selectValue(Object _value)
         {
-            bool v = false;
-            if (_value == null) { v = false; }
-            if (_value != null) { v = true; }
-            return v;
+            //bool v = false;
+            //if (_value == null) { v = false; }
+            //if (_value != null) { v = true; }
+            return _value is Chapter;
         }
     }
 }

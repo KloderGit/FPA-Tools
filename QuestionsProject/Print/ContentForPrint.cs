@@ -9,7 +9,7 @@ using System.Collections;
 using System.Windows.Controls;
 
 
-namespace QuestionsProject
+namespace QuestionsProject.Print
 {
     public class ContentForPrint
     {

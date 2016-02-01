@@ -681,7 +681,7 @@ namespace QuestionsProject
         {
             Variant _variant = (Variant)WrapperInfo.DataContext;
 
-            Section _section = new ContentForPrint(_variant, "quest").getSection();
+            Section _section = new QuestionsProject.Print.ContentForPrint(_variant, "quest").getSection();
 
             print(_section);
         }
@@ -690,7 +690,7 @@ namespace QuestionsProject
         {
             Variant _variant = (Variant)WrapperInfo.DataContext;
 
-            Section _section = new ContentForPrint(_variant, "key").getSection();
+            Section _section = new QuestionsProject.Print.ContentForPrint(_variant, "key").getSection();
 
             print(_section);
         }
@@ -699,7 +699,7 @@ namespace QuestionsProject
         {
             Variant _variant = (Variant)WrapperInfo.DataContext;
 
-            Section _section = new ContentForPrint(_variant, "blank").getSection();
+            Section _section = new QuestionsProject.Print.ContentForPrint(_variant, "blank").getSection();
 
             print(_section);
         }
