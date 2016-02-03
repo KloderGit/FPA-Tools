@@ -51,5 +51,41 @@ namespace QuestionsProject
             Root.DataContext = _variant;
         }
 
+
+        //private bool validationText(TextBox _textBox) {
+        //    bool _result = new bool();
+
+        //    _result = true;
+
+        //    if (string.IsNullOrWhiteSpace(_textBox.Text)) {
+        //        _result = false;
+        //        _textBox.BorderBrush = Brushes.DarkRed;
+        //    }
+
+        //    _textBox.BorderBrush = Brushes.Cyan;
+        //    return _result;
+        //}
+
+        //private bool validationInt(TextBox _textBox)
+        //{
+        //    bool _result = new bool();
+
+        //    _result = true;
+        //    int _number;
+
+        //    if (string.IsNullOrWhiteSpace(_textBox.Text) || !Int32.TryParse(_textBox.Text, out _number))
+        //    {
+        //        _result = false;
+        //    }
+
+        //    return _result;
+        //}
+
+        private void txtTitle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            //validationText((TextBox)sender);
+        }
+
+
     }
 }

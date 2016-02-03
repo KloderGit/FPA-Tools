@@ -37,5 +37,8 @@ namespace FPAControls
         {
             Console.WriteLine("Экземпляр окна уничтожен!");
         }
+
+
+
     }
 }

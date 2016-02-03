@@ -39,8 +39,9 @@ namespace QuestionsProject
 
         private void treeViewMenu_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (treeViewMenu.SelectedItem is Chapter) { hideRightPanel(); }
-            if (treeViewMenu.SelectedItem is Variant) { showRightPanel(); }
+            if (treeViewMenu.SelectedItem is Chapter) { hideRightPanel(); imgButtonSlidePanel.Source = new BitmapImage(new Uri("BigImage/slideLeft.png", UriKind.Relative));
+            }
+            //if (treeViewMenu.SelectedItem is Variant) { showRightPanel(); }
 
             listBoxPrograms.UnselectAll(); expanderPrograms.IsExpanded = false;
             listBoxQuests.ItemsSource = getDifferentQuest();
@@ -164,7 +165,7 @@ namespace QuestionsProject
             panelRight.txtWindowTitle.Text = "Добавление Варианта";
             panelRight.Owner = App.Current.MainWindow;
 
-            editVariant edit_object = new editVariant();
+            editVariant edit_object = new editVariant(new Variant());
             panelRight.forContent.Children.Add(edit_object);
 
             if (panelRight.ShowDialog() == true)
@@ -311,17 +312,36 @@ namespace QuestionsProject
 
         }
 
-        private void showRightPanel()
-        {
-            //ShadowPanel.Visibility = Visibility.Visible;
-            Storyboard sb = Resources["sbShowRightMenu"] as Storyboard;
-            sb.Begin(PaneladdQuestItem);
-        }
-
         private void hideRightPanel()
         {
+            Thickness margin0 = new Thickness(0, 0, 0, 0);
+            Storyboard sb = new Storyboard();
+
+            if (PaneladdQuestItem.Margin == margin0)
+            {
+                sb = Resources["sbHideRightMenu"] as Storyboard;
+                sb.Begin(PaneladdQuestItem);
+            }
+
+        }
+
+        private void toggleRightPanel()
+        {
+            Thickness margin0 = new Thickness(0,0,0,0);
+            Thickness margin610 = new Thickness(0, 0, -610, 0);
+
+            Storyboard sb = new Storyboard();
+
+            if (PaneladdQuestItem.Margin == margin0) {
+                sb = Resources["sbHideRightMenu"] as Storyboard;
+                imgButtonSlidePanel.Source = new BitmapImage(new Uri("BigImage/slideLeft.png", UriKind.Relative));
+            }
+
+            if (PaneladdQuestItem.Margin == margin610) {
+                sb = Resources["sbShowRightMenu"] as Storyboard;
+                imgButtonSlidePanel.Source = new BitmapImage(new Uri("BigImage/slideRight.png", UriKind.Relative));
+            }
             //ShadowPanel.Visibility = Visibility.Hidden;
-            Storyboard sb = Resources["sbHideRightMenu"] as Storyboard;
             sb.Begin(PaneladdQuestItem);
         }
 
@@ -511,9 +531,9 @@ namespace QuestionsProject
             }
         }
 
-        private void hidePanel(object sender, RoutedEventArgs e)
+        private void togglehidePanel(object sender, RoutedEventArgs e)
         {
-            hideRightPanel();
+            toggleRightPanel();
         }
 
         private IEnumerable getDifferentQuest() {

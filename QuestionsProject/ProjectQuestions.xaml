@@ -13,10 +13,10 @@
     <UserControl.Resources>
 
         <Storyboard x:Key="sbShowRightMenu" >
-            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,-605,0" To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:.3" />
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,-610,0" To="0,0,0,0" DecelerationRatio=".9" Duration="0:0:.3" />
         </Storyboard>
         <Storyboard x:Key="sbHideRightMenu">
-            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,0,0" To="0,0,-605,0" AccelerationRatio=".9" Duration="0:0:.3" />
+            <ThicknessAnimation Storyboard.TargetProperty="Margin" From="0,0,0,0" To="0,0,-610,0" AccelerationRatio=".9" Duration="0:0:.3" />
         </Storyboard>
 
         <ObjectDataProvider x:Key="get" MethodName="getDifferent"
@@ -112,10 +112,10 @@
 
                     <StackPanel Orientation="Horizontal">
                         <Image Source=".\BigImage\NewChapter.png"  />
-                        <TextBlock VerticalAlignment="Center">Создать тему </TextBlock>
+                        <TextBlock VerticalAlignment="Center">Создать тему</TextBlock>
                     </StackPanel>
-                    
-                    
+
+
                 </Button>
 
             </StackPanel>
@@ -164,7 +164,7 @@
                                         <TextBlock Text="{Binding Quest.Text}" 
 											HorizontalAlignment="Stretch" 
 											MinHeight="20" VerticalAlignment="Center" 
-											Margin="3,8,0,0"  />
+											Margin="3,8,0,0" MaxHeight="30"  />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal" Margin="20,0,0,0">
                                         <TextBlock Text="Ответов: " Foreground="#FF555555" FontSize="10.667"/>
@@ -176,7 +176,7 @@
                             <DataTemplate DataType="{x:Type kld:Quest}">
                                 <StackPanel Orientation="Horizontal">
                                     <CheckBox IsChecked="{Binding IsSelected, RelativeSource={RelativeSource AncestorType={x:Type ListBoxItem}, Mode=FindAncestor}}" VerticalAlignment="Center"/>
-                                    <TextBlock Text="{Binding Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333"/>
+                                    <TextBlock Text="{Binding Text}" HorizontalAlignment="Stretch" MinHeight="30" VerticalAlignment="Center" Margin="3,8,0,0" FontSize="13.333" MaxHeight="30"/>
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.Resources>
@@ -195,43 +195,55 @@
                 </Grid>
 
 
-                <StackPanel Panel.ZIndex="5" x:Name="PaneladdQuestItem" Orientation="Horizontal" HorizontalAlignment="Right" Width="602" Margin="0,0,-607,0"  Grid.RowSpan="2">
-                    <Border BorderBrush="#FF176AAF" BorderThickness="1" Width="600" Background="White" >
-                        <Grid>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="15"/>
-                                <RowDefinition Height="50"/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
+                <StackPanel Panel.ZIndex="5" 
+                            x:Name="PaneladdQuestItem" 
+                            Orientation="Horizontal" 
+                            HorizontalAlignment="Right" 
+                            Width="auto" Margin="0,0,-610,0" 
+                            Grid.RowSpan="2" 
+                            IsEnabled="{Binding ElementName=WrapperInfo, Path=DataContext, Converter={StaticResource ButtonForVariant}}"
+                            >
+                    <Grid Width="660">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="58"/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="15"/>
+                            <RowDefinition Height="50"/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
 
-                            <Grid Grid.Row="2" >
+                        <Border Grid.Column="1" BorderThickness="1" BorderBrush="#FF427CA4" Grid.RowSpan="3" Background="White">
+                            <Grid Grid.Row="2" Margin="0,64,0,0"  >
                                 <Grid.RowDefinitions>
                                     <RowDefinition Height="54"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <Canvas Margin="5,0,0,0" Panel.ZIndex="10">
+                                <Canvas Margin="5,0,0,0" 
+                                            Panel.ZIndex="10">
                                     <Button HorizontalAlignment="Left" 
-										VerticalAlignment="Center" 
-										Height="30" Click="addRandomQuest" Canvas.Left="257" Canvas.Top="14">
+                							VerticalAlignment="Center" 
+                							Height="30" Click="addRandomQuest" Canvas.Left="257" Canvas.Top="14">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source=".\BigImage\selected.png"  />
-                                            <TextBlock VerticalAlignment="Center">Выделенные</TextBlock>
+                                            <TextBlock VerticalAlignment="Center"><Run Text="Выделенные"/></TextBlock>
                                         </StackPanel>
                                     </Button>
 
                                     <Button HorizontalAlignment="Left"
-										VerticalAlignment="Center"
-										Height="30" Click="generateFromRandomQuest" Canvas.Left="408" Canvas.Top="14">
+                							VerticalAlignment="Center"
+                							Height="30" Click="generateFromRandomQuest" Canvas.Left="408" Canvas.Top="14">
                                         <StackPanel Orientation="Horizontal">
                                             <Image Source=".\BigImage\random.png"  />
-                                            <TextBlock VerticalAlignment="Center">Случайный выбор</TextBlock>
+                                            <TextBlock VerticalAlignment="Center"><Run Text="Случайный выбор"/></TextBlock>
                                         </StackPanel>
 
                                     </Button>
                                     <Expander x:Name="expanderPrograms" Header="Специально для:" Panel.ZIndex="10" IsExpanded="False" ClipToBounds="False" Canvas.Left="10" Canvas.Top="10">
                                         <Grid Background="#FFE5E5E5">
                                             <ListBox x:Name="listBoxPrograms" Grid.Row="1"
-												SelectionMode="Extended" SelectionChanged="listItems_changeSelectProgram">
+                									SelectionMode="Extended" SelectionChanged="listItems_changeSelectProgram">
                                                 <ListBox.ItemTemplate>
                                                     <DataTemplate>
                                                         <StackPanel Orientation="Horizontal">
@@ -245,7 +257,7 @@
                                     </Expander>
                                 </Canvas>
                                 <ListBox x:Name="listBoxQuests" Grid.Row="1" IsSynchronizedWithCurrentItem="True"
-									SelectionMode="Extended">
+                						SelectionMode="Extended">
                                     <ListBox.ItemTemplate>
                                         <DataTemplate>
                                             <StackPanel Orientation="Horizontal">
@@ -256,24 +268,26 @@
                                     </ListBox.ItemTemplate>
                                 </ListBox>
                             </Grid>
+                        </Border>
+                        
+                        
 
-                            <Border Grid.Row="1" Background="#FF427CA4">
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Style="{StaticResource Flat}" 
-										HorizontalAlignment="Center"
-										Click="hidePanel"  Margin="10,0,0,0">
-                                        <ContentControl>
-                                            <StackPanel>
-                                                <Image Source=".\BigImage\slideLeft.png" Width="40"/>
-                                            </StackPanel>
-                                        </ContentControl>
-                                    </Button>
-                                    <TextBlock x:Name="PanelName" Text="Добавление" FontSize="21.333" Foreground="White" VerticalAlignment="Top" Padding="15,10,0,0" FontWeight="Light" Margin="20,0,0,0"/>
-                                </StackPanel>
-                            </Border>
+                        <Border Grid.Row="1" Background="#FF427CA4" Grid.ColumnSpan="2">
+                            <StackPanel Orientation="Horizontal">
+                                <Button Style="{StaticResource Flat}" 
+                							HorizontalAlignment="Center"
+                							Click="togglehidePanel"  Margin="10,0,0,0">
+                                    <ContentControl>
+                                        <StackPanel>
+                                            <Image x:Name="imgButtonSlidePanel" Source=".\BigImage\slideLeft.png" Width="40"/>
+                                        </StackPanel>
+                                    </ContentControl>
+                                </Button>
+                                <TextBlock x:Name="PanelName" Text="Добавление" FontSize="21.333" Foreground="White" VerticalAlignment="Top" Padding="15,10,0,0" FontWeight="Light" Margin="20,0,0,0"/>
+                            </StackPanel>
+                        </Border>
 
-                        </Grid>
-                    </Border>
+                    </Grid>
                 </StackPanel>
             </Grid>
 
@@ -483,27 +497,27 @@
                                 <toolkit:DropDownButton.Resources>
                                     <Style TargetType="{x:Type toolkit:DropDownButton}">
 
-                                        
-                                        
-                                        
-                                        
+
+
+
+
                                         <Style.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#FFC9EEFF" />
-                                                    <Setter Property="BorderBrush" Value="{x:Null}" />
-                                                    <Setter Property="FontWeight" Value="Normal" />
-                                                    <Setter Property="Foreground" Value="Blue" />
-                                                </Trigger>
-                                                <Trigger Property="IsFocused" Value="True">
-                                                    <Setter Property="FontWeight" Value="Normal" />
-                                                </Trigger>
-                                                <Trigger Property="IsEnabled" Value="False">
-                                                    <Setter Property="Background" Value="{x:Null}" />
-                                                    <Setter Property="BorderBrush" Value="{x:Null}" />
-                                                    <Setter Property="FontWeight" Value="Normal" />
-                                                    <Setter Property="Foreground" Value="Gray" />
-                                                    <Setter Property="Opacity" Value=".3" />
-                                                </Trigger>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Background" Value="#FFC9EEFF" />
+                                                <Setter Property="BorderBrush" Value="{x:Null}" />
+                                                <Setter Property="FontWeight" Value="Normal" />
+                                                <Setter Property="Foreground" Value="Blue" />
+                                            </Trigger>
+                                            <Trigger Property="IsFocused" Value="True">
+                                                <Setter Property="FontWeight" Value="Normal" />
+                                            </Trigger>
+                                            <Trigger Property="IsEnabled" Value="False">
+                                                <Setter Property="Background" Value="{x:Null}" />
+                                                <Setter Property="BorderBrush" Value="{x:Null}" />
+                                                <Setter Property="FontWeight" Value="Normal" />
+                                                <Setter Property="Foreground" Value="Gray" />
+                                                <Setter Property="Opacity" Value=".3" />
+                                            </Trigger>
                                         </Style.Triggers>
                                     </Style>
 
@@ -557,7 +571,7 @@
                         </StackPanel>
                     </StackPanel>
                     <Rectangle HorizontalAlignment="Center" VerticalAlignment="Center" Width="1" Stroke="#FFA0D4F1" StrokeThickness="2" Margin="0,0,5,0" Height="40"/>
-                    
+
                 </StackPanel>
             </Border>
         </Grid>
