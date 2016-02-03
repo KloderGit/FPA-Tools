@@ -10,14 +10,31 @@
     <Grid x:Name="Root" Height="209" Width="494" >
         <StackPanel>
             <Label x:Name="label" Content="Название" Margin="10,14,0,0" FontSize="16"/>
-            <TextBox x:Name="txtTitle" Text="{Binding Path=Text}"
-                     HorizontalAlignment="Left" Height="52" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="473" FontSize="18.667" FontWeight="Light" TextChanged="txtTitle_TextChanged"/>
+            <TextBox x:Name="txtTitle"
+                     HorizontalAlignment="Left" Height="52" Margin="10,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="473" FontSize="18.667" FontWeight="Light" TextChanged="txtTitle_TextChanged">
+                <TextBox.Text>
+                    <Binding Path="Text" NotifyOnValidationError="True">
+                        <Binding.ValidationRules>
+                            <local:CountRule/>
+                            <ExceptionValidationRule/>
+                        </Binding.ValidationRules>
+                    </Binding>
+                </TextBox.Text>
+            </TextBox>
             <StackPanel x:Name="CountPanel" 
                         Orientation="Horizontal" 
                         Margin="0, 10,0,0"  >
                 <Label x:Name="labelCount" Content="Количество вопросов" Margin="10,0,0,0" FontSize="16"/>
-                <TextBox x:Name="txtCount" Text="{Binding Path=CountQuests}"
+                <TextBox x:Name="txtCount"
                          HorizontalAlignment="Left" Margin="10,0,0,0"  Width="100" FontSize="18.667" FontWeight="Light">
+                    <TextBox.Text>
+                        <Binding Path="CountQuests" NotifyOnValidationError="True">
+                            <Binding.ValidationRules>
+                                <local:CountRule/>
+                                <ExceptionValidationRule/>
+                            </Binding.ValidationRules>
+                        </Binding>
+                    </TextBox.Text>
                 </TextBox>
             </StackPanel>
             <StackPanel Orientation="Horizontal" Margin="0, 10, 0,0">

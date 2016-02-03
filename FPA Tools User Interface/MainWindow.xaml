@@ -42,9 +42,9 @@
                     </Setter>
                 </Style>
             </TabControl.Resources>
-            <TabItem Header="Коды" >
+            <!--<TabItem Header="Коды" >
                 <Grid x:Name="ExamensRoot"/>
-            </TabItem>
+            </TabItem>-->
             <TabItem Header="Тестирование">
                 <Grid x:Name="QuestionareRoot"/>
             </TabItem>

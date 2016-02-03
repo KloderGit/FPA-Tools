@@ -72,9 +72,10 @@
                 <TreeView x:Name="treeViewMenu" SelectedItemChanged="treeViewMenu_SelectedItemChanged" Margin="2,5" BorderBrush="{x:Null}"  >
                     <TreeView.Resources>
                         <HierarchicalDataTemplate DataType="{x:Type kld:Chapter}" ItemsSource="{Binding Variants}" >
-                            <Border BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="1" Margin="2" Padding="2" Height="30" >
-                                <StackPanel Orientation="Horizontal" >
+                            <Border BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="1" Margin="2" Padding="2" Height="auto" VerticalAlignment="Center" >
+                                <StackPanel>
                                     <TextBlock  Text="{Binding Text, Mode=TwoWay}" FontWeight="Light" Foreground="#FF3E8AB6" FontSize="16"/>
+                                    <Label Content="Варианты" Foreground="#FF627687"/>
                                 </StackPanel>
                             </Border>
                         </HierarchicalDataTemplate>
