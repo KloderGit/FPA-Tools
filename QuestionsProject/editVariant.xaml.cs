@@ -21,12 +21,14 @@ namespace QuestionsProject
     /// </summary>
     public partial class editVariant : UserControl
     {
+        List<TextBox> controlsForValidate = new List<TextBox>();
 
         public string Title
         {
             get { return txtTitle.Text; }
             set { txtTitle.Text = value; }
         }
+
         public string Description
         {
             get { return txtDescription.Text; }
@@ -43,11 +45,15 @@ namespace QuestionsProject
         public editVariant()
         {
             InitializeComponent();
+            controlsForValidate.Add(txtTitle);
+            controlsForValidate.Add(txtCount);
         }
 
         public editVariant(Variant _variant)
         {
             InitializeComponent();
+            controlsForValidate.Add(txtTitle);
+            controlsForValidate.Add(txtCount);
             Root.DataContext = _variant;
         }
 
@@ -86,6 +92,9 @@ namespace QuestionsProject
             //validationText((TextBox)sender);
         }
 
-
+        public List<TextBox> forVAlidate
+        {
+            get { return controlsForValidate; }
+        }
     }
 }

@@ -3,9 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:toolkit ="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:local="clr-namespace:QuestionsProject"
              xmlns:kld="clr-namespace:QuestionsEntityClassLibrary;assembly=QuestionsEntityClassLibrary"
-             mc:Ignorable="d" Height="343.877" Width="782">
+             mc:Ignorable="d" Height="343.877" Width="782" FontWeight="Light">
 
     <UserControl.Resources>
         <Style x:Key="Flat" TargetType="Button">
@@ -38,7 +39,7 @@
         <TextBox x:Name="txtTitle" HorizontalAlignment="Left" Height="165" AcceptsReturn="True" Margin="10,49,0,0" TextWrapping="Wrap" Text="{Binding Text}" VerticalAlignment="Top" Width="364" />
         <Label x:Name="label1" Content="Описание" HorizontalAlignment="Left" Margin="10,227,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
         <TextBox x:Name="txtDescription" HorizontalAlignment="Left" AcceptsReturn="True" Height="51" Margin="108,239,0,0" TextWrapping="Wrap" Text="{Binding Description}" VerticalAlignment="Top" Width="266" FontSize="13.333"/>
-        <Button x:Name="button" Content="Добавить ответ" HorizontalAlignment="Left" Margin="561,8,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="addAnswer_Click"/>
+        <Button x:Name="button" Content="Добавить" HorizontalAlignment="Left" Margin="561,8,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="addAnswer_Click" FontWeight="Light"/>
         <Label x:Name="label2" Content="Ответы на вопрос" HorizontalAlignment="Left" Margin="405,4,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
         <ScrollViewer Margin="405,49,10,87" Width="367">
             <ListBox x:Name="listAnswers"
@@ -50,7 +51,6 @@
                             <TextBlock 
                             Text="{Binding Text}" 
                             Width="{Binding Path=Width, RelativeSource={RelativeSource AncestorType={x:Type ScrollViewer}}}" />
-                            <!--<TextBlock Text="{Binding Order}"/>-->
                         </StackPanel>
 
                     </DataTemplate>
@@ -62,18 +62,87 @@
                 </ListBox.ItemContainerStyle>
             </ListBox>
         </ScrollViewer>
-        <Button Content="Удалить ответ" HorizontalAlignment="Left" Margin="663,8,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="removeAnswer_Click"/>
+        <Button Content="Удалить" HorizontalAlignment="Left" Margin="663,8,0,0" VerticalAlignment="Top" Width="97" Height="26" Click="removeAnswer_Click" FontWeight="Light"/>
         <Label x:Name="label2_Copy" Content="Всего ответов:" HorizontalAlignment="Left" Margin="405,249,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
         <Label x:Name="label2_Copy1" Content="{Binding Answers.Count}" HorizontalAlignment="Left" Margin="518,249,0,0" VerticalAlignment="Top" FontSize="16" FontWeight="Light"/>
-        <Button  x:Name="button1" HorizontalAlignment="Left" VerticalAlignment="Top"  Margin="107,297,0,0" FontSize="10.667" Click="selectPrograms_Click" Width="30" Height="30" BorderThickness="0" Padding="0">
-            <ContentControl>
-                <StackPanel>
-                    <Image Source=".\BigImage\Filter-Standard.png" Width="21" Height="21"/>
-                   
-                </StackPanel>
-            </ContentControl>
-        </Button>
-        <WrapPanel HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="630" Margin="142,301,0,0">
+
+
+        <toolkit:DropDownButton
+                                ToolTip="Если вопрос только для определенной группы" 
+                                Background="{x:Null}"
+                                BorderBrush="{x:Null}" Margin="103,298,635,0" >
+
+            <toolkit:DropDownButton.Resources>
+                <Style TargetType="{x:Type toolkit:DropDownButton}">
+                    <Style.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" Value="#FFC9EEFF" />
+                            <Setter Property="BorderBrush" Value="{x:Null}" />
+                            <Setter Property="FontWeight" Value="Normal" />
+                            <Setter Property="Foreground" Value="Blue" />
+                        </Trigger>
+                        <Trigger Property="IsFocused" Value="True">
+                            <Setter Property="FontWeight" Value="Normal" />
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Background" Value="{x:Null}" />
+                            <Setter Property="BorderBrush" Value="{x:Null}" />
+                            <Setter Property="FontWeight" Value="Normal" />
+                            <Setter Property="Foreground" Value="Gray" />
+                            <Setter Property="Opacity" Value=".3" />
+                        </Trigger>
+                    </Style.Triggers>
+                </Style>
+
+            </toolkit:DropDownButton.Resources>
+
+            <toolkit:DropDownButton.DropDownContent>
+                <Border  
+                                            BorderBrush="#FF387CCD" 
+                                            BorderThickness="1,5" 
+                                            HorizontalAlignment="Left" 
+                                            Height="auto" 
+                                            VerticalAlignment="Top" 
+                                            Width="auto" Background="White">
+                    <Grid x:Name="panelPrograms"
+                          HorizontalAlignment="Left" 
+                          VerticalAlignment="Top" 
+                          Background="White" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="43"/>
+                            <RowDefinition Height="27*"/>
+                            <RowDefinition Height="127*"/>
+                        </Grid.RowDefinitions>
+                        <Label x:Name="label3" 
+                               Content="Специальный вопрос для группы" 
+                               VerticalAlignment="Center"
+                               Height="25" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
+                        <ListBox x:Name="listPrograms" Grid.Row="2" Margin="5,0,5,5">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Button Click="listProgram_ButtonClick"/>
+                                        <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="12" FontWeight="Normal"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                                    <EventSetter Event="Control.MouseDoubleClick" Handler="listProgram_MouseDoubleClick"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                        </ListBox>
+                    </Grid>
+                </Border>
+            </toolkit:DropDownButton.DropDownContent>
+            <toolkit:DropDownButton.ContentTemplate>
+                <DataTemplate>
+                    <Image Source=".\BigImage\Filter-Standard.png" Width="22"/>
+                </DataTemplate>
+            </toolkit:DropDownButton.ContentTemplate>
+        </toolkit:DropDownButton>
+
+        <WrapPanel HorizontalAlignment="Left" Height="24" VerticalAlignment="Top" Width="609" Margin="163,301,0,0">
             <ItemsControl ItemsSource="{Binding QuestProrams}">
                 <ItemsControl.ItemsPanel>
                     <ItemsPanelTemplate>
@@ -84,50 +153,23 @@
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal" Margin="0,0,10,0">
                             <Label Content="{Binding Program.Name}" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10.667" FontStyle="Italic"/>
-                            <Button Content="x" HorizontalAlignment="Left" VerticalAlignment="Top" FontSize="10.667" FontStyle="Italic" Foreground="#FFD63C3C" Click="removeProgram_ButtonClick"></Button>
+                            <Button Style="{StaticResource Flat}" 
+                                    HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="#FFD63C3C" Click="removeProgram_ButtonClick">
+                                <ContentControl>
+                                    <Image Source=".\BigImage\groupCancel.png" 
+                                           VerticalAlignment="Center" 
+                                           HorizontalAlignment="Center" Width="15" Height="15" />
+                                </ContentControl>
+                            </Button>
                         </StackPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
         </WrapPanel>
+        
         <Label x:Name="labelFilter" Content="Фильтр групп:" HorizontalAlignment="Left" Margin="10,298,0,0" VerticalAlignment="Top" FontWeight="Light" FontStyle="Italic"/>
-        <Grid x:Name="panelPrograms" Panel.ZIndex="100" 
-              Visibility="Collapsed"  
-              HorizontalAlignment="Left" Height="206" Margin="112,95,0,0" VerticalAlignment="Top" Width="310" Background="White" >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="9"/>
-                <RowDefinition Height="43"/>
-                <RowDefinition Height="27*"/>
-                <RowDefinition Height="127*"/>
-            </Grid.RowDefinitions>
-            <Rectangle Fill="#FF2E72A0"/>
-            <Rectangle Grid.RowSpan="4" Stroke="#FF3D78BD"/>
-            <TextBlock TextWrapping="Wrap" Text="{Binding Path=Chapter.Text}" Grid.Row="1" Margin="67,5,9,6" VerticalAlignment="Center" Height="32" Padding="7,0,0,0"/>
-            <Label x:Name="label3" Content="Специальный вопрос для группы" Grid.Row="2" VerticalAlignment="Center" Margin="67,2,4,0" Height="25" Padding="5,0,0,0" VerticalContentAlignment="Center"/>
-            <ListBox x:Name="listPrograms" Grid.Row="3" Margin="5,0,5,5">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Button Click="listProgram_ButtonClick"/>
-                            <TextBlock Text="{Binding Name}" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,0,0,0" FontSize="12" FontWeight="Normal"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
-                        <EventSetter Event="Control.MouseDoubleClick" Handler="listProgram_MouseDoubleClick"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-            </ListBox>
-            <Button x:Name="btnClose" Style="{StaticResource Flat}" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="50" Height="50" Grid.RowSpan="2" Click="btnClose_Click">
-                <ContentControl>
-                    <StackPanel>
-                        <Image Source="J:\OneDrive\Разработка\Projects\FPA Tools\QuestionsProject\images\close-Arrow.png" Width="40"/>
-                    </StackPanel>
-                </ContentControl>
-            </Button>
-        </Grid>
-        <Button x:Name="button2" Content="Перемешать" HorizontalAlignment="Left" Margin="676,256,0,0" VerticalAlignment="Top" Width="75" Click="button2_Click"/>
+
+        <Button x:Name="button2" Content="Перемешать" HorizontalAlignment="Left" Margin="654,256,0,0" VerticalAlignment="Top" Width="97" Click="button2_Click" Height="24" FontWeight="Light"/>
 
     </Grid>
 </UserControl>

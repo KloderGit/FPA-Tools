@@ -47,7 +47,7 @@ namespace QuestionsProject.Print
             WrapPanel _wrappanel = new WrapPanel();
             _wrappanel.Orientation = Orientation.Vertical;
             //_wrappanel.Margin = new System.Windows.Thickness(0, 200, 0, 0);
-            _wrappanel.Height = 900;
+            _wrappanel.Height = 933;
 
             foreach (var _questItem in _variant.QuestItems.OrderBy(p => p.Order))
             {

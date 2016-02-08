@@ -5,7 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:FPAControls"
         mc:Ignorable="d"
-        Title="WindowRight" Height="300" Width="300" AllowsTransparency="True" WindowStyle="None" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" BorderBrush="#FF427CA4" BorderThickness="2,7,2,2" ResizeMode="NoResize" ShowInTaskbar="False">
+        Title="WindowRight" Height="300" Width="300" AllowsTransparency="True" WindowStyle="None" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner" BorderBrush="#FF427CA4" BorderThickness="2,7,2,2" ResizeMode="NoResize" ShowInTaskbar="False" FontWeight="Light">
+
+    <Window.Resources>
+        <Style x:Key="Flat" TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{x:Null}" />
+            <Setter Property="BorderBrush" Value="{x:Null}" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid x:Name="grid" Background="{x:Null}">
+                            <Rectangle x:Name="Fon" Height="Auto" Margin="0" VerticalAlignment="Stretch" Fill="#FFD3F700" Stroke="#FFFDDC00" Opacity="0"/>
+                            <Rectangle x:Name="ImageFon" Margin="0" Fill="{TemplateBinding Background}" Stroke="{TemplateBinding BorderBrush}"/>
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="#FFC9EEFF" />
+                    <Setter Property="BorderBrush" Value="{x:Null}" />
+                    <Setter Property="FontWeight" Value="Normal" />
+                    <Setter Property="Foreground" Value="Blue" />
+                </Trigger>
+                <Trigger Property="IsFocused" Value="True">
+                    <Setter Property="FontWeight" Value="Normal" />
+                </Trigger>
+                <Trigger Property="Button.IsEnabled" Value="False">
+                    <Setter Property="Button.Background" Value="{x:Null}" />
+                    <Setter Property="Button.BorderBrush" Value="{x:Null}" />
+                    <Setter Property="FontWeight" Value="Normal" />
+                    <Setter Property="Foreground" Value="Gray" />
+                    <Setter Property="Opacity" Value=".3" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="15"/>
@@ -23,9 +62,12 @@
                 <Button x:Name="button1" IsCancel="True" Content="Отмена" Width="120" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,0,5,0"/>
             </StackPanel>
         </Grid>
+        
         <Border Grid.Row="1" Background="#FF427CA4">
             <StackPanel Orientation="Horizontal">
-                <Button x:Name="button3" Content="Закрыть" IsCancel="True"  Width="43" Height="43" Margin="10,0,0,0"/>
+                <Button Style="{StaticResource Flat}" x:Name="button3" IsCancel="True"  Width="43" Height="43" Margin="10,0,0,0">
+                    <Image x:Name="imgButtonSlidePanel" Source=".\BigImage\closePanel.png" Width="40"/>
+                </Button>
                 <TextBlock x:Name="txtWindowTitle" x:FieldModifier="public" TextWrapping="Wrap" Text="TextBlock" Foreground="White" VerticalAlignment="Center" Margin="20,0,0,0" FontSize="24" FontWeight="Light"/>
             </StackPanel>
 

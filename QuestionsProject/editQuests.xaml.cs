@@ -97,8 +97,15 @@ namespace QuestionsProject
 
             if (panelRight.ShowDialog() == true)
             {
-                _quest.Answers.Add(_answer);
-                orderAnswer();
+                if (!String.IsNullOrWhiteSpace(_answer.Text))
+                {
+                    _quest.Answers.Add(_answer);
+                    orderAnswer();
+                }
+                else
+                {
+                    MessageBox.Show("Ответ не добавлен, т.к. поле Ответа не заполнено", "Внимание...", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
         }
 
@@ -114,7 +121,13 @@ namespace QuestionsProject
         }
 
         private void listAnswers_MouseDoubleClick(object sender, MouseButtonEventArgs e) {
-            Answer _answer = (Answer)(((ListBoxItem)sender).DataContext);
+            Answer _answerORiginal = (Answer)(((ListBoxItem)sender).DataContext);
+            Answer _answer = new Answer();
+
+            _answer.Text = _answerORiginal.Text;
+            _answer.Description = _answerORiginal.Description;
+            _answer.Correct = _answerORiginal.Correct;
+
 
             WindowRight panelRight = new WindowRight(); panelRight.txtWindowTitle.Text = "Редактирование Ответа"; panelRight.Owner = App.Current.MainWindow;
 
@@ -123,7 +136,18 @@ namespace QuestionsProject
 
             if (panelRight.ShowDialog() == true)
             {
-                Console.WriteLine("Ответ изменен?");
+                if (!String.IsNullOrWhiteSpace(_answer.Text))
+                {
+                    _answerORiginal.Text = _answer.Text;
+                    _answerORiginal.Description = _answer.Description;
+                    _answerORiginal.Correct = _answer.Correct;
+                    Console.WriteLine("Ответ изменен?");
+                }
+                else
+                {
+                    MessageBox.Show("Ответ не изменен, т.к. поле Ответа не заполнено", "Внимание...", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
             }
         }
 
@@ -225,7 +249,6 @@ namespace QuestionsProject
 
             listPrograms.ItemsSource = null; listPrograms.ItemsSource = aviablePrograms();
 
-            panelPrograms.Visibility = Visibility.Collapsed;
         }
 
         private void removeProgram_ButtonClick(object sender, RoutedEventArgs e)

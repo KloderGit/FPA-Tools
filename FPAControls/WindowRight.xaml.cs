@@ -24,10 +24,6 @@ namespace FPAControls
             InitializeComponent();
         }
 
-        public string getString() {
-            return "OOOOOOOOOOOOOO";
-        }
-
         private void button_Click(object sender, RoutedEventArgs e)
         {
             this.DialogResult = true;
@@ -37,8 +33,5 @@ namespace FPAControls
         {
             Console.WriteLine("Экземпляр окна уничтожен!");
         }
-
-
-
     }
 }

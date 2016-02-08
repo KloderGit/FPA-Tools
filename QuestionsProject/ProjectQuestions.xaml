@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:QuestionsProject"
              xmlns:kld="clr-namespace:QuestionsEntityClassLibrary;assembly=QuestionsEntityClassLibrary"
-    xmlns:toolkit ="http://schemas.xceed.com/wpf/xaml/toolkit"
+             xmlns:toolkit ="http://schemas.xceed.com/wpf/xaml/toolkit"
              x:Class="QuestionsProject.ProjectQuestions"
              mc:Ignorable="d" 
              d:DesignHeight="500" d:DesignWidth="1200">
@@ -72,7 +72,7 @@
                 <TreeView x:Name="treeViewMenu" SelectedItemChanged="treeViewMenu_SelectedItemChanged" Margin="2,5" BorderBrush="{x:Null}"  >
                     <TreeView.Resources>
                         <HierarchicalDataTemplate DataType="{x:Type kld:Chapter}" ItemsSource="{Binding Variants}" >
-                            <Border BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="1" Margin="2" Padding="2" Height="auto" VerticalAlignment="Center" >
+                            <Border BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="1" Margin="2" Padding="2" Height="auto" VerticalAlignment="Center" Width="288" >
                                 <StackPanel>
                                     <TextBlock  Text="{Binding Text, Mode=TwoWay}" FontWeight="Light" Foreground="#FF3E8AB6" FontSize="16"/>
                                     <Label Content="Варианты" Foreground="#FF627687"/>
@@ -548,13 +548,13 @@
                                             <Label x:Name="label1" Content="Лист проверки" Grid.Column="1" Margin="7,6,0,3" VerticalAlignment="Center" Height="26"/>
                                             <Label x:Name="label2" Content="Бланк ответов" Grid.Column="2" Margin="7,6,0,3" VerticalAlignment="Center" Height="26"/>
                                             <Button x:Name="QuestionarePrint" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="96" Height="83" Click="QuestionarePrint_Click">
-                                                <Image Source=".\images\Polling Board-WF.png" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Image Source=".\BigImage\questsPage.png" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Button>
                                             <Button x:Name="AnswerKeyPrint" HorizontalAlignment="Left" Margin="10,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="96" Height="83" Grid.Column="1" Click="AnswerKeyPrint_Click">
-                                                <Image Source=".\images\View-List.png" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Image Source=".\BigImage\checkAnswers.png" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Button>
                                             <Button x:Name="AnswerBlankPrint"  HorizontalAlignment="Left" Margin="9,10,0,0" Grid.Row="1" VerticalAlignment="Top" Width="96" Height="83" Grid.Column="2" Click="AnswerBlankPrint_Click">
-                                                <Image Source=".\images\Check List-WF.png" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Image Source=".\BigImage\blankAnswers.png" Width="30" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                             </Button>
                                         </Grid>
                                     </Border>

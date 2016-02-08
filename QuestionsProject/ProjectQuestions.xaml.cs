@@ -70,10 +70,17 @@ namespace QuestionsProject
 
             if (panelRight.ShowDialog() == true)
             {
-                _chapter.Text = edit_object.Title;
-                _chapter.Description = edit_object.Description;
+                if (!String.IsNullOrWhiteSpace(edit_object.Title))
+                {
+                    _chapter.Text = edit_object.Title;
+                    _chapter.Description = edit_object.Description;
 
-                if (_questionare.editChapter(_chapter)) { Console.WriteLine("Сохранено успешно!");  }
+                    if (_questionare.editChapter(_chapter)) { Console.WriteLine("Сохранено успешно!"); }
+                }
+                else
+                {
+                    MessageBox.Show("Изменений не было, т.к. поле Названия - пусто ", "Внимание...", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
         }
 
@@ -102,16 +109,23 @@ namespace QuestionsProject
 
             if (panelRight.ShowDialog() == true)
             {
-                Chapter _item = new Chapter();
-                _item.Text = edit_object.txtTitle.Text;
-                _item.Description = edit_object.txtDescription.Text;
-                _item.Created = DateTime.Now;
-                _item.Modify = DateTime.Now;
-
-                if (_questionare.addChapter(_item))
+                if (!String.IsNullOrWhiteSpace(edit_object.txtTitle.Text))
                 {
-                    Console.WriteLine("Успешно добавлено!");
-                    //Root.DataContext = _questionare.getChapter();
+                    Chapter _item = new Chapter();
+                    _item.Text = edit_object.txtTitle.Text;
+                    _item.Description = edit_object.txtDescription.Text;
+                    _item.Created = DateTime.Now;
+                    _item.Modify = DateTime.Now;
+
+                    if (_questionare.addChapter(_item))
+                    {
+                        Console.WriteLine("Успешно добавлено!");
+                        //Root.DataContext = _questionare.getChapter();
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Тема не создана, т.к. не заполнены поля ", "Внимание...", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
         }
@@ -137,11 +151,18 @@ namespace QuestionsProject
 
             if (panelRight.ShowDialog() == true)
             {
-                _variant.Text = edit_object.Title;
-                _variant.Description = edit_object.Description;
-                _variant.CountQuests = int.Parse(edit_object.CountQuestInVariant);
+                if (!String.IsNullOrWhiteSpace(edit_object.Title))
+                {
+                    _variant.Text = edit_object.Title;
+                    _variant.Description = edit_object.Description;
+                    _variant.CountQuests = int.Parse(edit_object.CountQuestInVariant);
 
-                if (_questionare.editVariant(_variant)) { Console.WriteLine("Сохранено успешно!"); }
+                    if (_questionare.editVariant(_variant)) { Console.WriteLine("Сохранено успешно!"); }
+                }
+                else
+                {
+                    MessageBox.Show("Изменений не было, т.к. поле Названия - пусто ", "Внимание...", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
             }
         }
 
@@ -168,36 +189,31 @@ namespace QuestionsProject
             editVariant edit_object = new editVariant(new Variant());
             panelRight.forContent.Children.Add(edit_object);
 
-            if (panelRight.ShowDialog() == true)
+            if (panelRight.ShowDialog() == true )
             {
-                Variant _item = new Variant();
-                _item.Text = edit_object.txtTitle.Text;
-                _item.Description = edit_object.txtDescription.Text;
-                _item.CountQuests = int.Parse(edit_object.CountQuestInVariant);
-                _item.Chapter = _chapter;
-                _item.Chapter_Id = _chapter.Id;
-
-                if (_questionare.addVariant(_item))
+                if (!String.IsNullOrWhiteSpace(edit_object.txtTitle.Text))
                 {
-                    Console.WriteLine("Вариант добавлен!");
-                    //Root.DataContext = null;
-                   // Root.DataContext = _questionare.getChapter();
+                    Variant _item = new Variant();
+                    _item.Text = edit_object.txtTitle.Text;
+                    _item.Description = edit_object.txtDescription.Text;
+                    _item.CountQuests = int.Parse(edit_object.CountQuestInVariant);
+                    _item.Chapter = _chapter;
+                    _item.Chapter_Id = _chapter.Id;
+
+                    if (_questionare.addVariant(_item))
+                    {
+                        Console.WriteLine("Вариант добавлен!");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Вариант не создан, т.к. не заполнены поля ", "Внимание...", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
             }
-
         }
 
 #endregion
 //      End Variant
-
-
-
-        //private void button4_Click(object sender, RoutedEventArgs e)
-        //{
-        //    ((CollectionViewSource)this.Resources["ItemsForTreeViewMenu"]).View.Refresh();
-
-        //}
-
 
 //      Работа с Quest
 #region ---------------------   Quest  ----------------------------------
@@ -242,25 +258,38 @@ namespace QuestionsProject
 
             if (panelRight.ShowDialog() == true)
             {
-                _quest.Text = _tempQuest.Text;
-                _quest.Description = _tempQuest.Description;
+                if (!String.IsNullOrWhiteSpace(_tempQuest.Text))
+                {
+                    _quest.Text = _tempQuest.Text;
+                    _quest.Description = _tempQuest.Description;
 
-                var minus_answers = _quest.Answers.Except(_tempQuest.Answers);
-                var plus_answers = _tempQuest.Answers.Except(_quest.Answers);
+                    var minus_answers = _quest.Answers.Except(_tempQuest.Answers);
+                    var plus_answers = _tempQuest.Answers.Except(_quest.Answers);
 
-                if (plus_answers.Count() != 0) {
-                    foreach (var an in plus_answers) {
-                        _quest.Answers.Add(an);
+                    if (plus_answers.Count() != 0)
+                    {
+                        foreach (var an in plus_answers)
+                        {
+                            _quest.Answers.Add(an);
+                        }
+                    }
+
+                    if (minus_answers.Count() != 0)
+                    {
+                        if (_questionare.removeAnswers(minus_answers)) { Console.WriteLine("Ответы удалены"); }
+                    }
+
+                    if (_questionare.editQuest(_quest))
+                    {
+                        Console.WriteLine("Вопрос сохранен!");
+                        updateListItems();
                     }
                 }
-
-                if (minus_answers.Count() != 0) {
-                    if (_questionare.removeAnswers(minus_answers)) { Console.WriteLine("Ответы удалены"); }
-                }             
-
-                if (_questionare.editQuest(_quest)) { Console.WriteLine("Вопрос сохранен!");
-                    updateListItems();
+                else
+                {
+                    MessageBox.Show("Изменений не было, т.к. поле Вопроса не заполнено", "Внимание...", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
+
             }
         }
 
@@ -283,10 +312,19 @@ namespace QuestionsProject
 
             if (panelRight.ShowDialog() == true)
             {
-                if (_questionare.addQuest(_quest)) {
-                    Console.WriteLine("Вопрос для Темы сохранен!");
-                    //var ctx = WrapperInfo.DataContext; WrapperInfo.DataContext = null; WrapperInfo.DataContext = ctx;
+                if (!String.IsNullOrWhiteSpace(_quest.Text))
+                {
+                    if (_questionare.addQuest(_quest))
+                    {
+                        Console.WriteLine("Вопрос для Темы сохранен!");
+                        //var ctx = WrapperInfo.DataContext; WrapperInfo.DataContext = null; WrapperInfo.DataContext = ctx;
+                    }
                 }
+                else
+                {
+                    MessageBox.Show("Вопрос не добавлен, т.к. поле Вопроса не заполнено", "Внимание...", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
             }
         }
 
@@ -310,39 +348,6 @@ namespace QuestionsProject
             }
 
 
-        }
-
-        private void hideRightPanel()
-        {
-            Thickness margin0 = new Thickness(0, 0, 0, 0);
-            Storyboard sb = new Storyboard();
-
-            if (PaneladdQuestItem.Margin == margin0)
-            {
-                sb = Resources["sbHideRightMenu"] as Storyboard;
-                sb.Begin(PaneladdQuestItem);
-            }
-
-        }
-
-        private void toggleRightPanel()
-        {
-            Thickness margin0 = new Thickness(0,0,0,0);
-            Thickness margin610 = new Thickness(0, 0, -610, 0);
-
-            Storyboard sb = new Storyboard();
-
-            if (PaneladdQuestItem.Margin == margin0) {
-                sb = Resources["sbHideRightMenu"] as Storyboard;
-                imgButtonSlidePanel.Source = new BitmapImage(new Uri("BigImage/slideLeft.png", UriKind.Relative));
-            }
-
-            if (PaneladdQuestItem.Margin == margin610) {
-                sb = Resources["sbShowRightMenu"] as Storyboard;
-                imgButtonSlidePanel.Source = new BitmapImage(new Uri("BigImage/slideRight.png", UriKind.Relative));
-            }
-            //ShadowPanel.Visibility = Visibility.Hidden;
-            sb.Begin(PaneladdQuestItem);
         }
 
         private void addQuestIntoVariant_Click(object sender, RoutedEventArgs e)
@@ -371,25 +376,32 @@ namespace QuestionsProject
 
                 if (panelRight.ShowDialog() == true)
                 {
-                    if (_questionare.addQuest(_quest))
+                    if (!String.IsNullOrWhiteSpace(_quest.Text))
                     {
-                        QuestItem _questItem = new QuestItem();
-                        _questItem.Quest = _quest;
-                        _questItem.Quest_Id = _quest.Id;
-                        _questItem.Order = ++countOrder;
-                        _questItem.Modify = DateTime.Now;
-                        _questItem.Created = DateTime.Now;
-
-                        _variant.QuestItems.Add(_questItem);
-
-                        //orderQuestItems(_variant);
-
-                        if (_questionare.editVariant(_variant))
+                        if (_questionare.addQuest(_quest))
                         {
-                            Console.WriteLine("Вопрос для Варианта добавлен!");
-                            listBoxQuests.ItemsSource = getDifferentQuest();
-                            updateListItems();
+                            QuestItem _questItem = new QuestItem();
+                            _questItem.Quest = _quest;
+                            _questItem.Quest_Id = _quest.Id;
+                            _questItem.Order = ++countOrder;
+                            _questItem.Modify = DateTime.Now;
+                            _questItem.Created = DateTime.Now;
+
+                            _variant.QuestItems.Add(_questItem);
+
+                            //orderQuestItems(_variant);
+
+                            if (_questionare.editVariant(_variant))
+                            {
+                                Console.WriteLine("Вопрос для Варианта добавлен!");
+                                listBoxQuests.ItemsSource = getDifferentQuest();
+                                updateListItems();
+                            }
                         }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Вопрос не добавлен, т.к. поле Вопроса не заполнено", "Внимание...", MessageBoxButton.OK, MessageBoxImage.Warning);
                     }
                 }
             }
@@ -501,20 +513,6 @@ namespace QuestionsProject
 
         }
 
-        //private void showPaneladdQuestItem(object sender, RoutedEventArgs e)
-        //{
-        //    //if (PaneladdQuestItem.Visibility == Visibility.Visible) { PaneladdQuestItem.Visibility = Visibility.Collapsed; }
-        //    //if (PaneladdQuestItem.Visibility == Visibility.Collapsed) { PaneladdQuestItem.Visibility = Visibility.Visible; }
-        //}
-
-
-
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Console.WriteLine(listBoxQuests.DataContext.GetType());
-            
-        //}
-
         private void removeQuestItems_Click(object sender, RoutedEventArgs e)
         {
             Variant _variant = (Variant)((Button)sender).DataContext;
@@ -534,6 +532,41 @@ namespace QuestionsProject
         private void togglehidePanel(object sender, RoutedEventArgs e)
         {
             toggleRightPanel();
+        }
+
+        private void hideRightPanel()
+        {
+            Thickness margin0 = new Thickness(0, 0, 0, 0);
+            Storyboard sb = new Storyboard();
+
+            if (PaneladdQuestItem.Margin == margin0)
+            {
+                sb = Resources["sbHideRightMenu"] as Storyboard;
+                sb.Begin(PaneladdQuestItem);
+            }
+
+        }
+
+        private void toggleRightPanel()
+        {
+            Thickness margin0 = new Thickness(0, 0, 0, 0);
+            Thickness margin610 = new Thickness(0, 0, -610, 0);
+
+            Storyboard sb = new Storyboard();
+
+            if (PaneladdQuestItem.Margin == margin0)
+            {
+                sb = Resources["sbHideRightMenu"] as Storyboard;
+                imgButtonSlidePanel.Source = new BitmapImage(new Uri("BigImage/slideLeft.png", UriKind.Relative));
+            }
+
+            if (PaneladdQuestItem.Margin == margin610)
+            {
+                sb = Resources["sbShowRightMenu"] as Storyboard;
+                imgButtonSlidePanel.Source = new BitmapImage(new Uri("BigImage/slideRight.png", UriKind.Relative));
+            }
+            //ShadowPanel.Visibility = Visibility.Hidden;
+            sb.Begin(PaneladdQuestItem);
         }
 
         private IEnumerable getDifferentQuest() {
