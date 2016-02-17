@@ -47,6 +47,8 @@ namespace QuestionsProject
             InitializeComponent();
             controlsForValidate.Add(txtTitle);
             controlsForValidate.Add(txtCount);
+
+            txtTitle.Focus();
         }
 
         public editVariant(Variant _variant)

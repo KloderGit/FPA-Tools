@@ -44,6 +44,7 @@ namespace QuestionsProject
         {
             _questionare = questionare;
             InitializeComponent();
+            txtTitle.Focus();
             listAnswers.Items.SortDescriptions.Add( new System.ComponentModel.SortDescription("Order", System.ComponentModel.ListSortDirection.Ascending));
         }
 
