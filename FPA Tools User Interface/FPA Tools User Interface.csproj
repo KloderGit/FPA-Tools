@@ -32,7 +32,7 @@
     <PublisherName>FPA Programs</PublisherName>
     <CreateWebPageOnPublish>true</CreateWebPageOnPublish>
     <WebPage>publish.htm</WebPage>
-    <ApplicationRevision>18</ApplicationRevision>
+    <ApplicationRevision>28</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -61,21 +61,27 @@
     <ApplicationIcon>fpa-icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>21F5C08C41731ABA8141D8CBBEA9ED94F8D2F0C2</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>A8E7473BE83BC2FAA7A684245A7D151DCBC915B6</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>FPA Tools User Interface_TemporaryKey.pfx</ManifestKeyFile>
+    <ManifestKeyFile>FPA Tools User Interface_1_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>true</SignManifests>
+    <SignManifests>false</SignManifests>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject>
     </StartupObject>
   </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup />
+  <PropertyGroup />
   <PropertyGroup>
     <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
@@ -226,6 +232,10 @@
     <Resource Include="Themes\Metro\HowToApplyTheme.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Codes\CodesControl\CodesControl.csproj">
+      <Project>{43de7d48-1c1a-458d-a032-57a5faaa904c}</Project>
+      <Name>CodesControl</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QuestionsProject\QuestionsProject.csproj">
       <Project>{6bdfd7e8-a91f-4c33-97a5-552e467219bf}</Project>
       <Name>QuestionsProject</Name>
@@ -234,7 +244,7 @@
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
-      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 and x64%29</ProductName>
+      <ProductName>Microsoft .NET Framework 4.5.2 %28x86 и x64%29</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

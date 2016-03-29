@@ -9,6 +9,7 @@
                 <ResourceDictionary Source="Themes/Metro/Metro.MSControls.Core.Implicit.xaml" />
                 <ResourceDictionary Source="Themes/Metro/Metro.MSControls.Toolkit.Implicit.xaml" />
                 <ResourceDictionary Source="Themes/buttonStyle.xaml" />
+                <ResourceDictionary Source="pack://application:,,,/CodesControl;component/images/Images.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
         

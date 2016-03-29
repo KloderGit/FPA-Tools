@@ -1,18 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
 using FPA_Tools_User_Interface.Project.Questions;
+using CodesControl;
 
 namespace FPA_Tools_User_Interface
 {
@@ -23,13 +11,19 @@ namespace FPA_Tools_User_Interface
     {
         Questions QuestionsProject;
 
+        CodesProjectUIWrapper CodesProject;
+
         public MainWindow()
         {
             InitializeComponent();
 
             QuestionsProject = new Questions();
 
-            QuestionareRoot.Children.Add(QuestionsProject.getProject());
+            TabQuestionareRoot.Children.Add(QuestionsProject.getProject());
+
+            CodesProject = new CodesProjectUIWrapper();
+
+            TabCodeProjectRoot.Children.Add(CodesProject);
         }
 
     }

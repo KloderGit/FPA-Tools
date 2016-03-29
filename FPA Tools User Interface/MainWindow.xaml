@@ -22,7 +22,7 @@
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="TabItem">
-                                <Grid Name="Panel" Width="120" Height="40">
+                                <Grid Name="Panel" Width="150" Height="40">
                                     <ContentPresenter x:Name="ContentSite"
                                         VerticalAlignment="Center"
                                         HorizontalAlignment="Center"
@@ -31,7 +31,7 @@
                                 </Grid>
                                 <ControlTemplate.Triggers>
                                     <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Panel" Property="Background" Value="LightSkyBlue" />
+                                        <Setter TargetName="Panel" Property="Background" Value="Aquamarine" />
                                     </Trigger>
                                     <Trigger Property="IsSelected" Value="False">
                                         <Setter TargetName="Panel" Property="Background" Value="White" />
@@ -45,8 +45,11 @@
             <!--<TabItem Header="Коды" >
                 <Grid x:Name="ExamensRoot"/>
             </TabItem>-->
+            <TabItem Header="Коды пользователей">
+                <Grid x:Name="TabCodeProjectRoot"/>
+            </TabItem>
             <TabItem Header="Тестирование">
-                <Grid x:Name="QuestionareRoot"/>
+                <Grid x:Name="TabQuestionareRoot"/>
             </TabItem>
         </TabControl>
     </Grid>
