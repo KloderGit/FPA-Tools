@@ -67,9 +67,8 @@
             </Grid.ColumnDefinitions>
 
 
-            <StackPanel Orientation="Vertical" Grid.Row="2">
-
-                <TreeView x:Name="treeViewMenu" SelectedItemChanged="treeViewMenu_SelectedItemChanged" Margin="2,5" BorderBrush="{x:Null}"  >
+            <Grid Grid.Row="2">
+                <TreeView x:Name="treeViewMenu" SelectedItemChanged="treeViewMenu_SelectedItemChanged" BorderBrush="{x:Null}" ScrollViewer.VerticalScrollBarVisibility="Auto" ScrollViewer.HorizontalScrollBarVisibility="Hidden" Margin="0,0,0,60" >
                     <TreeView.Resources>
                         <HierarchicalDataTemplate DataType="{x:Type kld:Chapter}" ItemsSource="{Binding Variants}" >
                             <Border BorderBrush="{x:Null}" Background="{x:Null}" BorderThickness="1" Margin="2" Padding="2" Height="auto" VerticalAlignment="Center" Width="288" >
@@ -107,19 +106,19 @@
                         </Style>
                     </TreeView.ItemContainerStyle>
                 </TreeView>
-
-                <Button Width="150" Height="30" Margin="0,10,0,0" Click="addChapter_Click" 
-					IsEnabled="{Binding DataContext, Converter={StaticResource BigButton}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}">
+                <Button Width="150" Click="addChapter_Click" 
+                	IsEnabled="{Binding DataContext, Converter={StaticResource BigButton}, RelativeSource={RelativeSource AncestorType={x:Type StackPanel}, Mode=FindAncestor}}" Height="30" Margin="0,0,0,15" VerticalAlignment="Bottom">
 
                     <StackPanel Orientation="Horizontal">
                         <Image Source=".\BigImage\NewChapter.png"  />
-                        <TextBlock VerticalAlignment="Center">Создать тему</TextBlock>
+                        <TextBlock VerticalAlignment="Center"><Run Text="Создать тему"/></TextBlock>
                     </StackPanel>
 
 
                 </Button>
 
-            </StackPanel>
+
+            </Grid>
 
 
             <Grid x:Name="WrapperInfo" Grid.Column="1" Grid.Row="2" Margin="5,0" DataContext="{Binding SelectedItem, ElementName=treeViewMenu}">
@@ -202,7 +201,7 @@
                             HorizontalAlignment="Right" 
                             Width="auto" Margin="0,0,-610,0" 
                             Grid.RowSpan="2" 
-                            IsEnabled="{Binding ElementName=WrapperInfo, Path=DataContext, Converter={StaticResource ButtonForVariant}}"
+                            IsEnabled="{Binding DataContext, Converter={StaticResource ButtonForVariant}, ElementName=WrapperInfo}"
                             >
                     <Grid Width="660">
                         <Grid.ColumnDefinitions>
@@ -270,8 +269,8 @@
                                 </ListBox>
                             </Grid>
                         </Border>
-                        
-                        
+
+
 
                         <Border Grid.Row="1" Background="#FF427CA4" Grid.ColumnSpan="2">
                             <StackPanel Orientation="Horizontal">
@@ -471,9 +470,7 @@
                             <Button Style="{StaticResource Flat}" 
                                     ToolTip="Пересортировать вопросы в варианте"
 								Margin="0,0,5,0"
-								IsEnabled="{Binding DataContext, 
-                                            Converter={StaticResource ButtonForVariant}, 
-                                            ElementName=WrapperInfo}"   
+								IsEnabled="{Binding DataContext, Converter={StaticResource ButtonForVariant}, ElementName=WrapperInfo}"   
                                 DataContext="{Binding DataContext, Converter={StaticResource BigVariantWrapper}, ElementName=WrapperInfo, Mode=TwoWay}"  Click="mixingQuestItems">
                                 <ContentControl>
                                     <StackPanel>
@@ -485,12 +482,6 @@
 
                             <toolkit:DropDownButton
                                 ToolTip="Печать варианта - Вопросов\Ответов"
-                                IsEnabled="{Binding DataContext, 
-                                            Converter={StaticResource ButtonForVariant},
-                                            ElementName=WrapperInfo}"     
-								DataContext="{Binding DataContext, 
-                                            Converter={StaticResource BigVariantWrapper},
-                                            ElementName=WrapperInfo, Mode=TwoWay}"
                                 Width="70" Height="65" 
                                 Background="{x:Null}"
                                 BorderBrush="{x:Null}" >
@@ -523,6 +514,14 @@
                                     </Style>
 
                                 </toolkit:DropDownButton.Resources>
+
+
+                                <toolkit:DropDownButton.IsEnabled>
+                                    <Binding Converter="{StaticResource ButtonForVariant}" ElementName="WrapperInfo" Path="DataContext"/>
+                                </toolkit:DropDownButton.IsEnabled>
+                                <toolkit:DropDownButton.DataContext>
+                                    <Binding Converter="{StaticResource BigVariantWrapper}" ElementName="WrapperInfo" Mode="TwoWay" Path="DataContext"/>
+                                </toolkit:DropDownButton.DataContext>
 
 
                                 <toolkit:DropDownButton.DropDownContent>
